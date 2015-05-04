@@ -1,0 +1,9 @@
+/.settings
+/.classpath
+/.project
+/hdp-app-utils.log
+/target
+/bin
+.idea
+*.iml
+*.DS_Store
