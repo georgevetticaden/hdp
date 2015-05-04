@@ -1,0 +1,1 @@
+create 'document_store', {NAME=> 'doc_content', VERSIONS=>3}, {NAME=> 'doc_properties', VERSIONS=>3};

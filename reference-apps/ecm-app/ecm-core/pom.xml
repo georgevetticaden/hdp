@@ -1,0 +1,200 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>hortonworks.hdp.refapp.ecm</groupId>
+	<artifactId>ecm-core</artifactId>
+ 	<version>2.0.0-SNAPSHOT</version>
+  
+  
+	<properties>
+		<!-- Not using latest Spring version 4.1.1 due to Websocket Bug -->
+		<org.springframework-version>4.0.7.RELEASE</org.springframework-version>
+		<spring.data.solr>1.3.2.RELEASE</spring.data.solr>
+		<spring.data.hadoop.hbase>2.1.1.RELEASE-hdp22</spring.data.hadoop.hbase>
+		<solr.version>4.10.2</solr.version>
+		<junit.version>4.5</junit.version>
+		<hbase.version>0.98.4.2.2.0.0-2041-hadoop2</hbase.version>
+		<phoenix.version>4.0.0.2.1.4.0-632</phoenix.version>
+		<ecm.common.version>1.0.0-SNAPSHOT</ecm.common.version>
+	</properties>
+	  
+	<dependencies>
+	
+		<!-- Logging Related Jars -->		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>compile</scope>
+		</dependency>	
+		
+		<!-- ECM Domain objects -->
+		<dependency>
+			<groupId>hortonworks.hdp.refapp.ecm</groupId>
+			<artifactId>ecm-common</artifactId>
+			<version>${ecm.common.version}</version>
+		</dependency>
+	
+		<!-- HBase -->
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<version>${hbase.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>			
+		</dependency>		
+		
+
+		<!-- Solr -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<version>${solr.version}</version>
+		    <exclusions>
+		        <exclusion>
+		            <artifactId>slf4j-jdk14</artifactId>
+		            <groupId>org.slf4j</groupId>
+		        </exclusion>
+		        <exclusion>
+		        	<groupId>org.slf4j</groupId>
+		        	<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		    </exclusions>			
+		</dependency>
+
+
+		<!-- HDP App Utils -->
+		<dependency>
+  			<groupId>hortonworks.hdp.apputil</groupId>
+  			<artifactId>hdp-app-utils</artifactId>
+  			<version>1.0.0-SNAPSHOT</version>		
+		</dependency>
+					
+	
+		<!-- Spring Dependencies -->
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>		
+		
+    	<dependency>
+        	<groupId>org.springframework.data</groupId>
+        	<artifactId>spring-data-solr</artifactId>
+        	<version>${spring.data.solr}</version>
+    	</dependency>	
+    	
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-hadoop-hbase</artifactId>
+		    <version>${spring.data.hadoop.hbase}</version>
+		</dependency>    		
+		
+					
+		
+
+		
+	
+		
+		<!-- Other -->
+		<dependency>
+    		<groupId>commons-lang</groupId>
+    		<artifactId>commons-lang</artifactId>
+    		<version>2.6</version>
+		</dependency>
+
+		
+
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.0.0.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+	
+
+	</dependencies>
+
+	<repositories>
+	    <repository>
+	        <id>io.spring.repo.maven.release</id>
+	        <url>http://repo.spring.io/release/</url>
+	        <snapshots><enabled>false</enabled></snapshots>
+	    </repository>
+        <repository>
+            <id>hortonworks</id>
+            <url>http://repo.hortonworks.com/content/repositories/releases/</url>
+        </repository>	
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.springsource.org/snapshot</url>
+			<snapshots><enabled>true</enabled></snapshots>
+			<releases><enabled>false</enabled></releases>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://repo.springsource.org/libs-milestone</url>
+			<snapshots><enabled>false</enabled></snapshots>
+			<releases><enabled>true</enabled></releases>
+		</repository>        	
+	</repositories>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+				</configuration>
+			</plugin>
+
+			
+		</plugins>
+	</build>    
+ 	 
+  
+  
+	
+</project>

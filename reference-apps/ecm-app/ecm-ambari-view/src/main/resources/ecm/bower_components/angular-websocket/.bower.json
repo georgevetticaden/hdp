@@ -1,0 +1,31 @@
+{
+  "name": "angular-websocket",
+  "version": "0.0.5",
+  "homepage": "https://github.com/gdi2290/angular-websocket",
+  "authors": [
+    "gdi2290 <github@gdi2290.com>"
+  ],
+  "main": "angular-websocket.js",
+  "description": "WebSocket service for Angular.js",
+  "ignore": [
+    "**/.*",
+    "*.yml",
+    "*.xml",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*"
+  },
+  "_release": "0.0.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.5",
+    "commit": "6f8a76f428b490cd0a27feadd3e6992b97f50e2e"
+  },
+  "_source": "git://github.com/gdi2290/angular-websocket.git",
+  "_target": "~0.0.5",
+  "_originalSource": "angular-websocket"
+}

@@ -1,0 +1,35 @@
+app_id: ecm
+version: '1.0.0'
+type: VIEW
+view_name: ECM
+category: Assemblies
+package: ecm-ambari-view-1.0.0-SNAPSHOT-shaded.jar
+instance_name: ecm
+display_name: Enterprise Content Management System Assembly
+description: Assembly/Reference App for Enterprise Content Management System
+
+
+homepage: https://wiki.hortonworks.com/display/COE/Enterprise+Content+Management+%28ECM%29+Reference+App
+storefront: none
+logo: hortonworks.jpg
+contributor: Hortonworks
+packager: George Vetticaden <gvetticaden@hortonworks.com>
+readiness: assembly-preview
+tags: 
+ - ecm
+ - hortonworks
+ - assemblies
+visible: True
+properties: 
+   ambari.cluster.name: "centralregioncluster"
+   ambari.server.url: "http://centralregion01.cloud.hortonworks.com:8080"
+   ecm.solr.core: "rawdocs"
+   hbase.deployment.mode: "SLIDER"
+   hbase.slider.publisher.url: "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher"
+   solr.server.url: "http://vett-search01.cloud.hortonworks.com:8983/solr"
+   storm.deployment.mode: "SLIDER"
+   storm.slider.publisher.url: "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher"   
+
+permissions: 
+    group: 
+       - users

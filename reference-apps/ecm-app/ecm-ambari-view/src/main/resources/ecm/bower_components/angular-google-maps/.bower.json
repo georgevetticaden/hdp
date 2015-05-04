@@ -1,0 +1,24 @@
+{
+  "name": "angular-google-maps",
+  "version": "1.2.4",
+  "main": "./dist/angular-google-maps.js",
+  "dependencies": {
+    "angular": ">=1.2.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.x",
+    "jquery": "2.1.x",
+    "uuid": "http://github.com/LiosK/UUID.js/archive/v3.2.tar.gz"
+  },
+  "homepage": "https://github.com/angular-ui/angular-google-maps",
+  "_release": "1.2.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.2.4",
+    "commit": "000d815f38750ac76fe4fc7e62f3c1069fad60bd"
+  },
+  "_source": "git://github.com/angular-ui/angular-google-maps.git",
+  "_target": "~1.2.1",
+  "_originalSource": "angular-google-maps"
+}

@@ -1,0 +1,92 @@
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<view>
+  <name>ECM</name>
+  <label>Enterprise Content Management System Assembly</label>
+  <version>1.0.0</version>
+  
+  <resource>
+    <name>ecmservice</name>
+    <service-class>hortonworks.hdp.refapp.ecm.view.DocumentManagementViewService</service-class>
+  </resource>
+    
+    <parameter>
+        <name>ambari.cluster.name</name>
+        <description>Ambari Cluster Name</description>
+        <label>Ambari Cluster Name</label>
+        <default-value>centralregioncluster</default-value>
+        <placeholder>centralregioncluster</placeholder>
+        
+        <required>true</required>
+    </parameter>
+    <parameter>
+        <name>ambari.server.url</name>
+        <description>Ambari Server URL</description>
+        <label>Ambari REST Server URL</label>
+        <default-value>http://centralregion01.cloud.hortonworks.com:8080</default-value>
+        <placeholder>http://centralregion01.cloud.hortonworks.com:8080</placeholder>
+        <required>true</required>
+    </parameter>
+    <parameter>
+        <name>hbase.deployment.mode</name>
+        <description>Valid Values are: SLIDER or STANDALONE</description>
+        <label>HBase Deployment Mode</label>
+        <default-value>SLIDER</default-value>
+        <required>false</required>
+    </parameter>  
+    <parameter>
+        <name>hbase.slider.publisher.url</name>
+        <description>HBase Publisher URL if in SLIDER Mode</description>
+        <label>HBase Publisher URL</label>
+        <default-value>http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher</default-value>
+        <placeholder>http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher</placeholder>
+        <required>false</required>
+    </parameter>   
+    <parameter>
+        <name>storm.deployment.mode</name>
+        <description>Valid Values are: SLIDER or STANDALONE</description>
+        <label>Storm Deployment Mode</label>
+        <default-value>SLIDER</default-value>
+        <required>false</required>
+    </parameter>  
+    <parameter>
+        <name>storm.slider.publisher.url</name>
+        <description>Storm Publisher URL if in SLIDER Mode</description>
+        <label>Storm Publisher URL</label>
+        <default-value>http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher</default-value>
+        <placeholder>http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher</placeholder>
+        <required>false</required>
+    </parameter>   
+    <parameter>
+        <name>solr.server.url</name>
+        <description>URL to the Solr Server</description>
+        <label>SOLR Server URL</label>
+        <default-value>http://vett-search01.cloud.hortonworks.com:8983/solr</default-value>
+        <placeholder>http://vett-search01.cloud.hortonworks.com:8983/solr</placeholder>
+        <required>true</required>
+    </parameter>  
+    <parameter>
+        <name>ecm.solr.core</name>
+        <description>The name of the Solr core used to store the Indexx</description>
+        <label>ECM SOLR Core Name</label>
+        <default-value>rawdocs</default-value>
+        <placeholder>rawdocs</placeholder>
+        <required>true</required>
+    </parameter>                 
+
+
+</view>

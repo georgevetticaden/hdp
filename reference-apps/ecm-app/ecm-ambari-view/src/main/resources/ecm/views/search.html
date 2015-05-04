@@ -1,0 +1,219 @@
+<div>
+	<div class="panel-heading">
+		<h3 class="panel-title">Document Management System using Apache HBase & Solr</h3>
+	</div>
+</div>
+
+<div ng-controller="DocUploadCtrl2">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-body">
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-heading">Document Upload</div>
+						<div class="panel-body">
+							<div class="row">
+								<div>
+									<div  style="padding: 20px " >	
+										<form novalidate class="simple-form" name="uploadForm" enctype="multipart/form-data">
+	
+											<fieldset class="configProp">
+												<p class="formHeader">
+													Document Metadata
+												</p>
+												
+												<div style="padding-left: 40px" class="" data-fields="documentName">
+													<div class="control-group field-name">      
+														<span class="control-label"> Document Name: </span>
+															<span data-editor="">
+																<input ng-model="doc.documentName" type="text" size="40px" />
+															</span>        
+															<div class="help-inline" data-error=""></div>   
+															  
+													</div>		
+												</div>
+												
+												</br>
+												<div style="padding-left: 40px" class="" data-fields="customerName">
+													<div class="control-group field-name">      
+														<span class="control-label"> For What Customer: </span>
+															<span data-editor="">
+																<input ng-model="doc.customerName" type="text" size="40px" />
+															</span>        
+															<div class="help-inline" data-error=""></div>   
+															  
+													</div>	
+												</div>												
+												
+												</br>
+												<div style="padding-left: 40px" data-fields="documentClass">
+													<div class="control-group field-name">  
+															<span> Document Class: </span>     
+															<span data-editor="">
+																<select ng-model="doc.documentClass" >
+																	<option selected="selected" value="RFP">RFP</option>
+																	<option value="solutiondesign">Solution Design</option>
+																</select>
+															</span>           
+															<div class="help-inline" data-error=""></div>   
+															  
+													</div>	
+												</div>													
+		
+												
+											</fieldset>
+										
+											</br>
+											</br>
+										
+											<fieldset class="configProp">
+												<p class="formHeader">
+													Select Document to Upload
+												</p>
+												
+												<div style="padding-left: 40px" class="" data-fields="files">
+													<div class="control-group field-name">      
+														
+															<span data-editor="">
+																<input ng-file-select="" ng-model="doc.files" name="file" ng-file-change="generateThumb(doc.files[0], $doc.files)" required="" type="file">
+																<i ng-show="myForm.file.$error.required">*required</i>
+	  															<br>
+															</span>        
+															<div class="help-inline" data-error=""></div>   
+															  
+													</div>		
+											</fieldset>	
+											
+											
+											
+											</br>
+											</br>
+											<div>
+												
+												<div >
+		
+													
+													<button class="btn btn-primary" ng-disabled="!uploadForm.$valid" ng-click="upload(doc)">Upload</button>
+	    											<img ng-show="doc.files[0].dataUrl != null" ng-src="{{doc.files[0].dataUrl}}" class="thumb">
+													<span class="progress2" ng-show="doc.files[0].progress >= 0">		
+														<div class="ng-binding" style="width:{{doc.files[0].progress}}%" ng-bind="doc.files[0].progress + '%'"></div>
+													</span>	
+													<span ng-show="doc.files[0].result">Upload Successful</span>
+													
+													
+												</div>
+											</div> 	
+											
+										</form>										
+																			
+										</div>
+																		
+									</div>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	</div>
+	</div>
+
+</div>
+
+
+
+			
+
+<div ng-controller="DocSearchCtrl">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-body">
+					
+					<div class="row">
+						<div class="panel panel-default">
+							<div class="panel-heading">Document Query</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-5">
+										<p>
+										<form novalidate class="simple-form" name="searchQuery">
+											<div class="input-group">
+												<input type="text" name="query" ng-model="query.q" size="35"
+													class="form-control" placeholder="Search Query" />
+													<span id="spinner"
+													class="input-group-addon"><img
+													src="ecm/img/ajax-loader.gif"></span>
+													<span class="input-group-btn">
+													<button class="btn btn-default" type="button" ng-click="search(query)">Search</button>
+													</span>
+											</div>
+										</form>
+										</p>
+									</div>
+									<div class="col-md-2">&nbsp;</div>
+									<div class="col-md-5 text-right" google-chart chart="chart" style="" ng-show="results.length > 0 && error == false"></div>
+								</div>
+								<div id="paginatedTable"
+									ng-show="results.length > 0 && error == false">
+									<pagination total-items="totalItems" max-size="maxSize"
+										class="pagination-sm" boundary-links="true" rotate="false"
+										num-pages="numPages" ng-model="currentPage"
+										ng-change="pageChanged()"></pagination>
+									<table class="table table-striped table-bordered table-hover">
+										<thead>
+											<tr>
+												<td>Date</td>
+												<td>Last Author</td>
+												<td>Matches</td>
+												<td>Doc Viewer</td>
+											</tr>
+										</thead>
+										<tr ng-repeat="object in results">
+											<td class="date">{{object.date | convertJavaDate | date:'yyyy-MMM'}}</td>
+											<!--  -->
+											<td class="author">{{object.last_author == undefined ? object.author : object.last_author}}{{object.publisher == undefined ? "" : " for " + object.publisher}}</td>
+											
+											<td>
+												<ul class="snippetList">
+													<li ng-repeat="snippet in highlights[object.id][0]">
+														<span class="highlight-snippet" ng-bind-html="snippet"></span>
+													</li>
+												</ul>
+											</td>
+											
+											<td>
+												<button class="btn btn-default " ng-click="open(object.body, highlights[object.id])">Open Document</button>
+												</br>
+												<!-- 
+												<button class="btn btn-default " ng-click="download(object.id)">Download Document</button>
+												 -->
+												 <a class="btn btn-default" href="../ecm/download?docId={{object.id}}">
+												 	Download Document
+												 </a>
+											</td>
+				
+											
+											 
+										</tr>
+									</table>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+		</div>
+	</div>
+	<script type="text/ng-template" id="docModalContent.html">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Document Viewer</h4>
+      </div>
+      <div class="modal-body">
+        <div id="docBody" class="doc-body" ng-bind-html="docBody"></div>
+      </div>
+      <div class="modal-footer">
+		  <button class="btn btn-default" ng-click="close()">Close</button>
+      </div>
+	</script>
+</div>

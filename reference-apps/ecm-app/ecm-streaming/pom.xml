@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+	<modelVersion>4.0.0</modelVersion>
+  	<groupId>hortonworks.hdp.refapp.ecm</groupId>
+  	<artifactId>ecm-streaming</artifactId>
+  	<version>1.0.0-SNAPSHOT</version>
+  	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.0.7.RELEASE</spring.version>
+		<hadoop.version>2.6.0.2.2.0.0-2041</hadoop.version>
+		<storm.version>0.9.3.2.2.0.0-2041</storm.version> 
+		<storm.kafka.version>0.9.3.2.2.0.0-2041</storm.kafka.version>
+		<kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
+		<storm.hdfs.version>0.9.3.2.2.0.0-2041</storm.hdfs.version>
+		<hbase.version>0.98.4.2.2.0.0-2041-hadoop2</hbase.version>
+		<hive.version>0.14.0.2.2.0.0-2041</hive.version>
+		<active.mq.version>5.7.0</active.mq.version>
+		<trucking.domain.objects.version>1.0.0-SNAPSHOT</trucking.domain.objects.version>
+		<junit.version>4.5</junit.version>
+		<mail.version>1.4.3</mail.version>
+		<log4j.version>1.2.17</log4j.version>
+		
+	</properties>
+	
+
+	<dependencies>
+	
+		<!-- Adding Kafka dependencies because latest kafka-storm has changed that to provided -->
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_2.10</artifactId>
+			<version>${kafka.version}</version>		
+            <exclusions>
+                <exclusion>
+                	<groupId>org.slf4j</groupId>
+                	<artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>				
+		</dependency>
+
+		<dependency>
+		    <groupId>xerces</groupId>
+		    <artifactId>xercesImpl</artifactId>
+		    <version>2.9.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>xalan</groupId>
+		    <artifactId>xalan</artifactId>
+		    <version>2.7.1</version>
+		</dependency>	
+
+		<!-- Storm Dependencies -->
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-core</artifactId>
+            <version>${storm.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>org.slf4j</groupId>
+                	<artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                	<artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+   
+        		
+		<!-- Storm Kafka Dependencies -->
+		<dependency>
+			<groupId>org.apache.storm</groupId>
+			<artifactId>storm-kafka</artifactId>
+			<version>${storm.kafka.version}</version>
+		</dependency>
+		
+		
+		<!-- ECM libraries -->
+		<dependency>
+			<groupId>hortonworks.hdp.refapp.ecm</groupId>
+			<artifactId>ecm-core</artifactId>
+		 	<version>2.0.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			  <groupId>hortonworks.hdp.apputil</groupId>
+			  <artifactId>hdp-app-utils</artifactId>
+			  <version>1.0.0-SNAPSHOT</version>
+		</dependency>		
+		
+		<!-- Other -->
+
+		<dependency>        
+    		<groupId>log4j</groupId>        
+    		<artifactId>log4j</artifactId>        
+    		<version>${log4j.version}</version>    
+    	</dependency> 		
+
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>		
+    	
+    	<!-- End of Other -->	
+		
+		<!-- Test -->
+		
+ 		<dependency>
+	        <groupId>com.github.sakserv</groupId>
+	        <artifactId>hadoop-mini-clusters</artifactId>
+	        <version>0.0.12</version>
+	        <scope>test</scope>
+    	</dependency>		
+		
+
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+
+
+  		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>	
+		
+			
+		
+	</dependencies>
+	
+	
+	<repositories>
+		<repository>
+			<id>github-releases</id>
+			<url>http://oss.sonatype.org/content/repositories/github-releases/</url>
+		</repository>
+		<repository>
+			<id>clojars.org</id>
+			<url>http://clojars.org/repo</url>
+		</repository>
+        <repository>
+            <id>hortonworks</id>
+            <url>http://repo.hortonworks.com/content/repositories/releases/</url>
+        </repository>		
+	</repositories>
+	
+
+	<build>
+
+		<plugins>
+		
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>		
+		
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-shade-plugin</artifactId>
+			    <version>1.4</version>
+			    <configuration>
+			        <createDependencyReducedPom>true</createDependencyReducedPom>
+			                  <filters>
+					            <filter>
+					              <artifact>*:*</artifact>
+					              <excludes>
+					                <exclude>META-INF/*.SF</exclude>
+					                <exclude>META-INF/*.DSA</exclude>
+					                <exclude>META-INF/*.RSA</exclude>
+					                <exclude>org/slf4j/**</exclude>
+					              </excludes>
+					            </filter>
+					          </filters>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>shade</goal>
+			            </goals>
+			            <configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+              				<shadedClassifierName>shaded</shadedClassifierName> <!-- Any name that makes sense -->			     
+			                <transformers>
+			                    <transformer
+			                            implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+			                    <transformer
+			                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+			                        <mainClass></mainClass>
+			                    </transformer>
+			                </transformers>
+
+
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>		
+
+		</plugins>
+		
+		
+		
+	</build>  	
+  	
+  	
+</project>
