@@ -1,15 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>hortonworks.hdp..refapp.trucking</groupId>
-  <artifactId>trucking-data-simulator</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  
+  	
+  	<modelVersion>4.0.0</modelVersion>
+  	
+	<parent>
+	  	<groupId>hortonworks.hdp.refapp.trucking</groupId>
+	  	<artifactId>iot-trucking-app</artifactId>
+	  	<version>3.0.0-SNAPSHOT</version>
+    </parent>
+      	
+  	<artifactId>trucking-data-simulator</artifactId>
+
   
 	<properties>
-		<log4j.version>2.0-beta1</log4j.version>
-		<slf4j.version>1.6.6</slf4j.version>
-		<jackson.version>1.9.3</jackson.version>
-		<junit.version>4.5</junit.version>
+		
 	</properties>
 	
 	<dependencies>
@@ -27,7 +30,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -150,17 +153,7 @@
 					<schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
 				</configuration>
 			</plugin>	
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>			
-			
+
 					
 		</plugins>
 		
