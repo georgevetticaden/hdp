@@ -1,0 +1,28 @@
+#NEED PYTHON 3
+PYTHON_BRANCH=3.4
+CORES=-j2
+YUM=$(shell which yum)
+APT=$(shell which apt-get)
+TOOLS=git gcc 
+INSTALL_ROOT:=$(shell echo $$PWD/dist/)
+
+git: 
+ifneq ($(YUM),)
+	which $(TOOLS) || yum -y install git \
+	gcc gcc-c++ \
+	zlib-devel openssl-devel 
+endif
+ifneq ($(APT),)
+	which $(TOOLS) || apt-get install -y git gcc g++ man zlib1g-dev libssl-dev 
+endif
+
+python-src:
+	git clone --branch $(PYTHON_BRANCH) https://github.com/python/cpython.git python3
+	
+python-build:
+	(cd python3/; \
+	./configure; \
+	make -s $(CORES); \
+	make -s $(CORES) altinstall)
+
+install: git python-src python-build

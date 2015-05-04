@@ -1,0 +1,3 @@
+create 'driver_dangerous_events', {NAME=> 'events', VERSIONS=>3} ;
+create 'driver_dangerous_events_count', {NAME=> 'counters', VERSIONS=>3} ;
+create 'driver_events', {NAME=> 'allevents', VERSIONS=>3} 
