@@ -5,6 +5,7 @@ This project is meant to be a reference application/assembly for an IOT use case
 2. **trucking-domain-objects** - Common trucking domain objects used across projects
 3. **trucking-storm-topology** - Storm Topology to process trucking events in realtime
 4. **trucking-env-setup** - Set of scripts to setup the cluster
+5. **trucking-web-portal** - A web application that allows you to deploy the storm topoloyg and tap into the real-time trucking data using websockets from Active/MQ and Storm
 
 ## Business Use Case Setup
 

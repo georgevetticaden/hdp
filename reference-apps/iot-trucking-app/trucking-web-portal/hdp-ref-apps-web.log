@@ -11348,3 +11348,565 @@ java.util.concurrent.TimeoutException
 2015-05-05 21:30:17,465-0500 669636 INFO  [ThreadPoolTaskExecutor] (Thread-3:) Shutting down ExecutorService 'clientOutboundChannelExecutor'
 2015-05-05 21:30:17,466-0500 669637 INFO  [ThreadPoolTaskExecutor] (Thread-3:) Shutting down ExecutorService 'clientInboundChannelExecutor'
 2015-05-05 21:30:17,474-0500 669645 INFO  [AnnotationConfigWebApplicationContext] (Thread-3:) Closing Root WebApplicationContext: startup date [Tue May 05 21:19:07 CDT 2015]; root of context hierarchy
+2015-05-05 21:40:22,682-0500 0     INFO  [ContextLoader] (main:) Root WebApplicationContext: initialization started
+2015-05-05 21:40:22,734-0500 52    INFO  [AnnotationConfigWebApplicationContext] (main:) Refreshing Root WebApplicationContext: startup date [Tue May 05 21:40:22 CDT 2015]; root of context hierarchy
+2015-05-05 21:40:22,788-0500 106   INFO  [AnnotationConfigWebApplicationContext] (main:) Registering annotated classes: [class hortonworks.hdp.refapp.trucking.config.security.WebSecurityConfig]
+2015-05-05 21:40:22,991-0500 309   INFO  [AutowiredAnnotationBeanPostProcessor] (main:) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2015-05-05 21:40:23,249-0500 567   INFO  [DefaultSecurityFilterChain] (main:) Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@bcd9ed6, org.springframework.security.web.context.SecurityContextPersistenceFilter@4e02f17d, org.springframework.security.web.header.HeaderWriterFilter@4b2acb12, org.springframework.security.web.authentication.logout.LogoutFilter@20a4cba7, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@350e3fb4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2a73a64f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2419a5db, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3ffa0f38, org.springframework.security.web.session.SessionManagementFilter@2d5c160e, org.springframework.security.web.access.ExceptionTranslationFilter@3c17794e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@361b3ca6]
+2015-05-05 21:40:23,271-0500 589   INFO  [ContextLoader] (main:) Root WebApplicationContext: initialization completed in 588 ms
+2015-05-05 21:40:23,311-0500 629   INFO  [DispatcherServlet] (main:) FrameworkServlet 'dispatcher': initialization started
+2015-05-05 21:40:23,315-0500 633   INFO  [AnnotationConfigWebApplicationContext] (main:) Refreshing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Tue May 05 21:40:23 CDT 2015]; parent: Root WebApplicationContext
+2015-05-05 21:40:23,316-0500 634   INFO  [AnnotationConfigWebApplicationContext] (main:) Registering annotated classes: [class hortonworks.hdp.refapp.trucking.config.registry.HDPRefAppServiceRegistryConfig,class hortonworks.hdp.refapp.trucking.config.app.AppConfig,class hortonworks.hdp.refapp.trucking.config.web.WebConfig,class hortonworks.hdp.refapp.trucking.config.web.WebSocketConfig]
+2015-05-05 21:40:23,401-0500 719   INFO  [XmlBeanDefinitionReader] (main:) Loading XML bean definitions from class path resource [hdp-refapp-servlet.xml]
+2015-05-05 21:40:23,617-0500 935   INFO  [AutowiredAnnotationBeanPostProcessor] (main:) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2015-05-05 21:40:23,624-0500 942   INFO  [PostProcessorRegistrationDelegate$BeanPostProcessorChecker] (main:) Bean 'org.springframework.scheduling.annotation.SchedulingConfiguration' of type [class org.springframework.scheduling.annotation.SchedulingConfiguration$$EnhancerBySpringCGLIB$$cde42c92] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2015-05-05 21:40:24,246-0500 1564  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/reset],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.resetDemo(hortonworks.hdp.refapp.trucking.monitor.DemoResetParam,javax.servlet.http.HttpSession)
+2015-05-05 21:40:24,247-0500 1565  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/driverEvents.json],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public hortonworks.hdp.refapp.trucking.monitor.DriverEventsResponse hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.getDriverEvents(javax.servlet.http.HttpSession) throws java.lang.Exception
+2015-05-05 21:40:24,247-0500 1565  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/truckmonitor],methods=[GET],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.renderTruckDriverMonitorView()
+2015-05-05 21:40:24,247-0500 1565  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/streaming],methods=[GET],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.renderStreamGeneratorPage(org.springframework.ui.Model)
+2015-05-05 21:40:24,247-0500 1565  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/streaming],methods=[POST],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.submitStreamGeneratorPage(hortonworks.hdp.refapp.trucking.monitor.StreamGeneratorParam,javax.servlet.http.HttpSession)
+2015-05-05 21:40:24,247-0500 1565  INFO  [RequestMappingHandlerMapping] (main:) Mapped "{[/storm/truckdemo/reset],methods=[GET],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.lang.String hortonworks.hdp.refapp.trucking.monitor.web.TruckDemoController.renderResetDemoPage(org.springframework.ui.Model)
+2015-05-05 21:40:24,273-0500 1591  INFO  [SimpleUrlHandlerMapping] (main:) Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler]
+2015-05-05 21:40:24,418-0500 1736  INFO  [ThreadPoolTaskExecutor] (main:) Initializing ExecutorService  'clientInboundChannelExecutor'
+2015-05-05 21:40:24,430-0500 1748  INFO  [ThreadPoolTaskExecutor] (main:) Initializing ExecutorService  'clientOutboundChannelExecutor'
+2015-05-05 21:40:24,442-0500 1760  INFO  [ThreadPoolTaskScheduler] (main:) Initializing ExecutorService  'messageBrokerSockJsTaskScheduler'
+2015-05-05 21:40:24,468-0500 1786  INFO  [SimpleUrlHandlerMapping] (main:) Mapped URL path [/monitor/**] onto handler of type [class org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler]
+2015-05-05 21:40:24,470-0500 1788  INFO  [ThreadPoolTaskExecutor] (main:) Initializing ExecutorService  'brokerChannelExecutor'
+2015-05-05 21:40:24,530-0500 1848  INFO  [DefaultLifecycleProcessor] (main:) Starting beans in phase 2147483647
+2015-05-05 21:40:24,926-0500 2244  INFO  [DispatcherServlet] (main:) FrameworkServlet 'dispatcher': initialization completed in 1615 ms
+2015-05-05 21:48:15,939-0500 473257 INFO  [TruckDemoController] (qtp2116802022-46:) Fetching Driver Events Asynchronously
+2015-05-05 21:48:15,939-0500 473257 INFO  [TruckDemoController] (qtp2116802022-44:) Fetching Driver Events Asynchronously
+2015-05-05 21:48:15,958-0500 473276 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Initial Load from Config File is: {ecm.solr.core=rawdocs, trucking.hdfs.path=/truck-events-v4, trucking.bolt.thread.count=1, trucking.notification.topic=true, trucking.solr.index.enable=false, trucking.notification.topic.events.name=driver_infraction_events, trucking.notification.email.address=gvetticaden@hortonworks.com, trucking.activemq.host=george-activemq01.cloud.hortonworks.com, trucking.solr.bolt.thread.count=4, trucking.hive.staging.table.name=truck_events_text_partition_single, ambari.cluster.name=centralregioncluster, trucking.kafka.consumer.group.id=group1, trucking.hbase.persist.all.events=false, trucking.notification.topic.connection.url=tcp://george-activemq01.cloud.hortonworks.com:61616, falcon.server.default.port=15000, trucking.topology.name=truck-event-processor, trucking.notification.topic.user=admin, trucking.notification.all.events.notification.topic=true, ambari.server.url=http://centralregion01.cloud.hortonworks.com:8080, hbase.slider.publisher.url=http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher, trucking.notification.email.subject=Unsafe Driving Alerts, trucking.notification.topic.password=admin, solr.server.url=http://vett-search01.cloud.hortonworks.com:8983/solr, trucking.hdfs.file.rotation.time.minutes=10, trucking.hive.database.name=default, trucking.kafka.topic=truck_events, trucking.notification.topic.alerts.name=driver_alert_notifications, trucking.spout.thread.count=5, trucking.hiveserver2.connect.user=yarn, hbase.deployment.mode=SLIDER, storm.deployment.mode=SLIDER, trucking.mail.smtp.port=25, trucking.notification.all.events.notification.topic.name=driver_events, trucking.hdfsbolt.thread.count=4, trucking.storm.trucker.topology.workers=4, trucking.solr.core=truck_event_logs, storm.slider.publisher.url=http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher, trucking.hdfs.file.prefix=truckEvents, trucking.storm.topology.jar=/Users/gvetticaden/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/2.0-SNAPSHOT/trucking-storm-topology-2.0-SNAPSHOT-shaded.jar, trucking.phoenix.enable=false}
+2015-05-05 21:48:15,958-0500 473276 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Initial Load from Config File is: {ecm.solr.core=rawdocs, trucking.hdfs.path=/truck-events-v4, trucking.bolt.thread.count=1, trucking.notification.topic=true, trucking.solr.index.enable=false, trucking.notification.topic.events.name=driver_infraction_events, trucking.notification.email.address=gvetticaden@hortonworks.com, trucking.activemq.host=george-activemq01.cloud.hortonworks.com, trucking.solr.bolt.thread.count=4, trucking.hive.staging.table.name=truck_events_text_partition_single, ambari.cluster.name=centralregioncluster, trucking.kafka.consumer.group.id=group1, trucking.hbase.persist.all.events=false, trucking.notification.topic.connection.url=tcp://george-activemq01.cloud.hortonworks.com:61616, falcon.server.default.port=15000, trucking.topology.name=truck-event-processor, trucking.notification.topic.user=admin, trucking.notification.all.events.notification.topic=true, ambari.server.url=http://centralregion01.cloud.hortonworks.com:8080, hbase.slider.publisher.url=http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher, trucking.notification.email.subject=Unsafe Driving Alerts, trucking.notification.topic.password=admin, solr.server.url=http://vett-search01.cloud.hortonworks.com:8983/solr, trucking.hdfs.file.rotation.time.minutes=10, trucking.hive.database.name=default, trucking.kafka.topic=truck_events, trucking.notification.topic.alerts.name=driver_alert_notifications, trucking.spout.thread.count=5, trucking.hiveserver2.connect.user=yarn, hbase.deployment.mode=SLIDER, storm.deployment.mode=SLIDER, trucking.mail.smtp.port=25, trucking.notification.all.events.notification.topic.name=driver_events, trucking.hdfsbolt.thread.count=4, trucking.storm.trucker.topology.workers=4, trucking.solr.core=truck_event_logs, storm.slider.publisher.url=http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher, trucking.hdfs.file.prefix=truckEvents, trucking.storm.topology.jar=/Users/gvetticaden/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/2.0-SNAPSHOT/trucking-storm-topology-2.0-SNAPSHOT-shaded.jar, trucking.phoenix.enable=false}
+2015-05-05 21:48:15,971-0500 473289 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Starting to populate Service Registry from Ambari
+2015-05-05 21:48:15,972-0500 473290 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Starting to populate Service Registry from Ambari
+2015-05-05 21:48:15,996-0500 473314 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/FALCON/components/FALCON_SERVER"
+2015-05-05 21:48:15,996-0500 473314 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/FALCON/components/FALCON_SERVER"
+2015-05-05 21:48:16,001-0500 473319 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,004-0500 473322 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,276-0500 473594 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/FALCON/components/FALCON_SERVER" resulted in 200 (OK)
+2015-05-05 21:48:16,277-0500 473595 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:16,290-0500 473608 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/FALCON/components/FALCON_SERVER" resulted in 200 (OK)
+2015-05-05 21:48:16,291-0500 473609 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:16,322-0500 473640 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties"
+2015-05-05 21:48:16,322-0500 473640 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties"
+2015-05-05 21:48:16,322-0500 473640 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,322-0500 473640 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,494-0500 473812 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties" resulted in 200 (OK)
+2015-05-05 21:48:16,494-0500 473812 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties" resulted in 200 (OK)
+2015-05-05 21:48:16,494-0500 473812 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:16,494-0500 473812 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:16,495-0500 473813 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties&tag=version1"
+2015-05-05 21:48:16,495-0500 473813 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties&tag=version1"
+2015-05-05 21:48:16,496-0500 473814 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,496-0500 473814 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,606-0500 473924 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties&tag=version1" resulted in 200 (OK)
+2015-05-05 21:48:16,606-0500 473924 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:16,608-0500 473926 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site"
+2015-05-05 21:48:16,608-0500 473926 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,863-0500 474181 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=falcon-startup.properties&tag=version1" resulted in 200 (OK)
+2015-05-05 21:48:16,864-0500 474182 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:16,865-0500 474183 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site"
+2015-05-05 21:48:16,865-0500 474183 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:16,942-0500 474260 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site" resulted in 200 (OK)
+2015-05-05 21:48:16,942-0500 474260 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:16,943-0500 474261 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site&tag=version1424884823438"
+2015-05-05 21:48:16,943-0500 474261 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,012-0500 474330 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site" resulted in 200 (OK)
+2015-05-05 21:48:17,012-0500 474330 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:17,022-0500 474340 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site&tag=version1424884823438"
+2015-05-05 21:48:17,022-0500 474340 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,114-0500 474432 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site&tag=version1424884823438" resulted in 200 (OK)
+2015-05-05 21:48:17,114-0500 474432 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:17,117-0500 474435 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site"
+2015-05-05 21:48:17,118-0500 474436 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,192-0500 474510 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=core-site&tag=version1424884823438" resulted in 200 (OK)
+2015-05-05 21:48:17,192-0500 474510 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:17,211-0500 474529 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site"
+2015-05-05 21:48:17,211-0500 474529 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,306-0500 474624 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site" resulted in 200 (OK)
+2015-05-05 21:48:17,306-0500 474624 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:17,307-0500 474625 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541"
+2015-05-05 21:48:17,307-0500 474625 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,373-0500 474691 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site" resulted in 200 (OK)
+2015-05-05 21:48:17,373-0500 474691 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:17,386-0500 474704 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541"
+2015-05-05 21:48:17,386-0500 474704 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,511-0500 474829 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541" resulted in 200 (OK)
+2015-05-05 21:48:17,511-0500 474829 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:17,512-0500 474830 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site"
+2015-05-05 21:48:17,513-0500 474831 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:17,624-0500 474942 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541" resulted in 200 (OK)
+2015-05-05 21:48:17,624-0500 474942 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:17,625-0500 474943 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site"
+2015-05-05 21:48:17,625-0500 474943 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:18,902-0500 476220 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site" resulted in 200 (OK)
+2015-05-05 21:48:18,902-0500 476220 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:18,924-0500 476242 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site" resulted in 200 (OK)
+2015-05-05 21:48:18,924-0500 476242 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:18,924-0500 476242 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541"
+2015-05-05 21:48:18,925-0500 476243 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:19,171-0500 476489 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541" resulted in 200 (OK)
+2015-05-05 21:48:19,171-0500 476489 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:19,183-0500 476501 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541"
+2015-05-05 21:48:19,183-0500 476501 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:19,327-0500 476645 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=yarn-site&tag=version1418753663541" resulted in 200 (OK)
+2015-05-05 21:48:19,327-0500 476645 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:19,329-0500 476647 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site"
+2015-05-05 21:48:19,329-0500 476647 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:19,474-0500 476792 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site" resulted in 200 (OK)
+2015-05-05 21:48:19,474-0500 476792 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:19,475-0500 476793 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884"
+2015-05-05 21:48:19,475-0500 476793 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:19,695-0500 477013 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884" resulted in 200 (OK)
+2015-05-05 21:48:19,695-0500 477013 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:19,697-0500 477015 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/HIVE/components/HIVE_SERVER"
+2015-05-05 21:48:19,697-0500 477015 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:19,827-0500 477145 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site"
+2015-05-05 21:48:19,827-0500 477145 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,196-0500 477514 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/HIVE/components/HIVE_SERVER" resulted in 200 (OK)
+2015-05-05 21:48:20,196-0500 477514 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:20,196-0500 477514 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site"
+2015-05-05 21:48:20,197-0500 477515 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,290-0500 477608 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site" resulted in 200 (OK)
+2015-05-05 21:48:20,290-0500 477608 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:20,291-0500 477609 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884"
+2015-05-05 21:48:20,291-0500 477609 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,397-0500 477715 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site" resulted in 200 (OK)
+2015-05-05 21:48:20,397-0500 477715 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:20,398-0500 477716 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884"
+2015-05-05 21:48:20,398-0500 477716 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,492-0500 477810 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884" resulted in 200 (OK)
+2015-05-05 21:48:20,493-0500 477811 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:20,494-0500 477812 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/HIVE/components/HIVE_SERVER"
+2015-05-05 21:48:20,494-0500 477812 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,581-0500 477899 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884" resulted in 200 (OK)
+2015-05-05 21:48:20,581-0500 477899 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:20,583-0500 477901 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site"
+2015-05-05 21:48:20,583-0500 477901 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,643-0500 477961 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/HIVE/components/HIVE_SERVER" resulted in 200 (OK)
+2015-05-05 21:48:20,643-0500 477961 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:20,644-0500 477962 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site"
+2015-05-05 21:48:20,644-0500 477962 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,753-0500 478071 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site" resulted in 200 (OK)
+2015-05-05 21:48:20,753-0500 478071 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:20,754-0500 478072 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site&tag=version1418678535027"
+2015-05-05 21:48:20,754-0500 478072 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,810-0500 478128 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site" resulted in 200 (OK)
+2015-05-05 21:48:20,810-0500 478128 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:20,811-0500 478129 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884"
+2015-05-05 21:48:20,811-0500 478129 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:20,934-0500 478252 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site&tag=version1418678535027" resulted in 200 (OK)
+2015-05-05 21:48:20,934-0500 478252 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:20,936-0500 478254 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/KAFKA/components/KAFKA_BROKER"
+2015-05-05 21:48:20,936-0500 478254 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,001-0500 478319 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=hive-site&tag=version1421331676884" resulted in 200 (OK)
+2015-05-05 21:48:21,001-0500 478319 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:21,002-0500 478320 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site"
+2015-05-05 21:48:21,002-0500 478320 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,299-0500 478617 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/KAFKA/components/KAFKA_BROKER" resulted in 200 (OK)
+2015-05-05 21:48:21,299-0500 478617 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:21,301-0500 478619 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker"
+2015-05-05 21:48:21,301-0500 478619 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,464-0500 478782 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site" resulted in 200 (OK)
+2015-05-05 21:48:21,464-0500 478782 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:21,465-0500 478783 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site&tag=version1418678535027"
+2015-05-05 21:48:21,465-0500 478783 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,604-0500 478922 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker" resulted in 200 (OK)
+2015-05-05 21:48:21,604-0500 478922 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:21,605-0500 478923 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458"
+2015-05-05 21:48:21,605-0500 478923 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,721-0500 479039 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=oozie-site&tag=version1418678535027" resulted in 200 (OK)
+2015-05-05 21:48:21,721-0500 479039 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:21,723-0500 479041 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/KAFKA/components/KAFKA_BROKER"
+2015-05-05 21:48:21,723-0500 479041 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:21,830-0500 479148 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458" resulted in 200 (OK)
+2015-05-05 21:48:21,831-0500 479149 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:21,831-0500 479149 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker"
+2015-05-05 21:48:21,832-0500 479150 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,013-0500 479331 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker" resulted in 200 (OK)
+2015-05-05 21:48:22,013-0500 479331 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:22,014-0500 479332 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458"
+2015-05-05 21:48:22,014-0500 479332 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,094-0500 479412 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/services/KAFKA/components/KAFKA_BROKER" resulted in 200 (OK)
+2015-05-05 21:48:22,094-0500 479412 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:22,095-0500 479413 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker"
+2015-05-05 21:48:22,096-0500 479414 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,189-0500 479507 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458" resulted in 200 (OK)
+2015-05-05 21:48:22,189-0500 479507 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@30c45bb1]
+2015-05-05 21:48:22,190-0500 479508 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Finished Populating Service Registry from Ambari
+2015-05-05 21:48:22,193-0500 479511 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Populating HBase endpoints from HBase Slider Service
+2015-05-05 21:48:22,193-0500 479511 INFO  [HBaseSliderUtils] (qtp2116802022-44:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:22,193-0500 479511 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:22,193-0500 479511 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,296-0500 479614 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker" resulted in 200 (OK)
+2015-05-05 21:48:22,297-0500 479615 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:22,297-0500 479615 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458"
+2015-05-05 21:48:22,297-0500 479615 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,514-0500 479832 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458" resulted in 200 (OK)
+2015-05-05 21:48:22,514-0500 479832 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:22,526-0500 479844 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker"
+2015-05-05 21:48:22,526-0500 479844 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,762-0500 480080 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker" resulted in 200 (OK)
+2015-05-05 21:48:22,762-0500 480080 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:22,763-0500 480081 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458"
+2015-05-05 21:48:22,763-0500 480081 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,784-0500 480102 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:22,784-0500 480102 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@2f7452b7]
+2015-05-05 21:48:22,785-0500 480103 INFO  [HBaseSliderUtils] (qtp2116802022-44:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:22,786-0500 480104 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:22,786-0500 480104 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:22,953-0500 480271 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster/configurations?type=kafka-broker&tag=version1428624209458" resulted in 200 (OK)
+2015-05-05 21:48:22,953-0500 480271 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "text/plain" using [org.springframework.http.converter.StringHttpMessageConverter@100f178c]
+2015-05-05 21:48:22,969-0500 480287 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Finished Populating Service Registry from Ambari
+2015-05-05 21:48:22,972-0500 480290 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Populating HBase endpoints from HBase Slider Service
+2015-05-05 21:48:22,972-0500 480290 INFO  [HBaseSliderUtils] (qtp2116802022-46:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:22,972-0500 480290 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:22,972-0500 480290 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:23,370-0500 480688 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:23,371-0500 480689 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@2f7452b7]
+2015-05-05 21:48:23,371-0500 480689 INFO  [HBaseSliderUtils] (qtp2116802022-44:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:23,371-0500 480689 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:23,372-0500 480690 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:23,525-0500 480843 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:23,525-0500 480843 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@31a3f979]
+2015-05-05 21:48:23,528-0500 480846 INFO  [HBaseSliderUtils] (qtp2116802022-46:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:23,529-0500 480847 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:23,529-0500 480847 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:23,804-0500 481122 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:23,805-0500 481123 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@2f7452b7]
+2015-05-05 21:48:23,805-0500 481123 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Finished Populating HBase endpoints from HBaseSliderUtils
+2015-05-05 21:48:23,808-0500 481126 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Populating Storm endpoints from Storm Slider Service
+2015-05-05 21:48:23,808-0500 481126 INFO  [StormSliderUtils] (qtp2116802022-44:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:23,809-0500 481127 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:23,809-0500 481127 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:23,928-0500 481246 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:23,928-0500 481246 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@31a3f979]
+2015-05-05 21:48:23,928-0500 481246 INFO  [HBaseSliderUtils] (qtp2116802022-46:) Executing HBaseSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site]
+2015-05-05 21:48:23,929-0500 481247 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site"
+2015-05-05 21:48:23,929-0500 481247 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:24,193-0500 481511 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:24,193-0500 481511 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@3d827c96]
+2015-05-05 21:48:24,197-0500 481515 INFO  [StormSliderUtils] (qtp2116802022-44:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:24,197-0500 481515 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:24,197-0500 481515 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:24,355-0500 481673 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher/slider/hbase-site" resulted in 200 (OK)
+2015-05-05 21:48:24,355-0500 481673 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@31a3f979]
+2015-05-05 21:48:24,356-0500 481674 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Finished Populating HBase endpoints from HBaseSliderUtils
+2015-05-05 21:48:24,358-0500 481676 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Populating Storm endpoints from Storm Slider Service
+2015-05-05 21:48:24,358-0500 481676 INFO  [StormSliderUtils] (qtp2116802022-46:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:24,358-0500 481676 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:24,359-0500 481677 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:24,686-0500 482004 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:24,686-0500 482004 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@3d827c96]
+2015-05-05 21:48:24,687-0500 482005 INFO  [StormSliderUtils] (qtp2116802022-44:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks]
+2015-05-05 21:48:24,687-0500 482005 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks"
+2015-05-05 21:48:24,687-0500 482005 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:24,814-0500 482132 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:24,815-0500 482133 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@7bc76131]
+2015-05-05 21:48:24,816-0500 482134 INFO  [StormSliderUtils] (qtp2116802022-46:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:24,816-0500 482134 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:24,817-0500 482135 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:25,214-0500 482532 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks" resulted in 200 (OK)
+2015-05-05 21:48:25,215-0500 482533 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@3d827c96]
+2015-05-05 21:48:25,215-0500 482533 INFO  [StormSliderUtils] (qtp2116802022-44:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:25,215-0500 482533 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:25,216-0500 482534 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:25,316-0500 482634 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:25,316-0500 482634 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@7bc76131]
+2015-05-05 21:48:25,325-0500 482643 INFO  [StormSliderUtils] (qtp2116802022-46:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks]
+2015-05-05 21:48:25,325-0500 482643 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks"
+2015-05-05 21:48:25,325-0500 482643 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:25,769-0500 483087 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:25,769-0500 483087 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@3d827c96]
+2015-05-05 21:48:25,769-0500 483087 INFO  [StormSliderUtils] (qtp2116802022-44:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:25,770-0500 483088 DEBUG [RestTemplate] (qtp2116802022-44:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:25,770-0500 483088 DEBUG [RestTemplate] (qtp2116802022-44:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:25,800-0500 483118 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/quicklinks" resulted in 200 (OK)
+2015-05-05 21:48:25,800-0500 483118 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@7bc76131]
+2015-05-05 21:48:25,801-0500 483119 INFO  [StormSliderUtils] (qtp2116802022-46:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:25,801-0500 483119 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:25,801-0500 483119 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:26,174-0500 483492 DEBUG [RestTemplate] (qtp2116802022-44:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:26,175-0500 483493 DEBUG [RestTemplate] (qtp2116802022-44:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@3d827c96]
+2015-05-05 21:48:26,175-0500 483493 INFO  [HDPServiceRegistryImpl] (qtp2116802022-44:) Finished Populating Storm endpoints from StormSliderUtils
+2015-05-05 21:48:26,179-0500 483497 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:26,179-0500 483497 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@7bc76131]
+2015-05-05 21:48:26,179-0500 483497 INFO  [StormSliderUtils] (qtp2116802022-46:) Executing StormSliderUtils Rest Call[http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site]
+2015-05-05 21:48:26,180-0500 483498 DEBUG [RestTemplate] (qtp2116802022-46:) Created GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site"
+2015-05-05 21:48:26,180-0500 483498 DEBUG [RestTemplate] (qtp2116802022-46:) Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+2015-05-05 21:48:26,556-0500 483874 DEBUG [RestTemplate] (qtp2116802022-46:) GET request for "http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher/slider/storm-site" resulted in 200 (OK)
+2015-05-05 21:48:26,557-0500 483875 DEBUG [RestTemplate] (qtp2116802022-46:) Reading [java.lang.String] as "application/json" using [org.springframework.http.converter.StringHttpMessageConverter@7bc76131]
+2015-05-05 21:48:26,558-0500 483876 INFO  [HDPServiceRegistryImpl] (qtp2116802022-46:) Finished Populating Storm endpoints from StormSliderUtils
+2015-05-05 21:48:34,238-0500 491556 INFO  [TruckDemoController] (qtp2116802022-44:) Completed Fetching Driver Events Asynchronously
+2015-05-05 21:48:35,276-0500 492594 INFO  [TruckDemoController] (qtp2116802022-46:) Completed Fetching Driver Events Asynchronously
+2015-05-05 21:48:36,914-0500 494232 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:48:37,127-0500 494445 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\c1\] at index[47]
+2015-05-05 21:48:37,686-0500 495004 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\] at index[44]
+2015-05-05 21:48:37,687-0500 495005 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\] at index[41]
+2015-05-05 21:48:37,753-0500 495071 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\c2\] at index[50]
+2015-05-05 21:48:38,219-0500 495537 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:38,346-0500 495664 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:38,416-0500 495734 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\c1\] at index[47]
+2015-05-05 21:48:38,550-0500 495868 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\] at index[44]
+2015-05-05 21:48:40,027-0500 497345 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:40,735-0500 498053 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\] at index[41]
+2015-05-05 21:48:41,440-0500 498758 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:41,504-0500 498822 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\] at index[47]
+2015-05-05 21:48:41,507-0500 498825 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\c2\] at index[50]
+2015-05-05 21:48:41,834-0500 499152 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\] at index[44]
+2015-05-05 21:48:41,959-0500 499277 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:42,687-0500 500005 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\] at index[44]
+2015-05-05 21:48:42,728-0500 500046 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\] at index[47]
+2015-05-05 21:48:42,824-0500 500142 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\] at index[41]
+2015-05-05 21:48:44,149-0500 501467 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\] at index[44]
+2015-05-05 21:48:44,215-0500 501533 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\c2\] at index[50]
+2015-05-05 21:48:44,220-0500 501538 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\c1\] at index[47]
+2015-05-05 21:48:44,439-0500 501757 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\c2\] at index[50]
+2015-05-05 21:48:44,439-0500 501757 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\] at index[44]
+2015-05-05 21:48:44,555-0500 501873 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\] at index[44]
+2015-05-05 21:48:45,166-0500 502484 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:48:45,546-0500 502864 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\c1\c2\] at index[50]
+2015-05-05 21:48:46,640-0500 503958 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\] at index[47]
+2015-05-05 21:48:49,440-0500 506758 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\] at index[41]
+2015-05-05 21:48:49,786-0500 507104 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\c2\] at index[50]
+2015-05-05 21:48:50,498-0500 507816 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:48:50,633-0500 507951 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\c2\] at index[50]
+2015-05-05 21:48:51,060-0500 508378 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\c1\c2\] at index[50]
+2015-05-05 21:48:51,963-0500 509281 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\] at index[44]
+2015-05-05 21:48:52,365-0500 509683 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\c2\] at index[50]
+2015-05-05 21:48:52,405-0500 509723 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\c1\c2\] at index[50]
+2015-05-05 21:48:53,147-0500 510465 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\] at index[41]
+2015-05-05 21:48:53,148-0500 510466 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\] at index[44]
+2015-05-05 21:48:53,214-0500 510532 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\] at index[44]
+2015-05-05 21:48:53,554-0500 510872 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:48:54,065-0500 511383 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\] at index[44]
+2015-05-05 21:48:55,634-0500 512952 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:55,637-0500 512955 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:55,639-0500 512957 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\] at index[41]
+2015-05-05 21:48:55,701-0500 513019 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\] at index[44]
+2015-05-05 21:48:55,742-0500 513060 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\] at index[47]
+2015-05-05 21:48:55,768-0500 513086 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\c1\c2\] at index[50]
+2015-05-05 21:48:55,870-0500 513188 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\c2\] at index[50]
+2015-05-05 21:48:55,935-0500 513253 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-5\c1\] at index[44]
+2015-05-05 21:48:56,044-0500 513362 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:48:56,683-0500 514001 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-7\c1\c1\] at index[47]
+2015-05-05 21:48:56,709-0500 514027 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\] at index[44]
+2015-05-05 21:48:56,776-0500 514094 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-1\c1\c1\] at index[47]
+2015-05-05 21:48:57,206-0500 514524 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-53920-1430880493780-4\c1\] at index[44]
+2015-05-05 21:50:19,493-0500 596811 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:19,493-0500 596811 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:20,440-0500 597758 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:20,440-0500 597758 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:21,483-0500 598801 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:21,499-0500 598817 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:22,344-0500 599662 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:29,773-0500 607091 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\c2\] at index[50]
+2015-05-05 21:50:29,776-0500 607094 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:29,834-0500 607152 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\] at index[44]
+2015-05-05 21:50:29,900-0500 607218 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\] at index[41]
+2015-05-05 21:50:29,902-0500 607220 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:29,976-0500 607294 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:30,801-0500 608119 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:33,073-0500 610391 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:33,073-0500 610391 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:34,231-0500 611549 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\] at index[47]
+2015-05-05 21:50:34,543-0500 611861 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:34,772-0500 612090 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:34,822-0500 612140 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\] at index[41]
+2015-05-05 21:50:35,092-0500 612410 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\] at index[47]
+2015-05-05 21:50:35,922-0500 613240 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\c2\] at index[50]
+2015-05-05 21:50:36,094-0500 613412 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:36,243-0500 613561 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:36,475-0500 613793 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:37,222-0500 614540 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\c2\] at index[50]
+2015-05-05 21:50:37,223-0500 614541 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\c2\] at index[50]
+2015-05-05 21:50:37,671-0500 614989 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:37,777-0500 615095 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:38,504-0500 615822 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:38,902-0500 616220 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:39,037-0500 616355 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:39,490-0500 616808 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\c2\] at index[50]
+2015-05-05 21:50:39,688-0500 617006 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:39,999-0500 617317 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\] at index[44]
+2015-05-05 21:50:40,050-0500 617368 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:40,068-0500 617386 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:40,152-0500 617470 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\] at index[41]
+2015-05-05 21:50:40,530-0500 617848 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:41,082-0500 618400 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\] at index[47]
+2015-05-05 21:50:41,584-0500 618902 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\] at index[41]
+2015-05-05 21:50:41,818-0500 619136 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:42,662-0500 619980 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\] at index[47]
+2015-05-05 21:50:43,013-0500 620331 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:50:44,648-0500 621966 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\] at index[41]
+2015-05-05 21:50:44,914-0500 622232 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:44,983-0500 622301 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\] at index[41]
+2015-05-05 21:50:45,046-0500 622364 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:45,262-0500 622580 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\] at index[44]
+2015-05-05 21:50:45,379-0500 622697 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:45,399-0500 622717 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:45,468-0500 622786 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:45,729-0500 623047 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:45,730-0500 623048 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\] at index[41]
+2015-05-05 21:50:45,805-0500 623123 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:46,046-0500 623364 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\] at index[41]
+2015-05-05 21:50:46,135-0500 623453 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\] at index[41]
+2015-05-05 21:50:46,230-0500 623548 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:46,373-0500 623691 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:46,764-0500 624082 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:46,942-0500 624260 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:47,101-0500 624419 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:48,777-0500 626095 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\] at index[41]
+2015-05-05 21:50:48,824-0500 626142 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:50:50,827-0500 628145 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:51,273-0500 628591 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:51,301-0500 628619 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:51,341-0500 628659 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\] at index[41]
+2015-05-05 21:50:51,341-0500 628659 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:50:51,439-0500 628757 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:51,812-0500 629130 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\] at index[41]
+2015-05-05 21:50:51,978-0500 629296 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\] at index[41]
+2015-05-05 21:50:51,984-0500 629302 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:52,282-0500 629600 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:52,325-0500 629643 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:52,379-0500 629697 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\] at index[41]
+2015-05-05 21:50:52,446-0500 629764 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:52,456-0500 629774 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\] at index[41]
+2015-05-05 21:50:52,511-0500 629829 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:50:52,526-0500 629844 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\c2\] at index[50]
+2015-05-05 21:50:52,902-0500 630220 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\c2\] at index[50]
+2015-05-05 21:50:52,925-0500 630243 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\] at index[47]
+2015-05-05 21:50:53,065-0500 630383 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:53,698-0500 631016 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\] at index[41]
+2015-05-05 21:50:54,420-0500 631738 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:54,506-0500 631824 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:50:54,764-0500 632082 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\] at index[41]
+2015-05-05 21:50:56,358-0500 633676 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\] at index[44]
+2015-05-05 21:50:56,427-0500 633745 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:56,452-0500 633770 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\c2\] at index[50]
+2015-05-05 21:50:56,453-0500 633771 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\] at index[44]
+2015-05-05 21:50:56,516-0500 633834 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\c1\c2\] at index[50]
+2015-05-05 21:50:57,118-0500 634436 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-5\c1\] at index[44]
+2015-05-05 21:50:57,186-0500 634504 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-4\c1\c1\] at index[47]
+2015-05-05 21:51:15,348-0500 652666 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:51:15,349-0500 652667 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:51:16,164-0500 653482 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\] at index[47]
+2015-05-05 21:51:17,342-0500 654660 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\c2\] at index[50]
+2015-05-05 21:51:17,378-0500 654696 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\c2\] at index[50]
+2015-05-05 21:51:17,379-0500 654697 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\] at index[47]
+2015-05-05 21:51:17,402-0500 654720 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-7\c1\c1\] at index[47]
+2015-05-05 21:51:17,482-0500 654800 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:51:17,483-0500 654801 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-48661-1430880615779-1\c1\c1\] at index[47]
+2015-05-05 21:51:17,599-0500 654917 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:51:17,613-0500 654931 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:22,114-0500 719432 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:22,256-0500 719574 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:23,904-0500 721222 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:23,905-0500 721223 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:24,250-0500 721568 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:30,236-0500 727554 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:30,966-0500 728284 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:32,388-0500 729706 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:34,450-0500 731768 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:35,234-0500 732552 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-5\] at index[41]
+2015-05-05 21:52:35,759-0500 733077 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-1\c1\] at index[44]
+2015-05-05 21:52:35,999-0500 733317 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:36,000-0500 733318 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:36,184-0500 733502 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:36,185-0500 733503 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:37,243-0500 734561 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-3\c1\] at index[44]
+2015-05-05 21:52:37,633-0500 734951 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:37,634-0500 734952 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:38,424-0500 735742 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-7\] at index[41]
+2015-05-05 21:52:38,539-0500 735857 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:38,619-0500 735937 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-7\c1\] at index[44]
+2015-05-05 21:52:38,633-0500 735951 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-1\c1\c1\] at index[47]
+2015-05-05 21:52:38,843-0500 736161 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-7\c1\] at index[44]
+2015-05-05 21:52:38,990-0500 736308 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-1\c1\] at index[44]
+2015-05-05 21:52:39,120-0500 736438 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:39,654-0500 736972 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:39,705-0500 737023 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:39,772-0500 737090 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:39,830-0500 737148 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:39,837-0500 737155 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:40,801-0500 738119 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:40,813-0500 738131 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:41,257-0500 738575 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:41,260-0500 738578 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:41,345-0500 738663 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:41,620-0500 738938 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:41,655-0500 738973 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-7\] at index[41]
+2015-05-05 21:52:41,697-0500 739015 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-3\] at index[41]
+2015-05-05 21:52:41,701-0500 739019 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-7\] at index[41]
+2015-05-05 21:52:41,760-0500 739078 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:42,337-0500 739655 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-1\c1\c1\] at index[47]
+2015-05-05 21:52:42,440-0500 739758 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-3\c1\c1\c2\] at index[50]
+2015-05-05 21:52:43,135-0500 740453 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-5\] at index[41]
+2015-05-05 21:52:43,138-0500 740456 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\ccentralregion06-51841-1430880736622-5\] at index[41]
+2015-05-05 21:52:43,238-0500 740556 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:43,341-0500 740659 ERROR [StompDecoder] (reactor-tcp-io-3:) Error parsing string[ID\ccentralregion06-51841-1430880736622-3\c1\c1\] at index[47]
+2015-05-05 21:52:43,504-0500 740822 ERROR [StompDecoder] (reactor-tcp-io-4:) Error parsing string[ID\] at index[2]
+2015-05-05 21:52:43,660-0500 740978 ERROR [SubProtocolWebSocketHandler] (clientOutboundChannel-10:) No session for [Payload byte[298]][Headers={simpMessageType=MESSAGE, stompCommand=MESSAGE, nativeHeaders={expires=[1430880773551], destination=[/topic/driver_events], message-id=[ID:centralregion06-51841-1430880736622-7:1:1:2:1064], subscription=[sub-1], priority=[4], timestamp=[1430880763551]}, simpSubscriptionId=sub-1, simpSessionId=y58xfl1u, simpDestination=/topic/driver_events, id=f8d76958-c496-3834-a808-cb09e0abbc45, timestamp=1430880763660}]
+2015-05-05 21:52:43,660-0500 740978 ERROR [SubProtocolWebSocketHandler] (clientOutboundChannel-3:) No session for [Payload byte[300]][Headers={simpMessageType=MESSAGE, stompCommand=MESSAGE, nativeHeaders={expires=[1430880773552], destination=[/topic/driver_events], message-id=[ID:centralregion06-51841-1430880736622-1:1:1:2:1057], subscription=[sub-1], priority=[4], timestamp=[1430880763552]}, simpSubscriptionId=sub-1, simpSessionId=y58xfl1u, simpDestination=/topic/driver_events, id=a5d130eb-e010-af76-f30b-da32afd22fda, timestamp=1430880763660}]
+2015-05-05 21:52:44,152-0500 741470 INFO  [AnnotationConfigWebApplicationContext] (Thread-3:) Closing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Tue May 05 21:40:23 CDT 2015]; parent: Root WebApplicationContext
+2015-05-05 21:52:44,153-0500 741471 INFO  [DefaultLifecycleProcessor] (Thread-3:) Stopping beans in phase 2147483647
+2015-05-05 21:52:46,362-0500 743680 ERROR [StompBrokerRelayMessageHandler] (Thread-3:) Error in shutdown of TCP client
+java.util.concurrent.TimeoutException
+	at org.springframework.messaging.tcp.reactor.AbstractPromiseToListenableFutureAdapter.get(AbstractPromiseToListenableFutureAdapter.java:84)
+	at org.springframework.messaging.simp.stomp.StompBrokerRelayMessageHandler.stopInternal(StompBrokerRelayMessageHandler.java:371)
+	at org.springframework.messaging.simp.broker.AbstractBrokerMessageHandler.stop(AbstractBrokerMessageHandler.java:132)
+	at org.springframework.messaging.simp.broker.AbstractBrokerMessageHandler.stop(AbstractBrokerMessageHandler.java:146)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:229)
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$300(DefaultLifecycleProcessor.java:51)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:363)
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:202)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:890)
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:843)
+	at org.springframework.web.servlet.FrameworkServlet.destroy(FrameworkServlet.java:819)
+	at org.eclipse.jetty.servlet.ServletHolder.destroyInstance(ServletHolder.java:404)
+	at org.eclipse.jetty.servlet.ServletHolder.doStop(ServletHolder.java:376)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.servlet.ServletHandler.doStop(ServletHandler.java:204)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.security.SecurityHandler.doStop(SecurityHandler.java:403)
+	at org.eclipse.jetty.security.ConstraintSecurityHandler.doStop(ConstraintSecurityHandler.java:455)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.server.session.SessionHandler.doStop(SessionHandler.java:125)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStop(ContextHandler.java:835)
+	at org.eclipse.jetty.servlet.ServletContextHandler.doStop(ServletContextHandler.java:217)
+	at org.eclipse.jetty.webapp.WebAppContext.doStop(WebAppContext.java:516)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStop(JettyWebAppContext.java:305)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:128)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:147)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:71)
+	at org.eclipse.jetty.server.Server.doStop(Server.java:423)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:90)
+	at org.eclipse.jetty.util.thread.ShutdownThread.run(ShutdownThread.java:132)
+2015-05-05 21:52:46,364-0500 743682 INFO  [ThreadPoolTaskExecutor] (Thread-3:) Shutting down ExecutorService 'brokerChannelExecutor'
+2015-05-05 21:52:46,364-0500 743682 INFO  [ThreadPoolTaskScheduler] (Thread-3:) Shutting down ExecutorService 'messageBrokerSockJsTaskScheduler'
+2015-05-05 21:52:46,364-0500 743682 INFO  [ThreadPoolTaskExecutor] (Thread-3:) Shutting down ExecutorService 'clientOutboundChannelExecutor'
+2015-05-05 21:52:46,365-0500 743683 INFO  [ThreadPoolTaskExecutor] (Thread-3:) Shutting down ExecutorService 'clientInboundChannelExecutor'
+2015-05-05 21:52:46,370-0500 743688 INFO  [AnnotationConfigWebApplicationContext] (Thread-3:) Closing Root WebApplicationContext: startup date [Tue May 05 21:40:22 CDT 2015]; root of context hierarchy
