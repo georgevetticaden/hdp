@@ -94,6 +94,7 @@ Do the following on the edge node (or where you have Kafka Broker/client running
 
 ### Run the trucking-web-portal
 Do the Following on the Edge Node
+
 1. Go to the directory where you cloned the repo in section Download and Build the Code
 2. cd to hdp/reference-apps/iot-trucking-app
 3. mvn clean install -DskipTests=true
@@ -101,6 +102,19 @@ Do the Following on the Edge Node
 5. mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
 6. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 
+![IOT Trucking Web Portal - Welcome Page ](iot-trucking-portal-Welcome Page.png)
+
+7.Configure the Application with HDP Service Endpoints:
+
+![IOT Trucking Web Portal - Configure Endpoints ](iot-trucking-portal-Configure Endpoint.png)
+
+8.Generate the Truck Event Streams
+
+![IOT Trucking Web Portal - Generate Streams ](iot-trucking-portal-Generate Truck Streams.png)
+
+9.View Truck Alerts
+
+![IOT Trucking Web Portal - Generate Streams ](iot-trucking-poratl-Generate Truck Streams-Alerts.png)
 
 
 
