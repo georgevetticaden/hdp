@@ -24,7 +24,7 @@ angular.module('mvcRestBaseApp')
    * @description
    * Controller to Populate the Truck Events Data
    * @author George Vetticaden
-   */		
+   */
 	.controller('TruckMonitorCtrl',
 		[ '$scope', '$log', 'TruckMonitorService', 'leafletData',  function($scope, $log, TruckMonitorService, leafletData) {
 		
@@ -48,7 +48,9 @@ angular.module('mvcRestBaseApp')
 				        lat: 38.523884,
 				        lng: -92.159845,
 				        zoom: 6
-			    }				
+			    }		
+				
+				
 				
 				// Call the TruckMonitor service to fetch all the existing truck events
 				TruckMonitorService.search.execute(
@@ -59,7 +61,7 @@ angular.module('mvcRestBaseApp')
 							var socket = new SockJS('monitor');
 			      	        var stompClient = Stomp.over(socket);
 			      	        
-					        var appModel = new ApplicationModel(stompClient, value.driverEventsResponse, $scope.leafletDataContianer);
+			      	        var appModel = new ApplicationModel(stompClient, value.driverEventsResponse, $scope.leafletDataContianer);
 					    
 					        // Update the events tables with the new resutls
 					        $scope.results = appModel;
@@ -71,7 +73,6 @@ angular.module('mvcRestBaseApp')
 					
 						},
 						function(httpResponse) {
-							$log.log("inside method with httpResponse arg");
 							$log.log(httpResponse)
 							$scope.results = [];
 							$scope.error = true;
@@ -83,11 +84,124 @@ angular.module('mvcRestBaseApp')
 				
 			};
 			
+			/* Generate the Truck Event Streams */
+			$scope.generateTruckStreams = function() {
+				
+				$log.log("Inside TruckMonitorCtrl.generateTruckStreams..");
+				//Reset the date of last event to current time since we started the stream
+				 $scope.results.dateTimeOfLastEvent = new Date();
+				TruckMonitorService.generateTruckStreams.execute( 
+						
+				);
+						
+			};
 			
+			/* Determines if events are flowing in. If so return true so Generate STreams button is disabled */
+			$scope.isEventsFlowing = function() {
+				
+				if($scope.results != null) {
+					var timeOfLastEvent = $scope.results.dateTimeOfLastEvent;
+					
+					var currentTime = new Date();
+					var timeOfLastEventInMilliSeconds = currentTime.getTime() - timeOfLastEvent.getTime();
+					
+					// If the last event was more than 5 seconds ago, then assume no events are coming in and you can enable generate streams button
+					if(timeOfLastEventInMilliSeconds > 5000) {
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					return true;
+				}
+				
+						
+			};			
+			
+			/** Initialize the page by calling load */
 			$scope.load();
 			
-		} ]);		
+			
+			
+			
+		} ])
+		
+		
+  /**
+   * @ngdoc ServiceRegistryCtrl
+   * @name mvcRestBaseApp.controllers:ServiceRegistryCtrl
+   * @scope
+   * @requires $scope
+   * @description
+   * Controller configure the endpoints for the Application
+   * @author George Vetticaden
+   */
+	.controller('ServiceRegistryCtrl',
+		[ '$scope', '$log', 'TruckMonitorService',   function($scope, $log, TruckMonitorService) {
+			
+			
+			
+
 				
+			$scope.initModel = function() {
+				$scope.registryParams = {};
+					
+				$scope.registryParams.ambariUrl = 'http://centralregion01.cloud.hortonworks.com:8080'
+				$scope.registryParams.clusterName="centralregioncluster";
+				
+				$scope.registryParams.hbaseSliderPublisherUrl="http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher";
+				$scope.registryParams.hbaseDeploymentMode="SLIDER";
+				
+				$scope.registryParams.stormSliderPublisherUrl="http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher";
+				$scope.registryParams.stormDeploymentMode="SLIDER";
+				
+				$scope.registryParams.activeMQHost ="george-activemq01.cloud.hortonworks.com";
+				$scope.registryParams.solrServerUrl="http://vett-search01.cloud.hortonworks.com:8983/solr";
+			};
+			
+			$scope.configureEndpoints = function(registryParams) {
+				$log.info("Inside ConfigureEndpoints, registryParams is: " + registryParams);
+				$log.info("AmbariUrl is  is: " + registryParams.ambariUrl);
+				$scope.registryParams = registryParams
+				TruckMonitorService.configureEndpoints.execute(
+						{
+							'ambariUrl' : $scope.registryParams.ambariUrl,
+							'clusterName' : $scope.registryParams.clusterName,
+							'hbaseDeploymentMode' : $scope.registryParams.hbaseDeploymentMode,
+							'hbaseSliderPublisherUrl': $scope.registryParams.hbaseSliderPublisherUrl,
+							'stormDeploymentMode' : $scope.registryParams.stormDeploymentMode,
+							'stormSliderPublisherUrl' : $scope.registryParams.stormSliderPublisherUrl,
+							'activeMQHost' : $scope.registryParams.activeMQHost,
+							'solrServerUrl' : $scope.registryParams.solrServerUrl
+							
+						}, 
+						function (value, responseHeaders) {
+							
+							$log.info("Value returned is " + value)
+					        
+
+					
+						},
+						function(httpResponse) {
+							$log.log(httpResponse)
+							$scope.results = [];
+							$scope.error = true;
+							$scope.errorStatus = httpResponse.status;
+							$scope.errorMessage = httpResponse.data;
+						}
+				);				
+			};
+			
+			$scope.deployStormTopology = function() {
+				$log.log("Inside deployStorm Topology...");
+				TruckMonitorService.deployStormTopology.execute();				
+			};
+			
+			$scope.initModel();
+			
+		}]);
+				
+
 function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  var self = this;
 
@@ -99,23 +213,24 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  
 	  self.driverEvents = events;
 	  
+	  self.dateTimeOfLastEvent = new Date();
+	  
 	  
 	  self.connect = function() {
 	    stompClient.connect('admin', 'admin', function(frame) {
 
 	      console.log('Connected XXXX' + frame);
-	      //self.username(frame.headers['user-name']);
 
-	      //Update page with any new dangerous event that came in
-	      //stompClient.subscribe("/topic/driver_infraction_events", function(message) {
 	      stompClient.subscribe("/topic/driver_infraction_events", function(message) {
+	    	   //console.log("Dangerous Event came in..");
 	           self.driverMontior.processDangerousEvent(JSON.parse(message.body));
+	           self.dateTimeOfLastEvent = new Date();
 	       });
 	      
 	      stompClient.subscribe("/topic/driver_events", function(message) {
 	    	  //console.log(message);
 	    	  self.driverMontior.renderOnMap(JSON.parse(message.body), self.truckSymbolSize);
-	    	  //setTimeout(self.driverMontior().renderOnMap(JSON.parse(message.body), self.truckSymbolSize), 2000);
+	    	  self.dateTimeOfLastEvent = new Date();
 	      });      
 	      
 	      //Update page with any new alerts
@@ -186,7 +301,6 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  
 	  
 	  self.loadDangerousEvents = function(positions) {
-		  console.log("loadDangerouseEvents..");
 		  for ( var i = 0; i < positions.length; i++) {
 	    	
 	    	self.loadDangerousEvent(positions[i]);
@@ -218,7 +332,6 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 		  
 
 	  self.renderOnMap = function(driverEvent, truckSymbolSize) {
-		  console.log("inside renderOnMap with event: " + driverEvent );
 		  if (driverOnMapLookup.hasOwnProperty(driverEvent.driverId)) {
 			  var driverOnMap = driverOnMapLookup[driverEvent.driverId].driverOnMap;
 			  var previousDriverEvent = driverOnMapLookup[driverEvent.driverId].driverEvent;
@@ -275,9 +388,7 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  self.renderNewDriverOnMap = function (driverEvent, truckSymbolSize) {
 		    var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 		    
-		    console.log("inside renderNewDriverOnMap");
 		    leafletData.getMap('map').then(function(map) {
-		    	console.log("inside promiese......");
 		    	var driverOnMap = L.circle([driverEvent.latitude, driverEvent.longitude], truckSymbolSize, {
 			        color: randomColor,
 			        fillColor: randomColor,

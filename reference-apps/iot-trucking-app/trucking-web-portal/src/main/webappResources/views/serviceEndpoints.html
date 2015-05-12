@@ -1,0 +1,162 @@
+
+
+
+
+<div class="panel panel-default" ng-controller="ServiceRegistryCtrl">
+		
+	<div class="panel-heading">Configure HDP Service Endpoint Registry</div>
+	
+	<div class="panel-body">
+		<div class="row">
+			<div>
+				<div  style="padding: 20px " >	
+					<form novalidate class="simple-form"  >
+
+						<fieldset class="configProp">
+							<p class="formHeader">
+								Discover Endpoints Via Ambari
+							</p>
+							
+							<div style="padding-left: 40px" class="" data-fields="ambariUrl">
+								<div class="control-group field-name">      
+									<span class="control-label"> Ambari Server URL: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.ambariUrl" type="text" size="80px"  />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>		
+							</div>
+							
+							</br>
+							<div style="padding-left: 40px" class="" data-fields="clusterName">
+								<div class="control-group field-name">      
+									<span class="control-label"> Cluster Name: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.clusterName" type="text" size="40px" />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>												
+							
+							</br>
+							
+							
+						</fieldset>
+					
+						</br>
+						</br>
+					
+						<fieldset class="configProp">
+							<p class="formHeader">
+								Deployment Mode of Apps
+							</p>
+							<div style="padding-left: 40px" class="" data-fields="hbaseDeploymentMode">
+								<div class="control-group field-name">      
+									<span class="control-label"> HBase  Deployment Option? </span>
+										<span data-editor="">
+											<select ng-model="registryParams.hbaseDeploymentMode"  >
+												<option  value="STANDALONE">STANDALONE</option>
+												<option selected="selected" value="SLIDER">SLIDER</option>													
+											</select>
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>		
+							</br>
+							
+							<div style="padding-left: 40px" class="" data-fields="hbaseSliderPublisherUrl">
+								<div class="control-group field-name">      
+									<span class="control-label"> Slider HBase Publisher URL: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.hbaseSliderPublisherUrl" type="text" size="80px"  />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>	
+							
+							</br>
+							<div style="padding-left: 40px" class="" data-fields="stormDeploymentMode">
+								<div class="control-group field-name">      
+									<span class="control-label"> Storm Deployment Option? </span>
+										<span data-editor="">
+											<select ng-model="registryParams.stormDeploymentMode" >
+												<option value="STANDALONE">STANDALONE</option>
+												<option value="SLIDER" selected="selected">SLIDER</option>													
+											</select>
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>		
+							</br>
+							
+							<div style="padding-left: 40px" class="" data-fields="stormSliderPublisherUrl">
+								<div class="control-group field-name">      
+									<span class="control-label"> Slider Storm Publisher URL: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.stormSliderPublisherUrl" type="text" size="80px"  />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>																							
+							
+	
+						</fieldset>	
+						
+						</br>
+						</br>
+					
+						<fieldset class="configProp">
+							<p class="formHeader">
+								Configure Custom Endpoints
+							</p>
+							
+							<div style="padding-left: 40px" class="" data-fields="activeMQHost">
+								<div class="control-group field-name">      
+									<span class="control-label"> ActiveMQ Host: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.activeMQHost" type="text" size="80px" />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>		
+							
+							</br>
+							
+							<div style="padding-left: 40px" class="" data-fields="solrServerUrl">
+								<div class="control-group field-name">      
+									<span class="control-label"> SOLR Server URL: </span>
+										<span data-editor="">
+											<input ng-model="registryParams.solrServerUrl" type="text" size="80px"  />
+										</span>        
+										<div class="help-inline" data-error=""></div>   
+										  
+								</div>	
+							</div>																
+							
+						</fieldset>							
+						
+						
+						
+						</br>
+						</br>
+						<div>
+							<button class="btn btn-primary" ng-click="configureEndpoints(registryParams)">Configure Endpoints</button>
+						</div> 	
+						
+					</form>										
+														
+				</div>
+													
+			</div>
+	
+		</div>
+	
+</div>
+			

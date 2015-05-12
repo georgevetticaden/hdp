@@ -216,7 +216,7 @@ public class StompDecoder {
 				c = inString.charAt(index + 1);
 			} catch (Exception e) {
 				//e.printStackTrace();
-				logger.error("Error parsing string["+inString + "] at index["+index+"]");
+				logger.info("Error parsing string["+inString + "] at index["+index+"]");
 				return inString;
 			}
 			if (c == 'r') {

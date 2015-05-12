@@ -13,13 +13,39 @@ app.factory('TruckMonitorService', [ '$resource', function($resource) {
 	
 	var service = {};
 	
-	service.search = $resource('storm/truckdemo/driverEvents.json', {}, {
+	service.search = $resource('iotdemo/truck/monitor/driverEvents.json', {}, {
 		execute : {
 			method : 'GET',
 			isArray : false
 		}
 	
 	});
+	
+	service.generateTruckStreams = $resource('iotdemo/truck/monitor/streaming', {}, {
+		execute : {
+			method : 'POST',
+			isArray : false
+		}
+	
+	});	
+
+	service.configureEndpoints = $resource('iotdemo/truck/install/configureEndpoints', {}, {
+		execute : {
+			method : 'POST',
+			isArray : false
+		}
+	
+	});	
+	
+	service.deployStormTopology = $resource('iotdemo/truck/install/deployStormTopology', {}, {
+		execute : {
+			method : 'POST',
+			isArray : false
+		}
+	
+	});		
+	
+	
 	
 
 	

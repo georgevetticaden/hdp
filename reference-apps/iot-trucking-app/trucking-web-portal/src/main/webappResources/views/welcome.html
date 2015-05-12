@@ -1,18 +1,40 @@
 <div class="jumbotron">
-  <h1>Welcome!</h1>
-  <p>This application is an IOT Streaming Application with HDP. The specific components in this architecture are the following:</p>
+  <h2>Welcome to the HDP IOT Streaming Application!</h2>
+  <p>The specific components in this architecture are the following:</p>
   		<div style="padding-left: 30px" >
   		<u1>
   			<li> <b>Storm</b> Stream Processing Framework to process real-time streams of trucking events </li>
-  			<li> <b>HBase</b> Store the last 2 weeks of granular trucking events</li>
-  			<li> <b> HDFS </b> Store All Trucking Events </li>
-  			<li> <b> Solr </b> Indexing 2 weeks worth of trucking events for Discovery and Analysis </li>
+  			<li> <b>HBase</b> Store the Time-Series Trucking Events for Fast Access</li>
+  			<li> <b> HDFS </b> Store All Trucking Events in HDFS for Analytics </li>
+  			<li> <b> Solr </b> Index trucking events for Discovery and Analysis </li>
   		</u1>
   		
   		</div>
   	    </br>
   	    
-  	    <p>Click the following to check out the App: <a ng-href="#/monitorTrucks"> Truck Monitoring Application </a> </p>
+  	    <p>Check out the Below Links to Configure and Deploy the Trucking Monitoring Application  </p>
+  	    
+		<table class="table table-striped table-bordered table-hover">
+	          <thead>
+	            <tr>
+	              <th>Link</th>
+	              <th>Description</th>
+	               
+	            </tr>
+	          </thead>
+	          <tr>
+	          	<td> <a ng-href="#/configureHDPServiceEndpoints"> Configure HDP Service Endpoints </a> </td>
+	          	<td>Configures The HDP Service Endpoints Used By The App</td>
+	          </tr>
+	          <tr>
+	          	<td> <a href="" ng-controller="ServiceRegistryCtrl" ng-click="deployStormTopology()"> Deploy the Storm Topology </a> </td>
+	          	<td>Deploys the Storm Topology to the Cluster</td>
+	          </tr>	  
+	          <tr>
+	          	<td> <a ng-href="#/monitorTrucks"> Truck Monitoring Application </a> </td>
+	          	<td>Truck Monitoring Application</td>
+	          </tr>		                  
+  	    
 
     
     </p>

@@ -6,9 +6,16 @@
 		
 <body>
 
+
+<div ng-controller="TruckMonitorCtrl"
+
 <div >
 	<div class="panel-heading">
-		<h3 class="panel-title">Real-Time Truck Driver Monitoring Application</h3>
+		<h3 class="panel-title">
+			Real-Time Truck Driver Monitoring Application
+			<button ng-disabled="isEventsFlowing()" ng-click="generateTruckStreams()">Generate Truck Events</button>
+		</h3> 
+		
 	</div>
 
 </div>
@@ -52,6 +59,7 @@
 
 </div>
 
+</div>
 
 </body>
 </html>
