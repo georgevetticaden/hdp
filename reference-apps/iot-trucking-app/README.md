@@ -25,8 +25,6 @@ This project is meant to be a reference application/assembly for an IOT use case
 
 ![Architecture Diagram](iot-trucking-architecture.png)
 
-## IOT Trucking App Data Pipline Architecture 
-![Architecture Diagram Data Pipline ](iot-trucking-architecture-data-pipleline.png)
 
 ## Installing and Running the IOT Trucking App (Without Slider Apps)
 
