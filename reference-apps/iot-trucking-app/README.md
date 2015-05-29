@@ -23,7 +23,7 @@ This project is meant to be a reference application/assembly for an IOT use case
 
 ## IOT Trucking App Storm Architecture 
 
-![Architecture Diagram](iot-trucking-architecture.png)
+![Architecture Diagram](readme-design-artifacts/iot-trucking-architecture.png)
 
 
 ## Installing and Running the IOT Trucking App (Without Slider Apps)
@@ -44,7 +44,7 @@ Regardless of whatever approach is chosen to provision a cluster, ensure the fol
 
 A common out of the box approach to assign masters and slaves to a 8 node cluster is the following
 
-![Assign Masters](iot-trucking-cluster-Assign Masters.png)
+![Assign Masters](readme-design-artifacts/iot-trucking-cluster-Assign Masters.png)
 
 ### Set up the Maven Projects and setup scripts
 
@@ -74,7 +74,7 @@ Node Labels provides the ability to run certain workloads on certain set of node
 
 We will be creating 2 node labels called "hbase" and "storm" and then assign them each to 2 seperate nodes in our 8 node cluster. It will look somethign like the following:
 
-![Cluster Setup with Node Labels](iot-trucking-cluster-Node Labels.png)
+![Cluster Setup with Node Labels](readme-design-artifacts/iot-trucking-cluster-Node Labels.png)
 
 The following walks you through how to do this:
 
@@ -117,7 +117,7 @@ The below pic describes how we will configure the queues. Note that only leaf qu
 4. ETL
 	* Any falcon/oozie etl jobs will be submitted to this queue which has 50% of the 75% of the cluster resources with no label
 
-![Hierachal Queues](iot-trucking-cluster--Assign Labels To Queues.png)
+![Hierachal Queues](readme-design-artifacts/iot-trucking-cluster--Assign Labels To Queues.png)
 
 
 The following are the steps to configure the CS Queues as described above.
@@ -142,7 +142,7 @@ The following are the steps to configure the CS Queues as described above.
 2. Click Deploy View --> Click Slider --> Create Instance
 3. Configure the View With your cluster details
 
-![Create Sider View](iot-trucking-slider-Create Slider View.png)
+![Create Sider View](readme-design-artifacts/iot-trucking-slider-Create Slider View.png)
 
 ##### 2. Install the HBase and Storm Slider Libraries into Ambari
 1. Login to the Ambari Host as ro2. . 
@@ -156,11 +156,11 @@ Go the Slider View --> Create App
 ##### 1.  Select Type
 Select HBASE App type, provide name, configure the queue name as "hbase" and configure yarn labels as any host
 
-![Select HBase Type](iot-trucking-cluster-slider-hbase-Select Type.png)
+![Select HBase Type](readme-design-artifacts/iot-trucking-cluster-slider-hbase-Select Type.png)
 
 ##### 2.  Select Allocate Resources
 
-![Allocate HBase Resources](iot-trucking-cluster-slider-hbase-Allocate Resources.png)
+![Allocate HBase Resources](readme-design-artifacts/iot-trucking-cluster-slider-hbase-Allocate Resources.png)
 ##### 3.  Configuration
 
 Leave the Defaults
@@ -178,11 +178,11 @@ Go the Slider View --> Create App
 ##### 1.  Select Type
 Select HBASE App type, provide name, configure the queue name as "hbase" and configure yarn labels as any host
 
-![Select Storm Type](iot-trucking-cluster-slider-storm-Select Type.png)
+![Select Storm Type](readme-design-artifacts/iot-trucking-cluster-slider-storm-Select Type.png)
 
 ##### 2.  Select Allocate Resources
 
-![Allocate HBase Resources](iot-trucking-cluster-slider-storm-Allocate Resources.png)
+![Allocate HBase Resources](readme-design-artifacts/iot-trucking-cluster-slider-storm-Allocate Resources.png)
 ##### 3.  Configuration
 
 Leave the Defaults
@@ -190,44 +190,21 @@ Leave the Defaults
 
 Clikc Deploy
 
-### Install & Configure ActiveMQ 5.9.8
-ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time
-Do the following the edge Node:
-
-1. wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-activemq-5.9.0-bin.tar.gz
-2. Untar the binary
-3. Start ActiveMQ by running the following: 
-apache-activemq-5.9.0/bin/activemq start xbean:file:/mnt/activemq/apache-activemq-5.9.0/conf/activemq.xml
-4. Verify it is up by running:
-activemq/apache-activemq-5.9.0/bin/activemq status
-
-### Install & Configure SOLR 4.10
-Do the Following on the edge Node
-
-1. Install Solr 4.10 from here: http://archive.apache.org/dist/lucene/solr/4.10.0/solr-4.10.0.tgz using instructions from here: https://cwiki.apache.org/confluence/display/solr/Installing+Solr
-2. Create a solr core called truck_event_logs
-3. For the core created in step 2, use schema.xml found here: XXXX
-
-
-### Download and Build the Code
-Do the Following on the Edge Node
-
-1. Install Git
-2. Install Maven
-3. git clone https://george.vetticaden@github.com/georgevetticaden/hdp.git
-6. Hite the Url
-
 ### Configure HDFS
-Do the following on the edge Node
+We will now create the HDFS directory that will be the staging area for all new truck events. The HDFS Storm Bolt will store all raw events into this directory initially 
 
-1. su hdfs
-2. Run the script in hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hdfs/createDirsInHDFS.sh
+1. Log into the edge node where you downloaded the code as root
+2. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hdfs
+3. [./createDirsInHDFS.sh](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hdfs/createDirsInHDFS.sh)
 
 ### Configure Hive
+Les now create the hive tables used to store the trucking daa for long term. The first stage will be a staging table in Text formant and the second table with be the same table but stored with the file optimized format called ORC
+
 Do the following on the edge Node
 
-1. su hdfs
-2. Run both the ddls located in hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hive
+1. Log into the edge node where you downloaded the code as root
+2. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hive
+3. 
 
 
 ### Configure HBase
@@ -246,6 +223,35 @@ Do the following on the edge node (or where you have Kafka Broker/client running
 
 
 
+### Install & Configure SOLR 4.10
+Do the Following on the edge Node
+
+1. Install Solr 4.10 from here: http://archive.apache.org/dist/lucene/solr/4.10.0/solr-4.10.0.tgz using instructions from here: https://cwiki.apache.org/confluence/display/solr/Installing+Solr
+2. Create a solr core called truck_event_logs
+3. For the core created in step 2, use schema.xml found here: XXXX
+
+### Install & Configure ActiveMQ 5.9.8
+ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time
+Do the following the edge Node:
+
+1. wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-activemq-5.9.0-bin.tar.gz
+2. Untar the binary
+3. Start ActiveMQ by running the following: 
+apache-activemq-5.9.0/bin/activemq start xbean:file:/mnt/activemq/apache-activemq-5.9.0/conf/activemq.xml
+4. Verify it is up by running:
+activemq/apache-activemq-5.9.0/bin/activemq status
+
+
+### Download and Build the Code
+Do the Following on the Edge Node
+
+1. Install Git
+2. Install Maven
+3. git clone https://george.vetticaden@github.com/georgevetticaden/hdp.git
+6. Hite the Url
+
+
+
 ### Run the trucking-web-portal
 Do the Following on the Edge Node
 
@@ -256,19 +262,19 @@ Do the Following on the Edge Node
 5. mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
 6. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 
-![IOT Trucking Web Portal - Welcome Page ](iot-trucking-portal-Welcome Page.png)
+![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
 
 7.Configure the Application with HDP Service Endpoints:
 
-![IOT Trucking Web Portal - Configure Endpoints ](iot-trucking-portal-Configure Endpoint.png)
+![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint.png)
 
 8.Generate the Truck Event Streams
 
-![IOT Trucking Web Portal - Generate Streams ](iot-trucking-portal-Generate Truck Streams.png)
+![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams.png)
 
 9.View Truck Alerts
 
-![IOT Trucking Web Portal - Generate Streams ](iot-trucking-poratl-Generate Truck Streams-Alerts.png)
+![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-poratl-Generate Truck Streams-Alerts.png)
 
 
 
