@@ -1,0 +1,10 @@
+assembly-deploymenent-descriptor:
+  name: iot-trucking-app
+  tenant: telematics-bu
+  components: 
+     - hive:
+        name: jack   
+     - kafka:
+        name: bark  
+
+     

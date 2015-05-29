@@ -14,11 +14,6 @@ wget  http://public-repo-1.hortonworks.com/HDP/centos6/2.x/GA/2.2.0.0/slider-app
 mv slider-storm-app-package-0.9.3.2.2.0.0-2041.zip /var/lib/ambari-server/resources/apps
 echo "Done Installing Hbase"
 
-# Need to creae yarn user directory
-echo "Creating yarn home directory"
-runuser -l  hdfs -c 'hadoop fs -mkdir /user/yarn'
-runuser -l  hdfs -c 'hadoop fs -chown yarn:hdfs /user/yarn'
-echo "Done creating yarn home directory"
 
 #restart ambari
 echo "Restarting Ambari"
