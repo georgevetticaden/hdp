@@ -2,9 +2,39 @@ assembly-deploymenent-descriptor:
   name: iot-trucking-app
   tenant: telematics-bu
   components: 
-     - hive:
-        name: jack   
-     - kafka:
-        name: bark  
+    - hdfs:
+        order: 1
+      
+        directories:
+          - directory:
+              path: /truck-events-v4
+              security-model:
+                user: hdfs
+                group: hdfs
+                ranger-policy: hdfs-truck-events-policy
 
-     
+    - hive:
+        order: 2
+        
+        data-models:
+          - data-model: 
+              create-if-not-exists: true
+              db: telematics_db
+              table: truck_events
+              hive-ddl: some_script.hql 
+              
+              security-model:
+                user: hdfs
+                group: hdfs
+                ranger-policy: hive-truck-events-policy 
+          
+    - hbase:
+        order: 3    
+        
+        data-models:
+          - data-model: 
+              create-if-not-exists: true
+              table: 
+              
+            
+  
