@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<feed description="Truck Events ORC feed" name="truck-events-orc-data-feed" xmlns="uri:falcon:feed:0.1">
+	<frequency>hours(1)</frequency>
+	<timezone>UTC</timezone>
+
+	<clusters>
+        	<cluster name="george-cluster" type="source">
+                	<validity start="2014-07-25T00:00Z" end="2016-01-30T00:00Z"/>
+                        <retention limit="hours(9000)" action="delete"/> 
+                </cluster>
+       </clusters>
+
+	<table uri="catalog:default:truck_events_orc_partition_single#date=${YEAR}-${MONTH}-${DAY}-${HOUR}" />	
+	<ACL owner="hdfs" group="hadoop" permission="0755"/>
+        <schema location="" provider="hcatalog"/>
+
+        <properties>
+        	<property name="queueName" value="etl"/>
+        </properties>   
+
+</feed>

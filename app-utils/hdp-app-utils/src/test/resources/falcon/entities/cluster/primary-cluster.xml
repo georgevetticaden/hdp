@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<cluster colo="west-coast" description="Primary Cluster"
+         name="george-cluster"
+         xmlns="uri:falcon:cluster:0.1">
+
+    <tags>class=truck-events-staging,site=ca</tags>
+
+    <interfaces>
+
+    	<interface type="readonly" endpoint="${hftp_url}" version="2.2.0"/>
+    	<interface type="write" endpoint="${hdfs_url}" version="2.2.0"/>
+    	<interface type="execute" endpoint="${resourcemanager_url}" version="2.2.0"/>
+    	<interface type="workflow" endpoint="${oozie_url}" version="3.3.0"/>
+    	<interface type="registry" endpoint="${hive_metastore_url}" version="0.11.0"/>
+    	<interface type="messaging" endpoint="${falcon_broker_url}?daemon=true" version="5.4.3"/>
+    </interfaces>
+
+    <locations>
+    	<location name="staging" path="/apps/falcon/trucking/staging"/>
+    	<location name="working" path="/apps/falcon//trucking/working"/>
+    	<location name="temp" path="/tmp"/>
+    </locations>
+
+</cluster>
+

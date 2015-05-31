@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<process name="solr-index-process" xmlns="uri:falcon:process:0.1">
+	<clusters>
+        	<cluster name="george-cluster">
+        		<validity start="2014-07-25T23:00Z" end="2016-04-21T00:00Z"/>
+		</cluster>
+        </clusters>
+
+    <parallel>1</parallel>
+    <order>FIFO</order>
+    <timeout>minutes(1)</timeout>
+    <frequency>hours(1)</frequency>
+    <timezone>UTC</timezone>
+
+    <inputs>
+    	<input end="now(-2,0)" start="now(-2,0)" feed="truck-events-orc-data-feed" name="input"/>
+    </inputs>
+
+        <properties>
+        	<property name="queueName" value="etl"/>
+        </properties>   
+
+    <workflow engine="pig" path="/apps/falcon/trucking/solr-index/index_truck_events.pig" lib="/apps/falcon/trucking/lib"/>
+
+    <retry policy="periodic" delay="minutes(10)" attempts="3"/>
+    </process>
