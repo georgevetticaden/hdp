@@ -152,7 +152,7 @@ The following are the steps to configure the CS Queues as described above.
 2. Click Deploy View --> Click Slider --> Create Instance
 3. Configure the View With your cluster details
 
-![Create Sider View](readme-design-artifacts/iot-trucking-slider-Create Slider View.png)
+![Create Sider View](readme-design-artifacts/iot-trucking-cluster-Create Slider View.png)
 
 ##### 2. Install the HBase and Storm Slider Libraries into Ambari
 1. Login to the Ambari Host as ro2. . 
