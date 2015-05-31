@@ -16,7 +16,6 @@
 		<trucking.domain.objects.version>3.0.0-SNAPSHOT</trucking.domain.objects.version>
 		<mail.version>1.4.3</mail.version>
 		<org.springframework.version>4.0.7.RELEASE</org.springframework.version>
-		<hdp-app-utils.version>1.0.0-SNAPSHOT</hdp-app-utils.version>
 	</properties>
 	
 
@@ -121,12 +120,13 @@
 		
 		<!-- Phoenix Dependencies -->
 		
+		<!-- 
 		<dependency>
 			<groupId>org.apache.phoenix</groupId>
 			<artifactId>phoenix-client</artifactId>
 			<version>4.0.0.2.1.4.0-632</version>
 		</dependency>
- 
+ 		 -->
  
 		<!-- Hive dependencies -->
 	
@@ -211,7 +211,7 @@
 		<dependency>
 			  <groupId>hortonworks.hdp.apputil</groupId>
 			  <artifactId>hdp-app-utils</artifactId>
-			  <version>${hdp-app-utils.version}</version>
+			  <version>${hdp.app.utils.version}</version>
 			  <scope>test</scope>	
 		</dependency>
 

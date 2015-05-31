@@ -22,7 +22,7 @@
 		<trucking.data.simulator.version>3.0.0-SNAPSHOT</trucking.data.simulator.version>
 		<trucking.storm.topology.version>3.0.0-SNAPSHOT</trucking.storm.topology.version>
 		<trucking.domain.objects.version>3.0.0-SNAPSHOT</trucking.domain.objects.version>
-		<hdp.app.utils.version>1.0.0-SNAPSHOT</hdp.app.utils.version>
+		<hdp.app.utils.version>2.0.0</hdp.app.utils.version>
 		
 		<plugin.war.version>2.4</plugin.war.version>
 		<jetty.version>9.1.2.v20140210</jetty.version>
