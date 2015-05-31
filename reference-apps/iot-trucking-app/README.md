@@ -287,13 +287,17 @@ The trucking web portal is the front end app to the trucking IOT application tha
 #####  Build the Code
 Log into the node where you installed the Maven Projects in the earlier step
 
-1. cd workspace/hdp/reference-apps/iot-trucking-app 
+
+1. cd workspace/hdp/app-utils/hdp-app-utils
 2. mvn clean install -DskipTests=true
-	* Build will take a few minutes. 
-3. cd trucking-web-portal
-4. open up the file 
-4. mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
-6. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
+	* This will build set of hdp app utilities required for the iot-trucking app
+3. cd workspace/hdp/reference-apps/iot-trucking-app 
+4. mvn clean install -DskipTests=true
+	* Build will take a few minutes. This will build all the components for the iot-trucking-app
+5. cd trucking-web-portal
+6. open up the file 
+7. mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
+8. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 
 ![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
 

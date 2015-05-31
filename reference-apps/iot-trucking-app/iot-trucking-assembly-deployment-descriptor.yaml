@@ -1,0 +1,151 @@
+# Prototype of an Deployment Descriptor for an Assembly Application
+assembly-deploymenent-descriptor:
+
+  # Name of the App 
+  name: iot-trucking-app
+  
+  # The Tenant that App belongs to.
+  tenant: telematics-bu 
+  
+  # Components that the Application uses
+  components: 
+  
+    # Configure HDFS
+    - hdfs:
+        #Order specifies the order in which components get provisioned/configured
+        order: 1
+        # The directories that need to be configured in HDFS
+        directories:
+          # Configure the directory and its security policy 
+          - directory: 
+              path: $tenant-base-path/iot-trucking-app
+              security-model:
+                user: hdfs
+                group: hdfs
+                ranger-policy: hdfs-truck-events-policy
+
+    # Configure Hive
+    - hive:
+        order: 2
+        data-models:
+          # Option to use the database provisioned for the tenant or create a new one. Most apps would create their own DBs?
+          - use-tenant-db: false
+          # Each Database should have its own data model
+          - data-model: 
+              create-if-not-exists: true
+              db: telematics_db
+              tables:
+                - table: 
+                    name: truck_events_text_partition_single
+                    hive-ddl: some_script.hql 
+                    security-model:
+                      user: hdfs
+                      group: hdfs
+                      ranger-policy: hive-truck-events-policy 
+          
+    # Configure HBase          
+    - hbase:
+        order: 3    
+        cluster-def:
+          # Configure to use tenant HBase cluster or the app's own hbase cluster. 
+          # Need to figure out patterns of use: 1 Tenant and multiple Apps --> 1 HBase Cluster, 1 Tenant/1 App --> HBase Cluster
+          use-tenant-hbase-cluster: false
+          
+          # If apps needs its own Slider HBase cluster, configure cluster specs. 
+          TODO: Do we need a way to specifyc custom config for hbase-site?
+          cluster-config:
+            name: hbase-on-yarn-v1
+            desription: hbase cluster for the iot trucking app
+            custom-properties: hbase-site.properties
+            queue: hbase-queue
+            
+            hbase-master:
+              num-instances: 2
+              memory: 1024
+              cpuc-cores: 2
+              node-label: hbase-master
+                
+            hbase-region:
+              num-instances: 5
+              memory: 1024
+              cpuc-cores: 2
+              node-label: hbase-slave
+            
+        # For each HBase Table, define the data model definition    
+        data-models:
+          - data-model:
+              table: driver_dangerous_events
+              col-family: events
+              versions: 3  
+              # Not sure if we need a script to execute. Can this file be descriptive enough?
+              hbase-ddl: some_script.hbase
+              security-model:
+                ranger-policy: hbase-truck-events-policy
+       
+    # Kafka Configuration. 
+    # Right now you can only define 1 kafka cluster. Need to change below to support multiple clusters.            
+    - kafka:
+        order: 4
+        topic-def: 
+          -name: truck_events
+          -partition-count: 5
+          -replicatation-factor: 1
+          -ranger-policy: kafka-truck-events-policy
+          
+    # Solr Configuration
+    - solr:
+        order: 5
+        cluster-def:
+          # Configure to use tenant Solr cluster or the app's own hbase cluster. 
+          # Need to figure out patterns of use: 1 Tenant and multiple Apps --> 1 Solr Cloud Cluster, 1 Tenant/1 App --> Solr Cluster
+          use-tenant-solr-cluster: false   
+          
+          cluster-config: 
+            name: iot-solr-cluster
+            desription: solr cluster for the iot trucking app
+            custom-properties: solr.xml
+          
+          # Define the the config for the different collections/cores within the solr cluster
+          collections:
+            -collection: 
+              -name: truck-event-logs
+              -schema-config-file: schema-config.xml
+              -solr-config-file: solr-config.xml
+              -ranger-policy: solr-truck-events-policy
+    
+    # Storm Configuration          
+    - storm: 
+        order: 6
+        cluster-def:
+            name: storm-on-yarn-v1
+            desription: storm cluster for the iot trucking app
+            custom-properties: storm-site.properties
+            queue: storm-queue
+            
+            nimbus-master:
+              num-instances: 2
+              memory: 1024
+              cpuc-cores: 2
+              node-label: storm-master
+                
+            supervisor:
+              num-instances: 5
+              memory: 1024
+              cpuc-cores: 2
+              node-label: storm-slave        
+      
+        topologies:
+          -topology:
+            -name: truck-event-processor
+            -jar: trucking-storm-topology-2.0-SNAPSHOT-shaded.jar
+          
+        
+                
+  
+            
+        
+        
+        
+            
+            
+  
