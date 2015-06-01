@@ -8,8 +8,10 @@ assembly-deploymenent-descriptor:
   tenant: telematics-bu 
   
   # Components that the Application uses
+  TODO: There should be a mechanism to pass implicy service endpoints to each component. 
+  TODO: Do we need to have the notion of component dependencies. Storm component is dependent on HBase so Storm needs endpoint config  
   components: 
-  
+     
     # Configure HDFS
     - hdfs:
         #Order specifies the order in which components get provisioned/configured
@@ -138,6 +140,7 @@ assembly-deploymenent-descriptor:
           -topology:
             -name: truck-event-processor
             -jar: trucking-storm-topology-2.0-SNAPSHOT-shaded.jar
+            -ranger-policy: storm-ranger-policy
           
         
                 

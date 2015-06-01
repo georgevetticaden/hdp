@@ -168,13 +168,7 @@
 				</exclusion>
 			</exclusions>			
 		</dependency>		
-		
-		<!-- Phoenix -->
-		<dependency>
-			<groupId>org.apache.phoenix</groupId>
-			<artifactId>phoenix-client</artifactId>
-			<version>${phoenix.version}</version>
-		</dependency>		
+				
 
 		 
 		<!-- Stream Simulator -->

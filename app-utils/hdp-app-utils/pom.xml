@@ -12,7 +12,6 @@
 		<org.springframework.spring.context.support>3.2.5.RELEASE</org.springframework.spring.context.support>
 		<junit.version>4.5</junit.version>
 		<hbase.version>0.98.4.2.2.0.0-2041-hadoop2</hbase.version>
-		<phoenix.version>4.0.0.2.1.4.0-632</phoenix.version>
 		<storm.version>0.9.3.2.2.0.0-2041</storm.version> 
 		<trucking.storm.topology.version>2.0-SNAPSHOT</trucking.storm.topology.version>
 		<kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
@@ -26,13 +25,6 @@
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
 			<version>${hbase.version}</version>
-		</dependency>		
-		
-		<!-- Phoenix -->
-		<dependency>
-			<groupId>org.apache.phoenix</groupId>
-			<artifactId>phoenix-client</artifactId>
-			<version>${phoenix.version}</version>
 		</dependency>		
 
 		 <!-- Spring -->

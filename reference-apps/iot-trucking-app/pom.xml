@@ -23,7 +23,6 @@
 		<kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
 		<storm.hdfs.version>0.9.3.2.2.0.0-2041</storm.hdfs.version>
 		<hbase.version>0.98.4.2.2.0.0-2041-hadoop2</hbase.version>
-		<phoenix.version>4.0.0.2.1.4.0-632</phoenix.version>
 		<hive.version>0.14.0.2.2.0.0-2041</hive.version>
 		<solr.version>4.7.2</solr.version>
 		

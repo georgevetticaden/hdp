@@ -117,16 +117,6 @@
             </exclusions>			
 		</dependency>
 		
-		
-		<!-- Phoenix Dependencies -->
-		
-		<!-- 
-		<dependency>
-			<groupId>org.apache.phoenix</groupId>
-			<artifactId>phoenix-client</artifactId>
-			<version>4.0.0.2.1.4.0-632</version>
-		</dependency>
- 		 -->
  
 		<!-- Hive dependencies -->
 	
