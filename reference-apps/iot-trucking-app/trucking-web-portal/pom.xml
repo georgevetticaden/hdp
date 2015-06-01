@@ -84,74 +84,7 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <!-- Spring profile to use -->
-                <spring.profiles.active>prod</spring.profiles.active>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
-                <logback.appender>CONSOLE</logback.appender>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>0.0.14</version>
-                        <executions>
-                            <execution>
-                                <id>grunt build</id>
-                                <goals>
-                                    <goal>grunt</goal>
-                                </goals>
-
-                                <!-- optional: the default phase is "generate-resources" -->
-                                <phase>prepare-package</phase>
-
-                                <configuration>
-                                    <!-- optional: if not specified, it will run Grunt's default
-                                    task (and you can remove this whole <configuration> section.) -->
-                                    <arguments>build</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${plugin.war.version}</version>
-                        <configuration>
-                            <attachClasses>true</attachClasses>
-                            <classesClassifier>classes</classesClassifier>
-                            <webResources>
-                                <resource>
-                                    <directory>${basedir}/src/main/webapp</directory>
-                                    <filtering>true</filtering>
-                                    <targetPath>WEB-INF</targetPath>
-                                    <includes>
-                                        <include>web.xml</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/src/main/webappDist</directory>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>${jetty.version}</version>
-                        <configuration>
-                            <webAppSourceDirectory>${project.basedir}/src/main/webappDist</webAppSourceDirectory>
-                            <stopKey>foo</stopKey>
-                            <stopPort>9998</stopPort>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+        
     </profiles>
 
 	<dependencies>
