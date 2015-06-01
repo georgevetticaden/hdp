@@ -452,6 +452,7 @@
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
+                    <!-- 
                     <execution>
                         <id>grunt test</id>
                         <goals>
@@ -461,11 +462,10 @@
                         <phase>test</phase>
 
                         <configuration>
-                            <!-- optional: if not specified, it will run Grunt's default
-                            task (and you can remove this whole <configuration> section.) -->
                             <arguments>test</arguments>
                         </configuration>
                     </execution>
+                     -->
                 </executions>
             </plugin>
         </plugins>
