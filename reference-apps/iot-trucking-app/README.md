@@ -63,7 +63,7 @@ A common out of the box approach to assign masters and slaves to a 8 node cluste
 4. Install Python3
 	* cd workspace/lib
 	* Follow [Install Python 3](http://www.shayanderson.com/linux/install-python-3-on-centos-6-server.htm)
-4. Install Maven 3.2.5
+4. Install Maven 3.0.5
 	* cd workspace/lib
 	* wget ftp://mirror.reverse.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 	* tar -zxvf apache-maven-3.0.5-bin.tar.gz 
@@ -289,7 +289,7 @@ The trucking web portal is the front end app to the trucking IOT application tha
 3. Renders a map with the real-time trucking data that is flowing through STorm and into HBase. 
 
 #####  Build the Code
-Log into the node where you installed the Maven Projects in the earlier step
+Log into the node where you installed the Maven Projects in the earlier step as root
 
 
 1. cd workspace/hdp/app-utils/hdp-app-utils
@@ -297,10 +297,11 @@ Log into the node where you installed the Maven Projects in the earlier step
 	* This will build set of hdp app utilities required for the iot-trucking app
 3. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal 
 4. sudo bower --allow-root update
-5. cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
-6. Open file called ref-app-hdp-service-config.properties and configure the following properties:
-	* trucking.activemq.host --> set this to the host where you installed and running activemq
-	* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
+5. Edit properites file for the app:
+	* cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
+	* Open file called ref-app-hdp-service-config.properties and configure the following properties:
+		* trucking.activemq.host --> set this to the host where you installed and running activemq
+		* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
 )
 6. cd workspace/hdp/reference-apps/iot-trucking-app
 7. mvn clean install -DskipTests=true
