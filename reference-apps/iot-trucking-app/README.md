@@ -72,6 +72,7 @@ A common out of the box approach to assign masters and slaves to a 8 node cluste
 5. Install NPM, grunt
 	* yum install npm
 	* npm install -g grunt-cli
+	* npm install bower -g
 6. Setup the Follwoing PATH vars
 	* export JAVA_HOME=/usr/lib/jvm/jre-1.7.0-openjdk.x86_64
      export M2_HOME=/mnt/apache-maven-3.2.1
@@ -294,25 +295,31 @@ Log into the node where you installed the Maven Projects in the earlier step
 1. cd workspace/hdp/app-utils/hdp-app-utils
 2. mvn clean install -DskipTests=true
 	* This will build set of hdp app utilities required for the iot-trucking app
-3. cd workspace/hdp/reference-apps/iot-trucking-app 
-4. mvn clean install -DskipTests=true
+3. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal 
+4. sudo bower --allow-root update
+5. cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
+6. Open file called ref-app-hdp-service-config.properties and configure the following properties:
+	* trucking.activemq.host --> set this to the host where you installed and running activemq
+	* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
+)
+6. cd workspace/hdp/reference-apps/iot-trucking-app
+7. mvn clean install -DskipTests=true
 	* Build will take a few minutes. This will build all the components for the iot-trucking-app
-5. cd trucking-web-portal
-6. open up the file 
-7. mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
-8. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
+8. cd trucking-web-portal
+9. nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry &
+10. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 
 ![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
 
-7.Configure the Application with HDP Service Endpoints:
+11.Configure the Application with HDP Service Endpoints:
 
 ![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint.png)
 
-8.Generate the Truck Event Streams
+12.Generate the Truck Event Streams
 
 ![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams.png)
 
-9.View Truck Alerts
+13.View Truck Alerts
 
 ![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-poratl-Generate Truck Streams-Alerts.png)
 
