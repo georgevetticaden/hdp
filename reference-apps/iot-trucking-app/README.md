@@ -63,17 +63,20 @@ A common out of the box approach to assign masters and slaves to a 8 node cluste
 4. Install Python3
 	* cd workspace/lib
 	* Follow [Install Python 3](http://www.shayanderson.com/linux/install-python-3-on-centos-6-server.htm)
-4. Install Maven
+4. Install Maven 3.2.5
 	* cd workspace/lib
-	* wget ftp://mirror.reverse.net/pub/apache/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
-	* tar -zxvf apache-maven-3.3.3-bin.tar.gz 
+	* wget ftp://mirror.reverse.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
+	* tar -zxvf apache-maven-3.0.5-bin.tar.gz 
 	* Create a link to mvn for easy executable: 
-		* ln -s workspace/lib/apache-maven-3.3.3/bin/mvn /usr/bin/mvn
-5. Setup the Follwoing PATH vars
+		* ln -s workspace/lib/apache-maven-3.0.5/bin/mvn /usr/bin/mvn
+5. Install NPM, grunt
+	* yum install npm
+	* npm install -g grunt-cli
+6. Setup the Follwoing PATH vars
 	* export JAVA_HOME=/usr/lib/jvm/jre-1.7.0-openjdk.x86_64
      export M2_HOME=/mnt/apache-maven-3.2.1
      export PATH=${M2_HOME}/bin:${PATH}
-5. Clone the Repo: 
+7. Clone the Repo: 
 	* cd workspace
 	* git clone https://georgevetticaden@github.com/georgevetticaden/hdp.git
 

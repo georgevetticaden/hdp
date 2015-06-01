@@ -408,6 +408,7 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>0.0.14</version>
                 <executions>
+                <!-- 
                     <execution>
                         <id>grunt clean</id>
                         <goals>
@@ -417,11 +418,10 @@
                         <phase>clean</phase>
 
                         <configuration>
-                            <!-- optional: if not specified, it will run Grunt's default
-                            task (and you can remove this whole <configuration> section.) -->
                             <arguments>clean</arguments>
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <!-- optional: you don't really need execution ids,
                         but it looks nice in your build log. -->
