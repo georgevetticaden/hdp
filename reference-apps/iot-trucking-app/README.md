@@ -248,7 +248,7 @@ We need to to find a a node where slider has spun up an hbase component so we ca
 
 
 ### Configure Kafka
-Lets now create the Kafka Topic required by the application
+Create the Kafka Topic required by the application:
 
 1. In Ambari, find a node where a Kafka Broker is running. SSH into that node as root
 2. cd /usr/hdp/current/kafka-broker/bin
@@ -260,13 +260,82 @@ Lets now create the Kafka Topic required by the application
 
 
 ### Install & Configure SOLR 4.10
-Do the Following on the edge Node
 
-1. Install Solr 4.10 from here: http://archive.apache.org/dist/lucene/solr/4.10.0/solr-4.10.0.tgz using instructions from here: https://cwiki.apache.org/confluence/display/solr/Installing+Solr
-2. Create a solr core called truck_event_logs
-3. For the core created in step 2, use schema.xml found here: XXXX
+##### Install Solr (Single Node)
+1. Read through [Solr Ref Guide](https://archive.apache.org/dist/lucene/solr/ref-guide/apache-solr-ref-guide-4.10.pdf) to get an understanding of what we will be doing below. 
+2. Log into the node where you installed the Maven Projects in the earlier step as root
+3. cd workspace 
+4. mkdir solr
+5. adduser solr
+6. passwd solr
+7. chown solr:solr solr
+8. su solr
+9. cd workspace/solr
+10. wget http://archive.apache.org/dist/lucene/solr/4.10.0/solr-4.10.0.tgz
+11. tar -zxvf solr-4.10.0.tgz
+12. cd solr-4.10.0/example/
+13. Run Solr once to test out of the box solr is working
+	* Make sure Java 1.7 is installed and you setup JAVA_HOME env variable like:
+		* export JAVA_HOME=/usr/jdk64/jdk1.7.0_67
+		* $JAVA_HOME/bin/java -jar start.jar
+	* Go to your browser and hit the Solr admin url: [SOLR_HOS]:8983/solr/
+	* Verify the Solr Admin Console comes up
+	* go back to your terminal and do a "ctrc"" c to to stop the solr jetty process
+			
 
+		
+##### Install &  Configure Banana
+We are going to install [Banana Web App](https://github.com/LucidWorks/banana) within the existing Sorl Instance.
+1. Read Through [Banana README](https://github.com/LucidWorks/banana) to get a understand of what we be doing below
+2. su solr
+3. cd workspace/solr
+4. wget https://github.com/LucidWorks/banana/archive/v1.5.0.tar.gz
+5. tar -zxvf v1.5.0.tar.gz 
+6. cd banana-1.5.0/
+7. Configure Banana to point to where Solr is running:
+	* vi src/config.js and configure the proeprty "solr"" to your solr host
+		* e.g: solr: "http://iot10.cloud.hortonworks.com:8983/solr/"
+	* vi vi src/app/dashboards/default.json and modify the "server" property to the solr host
+		* e.g: "server": "http://iot10.cloud.hortonworks.com:8983/solr/"
+8. Copy the banana web app into the solr jetty instance
+	* cd workspace/solr
+	* cp -R  banana-1.5.0/ solr-4.10.0/example/solr-webapp/webapp/
+10. Start Solr and Verify you can access the Banana dashboard
+	* cd workspace/solr/solr-4.10.0/example
+	* $JAVA_HOME/bin/java -jar start.jar
+	* Go to your browser and hit the Solr admin url: [SOLR_HOST]:8983/solr/banana-1.5.0/src/index.html#/dashboard
+	* Verify the dashboard comes up
+	* Go back to your terminal and do a "ctrc c" to to stop the solr jetty process
+	
 
+##### Configure Banana to to Store Dashboards in Solr
+The below set of steps allows you to save and load banana dashbaords from Solr.
+1. cd workspace/solr
+2. Copy the banana collection config into solr
+	* cp -R  banana-1.5.0/resources/banana-int-solr-4.5/banana-int/ solr-4.10.0/example/solr/
+3. Start Solr
+	* cd workspace/solr/solr-4.10.0/example/
+	* $JAVA_HOME/bin/java -jar start.jar
+4. Create a new Solr Core/Collection for Banana to Save dashboards
+	* Go the Solr Admin Console: [SOLR_HOS]:8983/solr/
+	* Click on ""Core Admin" Tab on the left and you should see the banana-int core
+	* Go back to your terminal and do a "ctr c" c to to stop the solr jetty process
+	
+	
+##### Configure Solr to index Trucking Event Data
+Lets now configure solr to be able to index trucking event data by adding a new collection and a schema
+1. Create a new core/collection for trucking event data from an existing example core:
+	* cd workspace/solr/solr-4.10.0/example/solr
+	* mkdir truck_event_logs
+	* cp -ra workspace/solr/solr-4.10.0/example/solr/collection1/conf/ workspace/solr/solr-4.10.0/example/solr/truck_event_logs/conf
+
+2. Replace the example's schema.xml with the schema.xml for trucking events
+	* cd workspace/solr/solr-4.10.0/example/solr/truck_event_logs/conf
+	* rm -fr schema.xml
+	* copy the contents of this schema.xml into new schema.xml in that directory
+	
+	
+	
 ### Install & Configure ActiveMQ 5.9.8
 ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time
 Do the following the edge Node:
@@ -293,6 +362,8 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 
 
 1. cd workspace/hdp/app-utils/hdp-app-utils
+2. Setup the JAVA_HOME variable
+	* export JAVA_HOME=/usr/jdk64/jdk1.7.0_67
 2. mvn clean install -DskipTests=true
 	* This will build set of hdp app utilities required for the iot-trucking app
 3. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal 
