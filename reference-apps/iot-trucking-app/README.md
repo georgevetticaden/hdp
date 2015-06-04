@@ -286,6 +286,7 @@ Create the Kafka Topic required by the application:
 		
 ##### Install &  Configure Banana
 We are going to install [Banana Web App](https://github.com/LucidWorks/banana) within the existing Sorl Instance.
+
 1. Read Through [Banana README](https://github.com/LucidWorks/banana) to get a understand of what we be doing below
 2. su solr
 3. cd workspace/solr
@@ -310,6 +311,7 @@ We are going to install [Banana Web App](https://github.com/LucidWorks/banana) w
 
 ##### Configure Banana to to Store Dashboards in Solr
 The below set of steps allows you to save and load banana dashbaords from Solr.
+
 1. cd workspace/solr
 2. Copy the banana collection config into solr
 	* cp -R  banana-1.5.0/resources/banana-int-solr-4.5/banana-int/ solr-4.10.0/example/solr/
@@ -324,6 +326,7 @@ The below set of steps allows you to save and load banana dashbaords from Solr.
 	
 ##### Configure Solr to index Trucking Event Data
 Lets now configure solr to be able to index trucking event data by adding a new collection and a schema
+
 1. Create a new core/collection for trucking event data from an existing example core:
 	* cd workspace/solr/solr-4.10.0/example/solr
 	* mkdir truck_event_logs
@@ -338,6 +341,7 @@ Lets now configure solr to be able to index trucking event data by adding a new 
 	* Start up Solr Server as a background process
 		* cd workspace/solr/solr-4.10.0/example/
 		* nohup $JAVA_HOME/bin/java -jar start.jar &
+	* Add new Core
 		* Go the Solr Admin Console: [SOLR_HOS]:8983/solr/
 		* Click on ""Core Admin" Tab  --> Select "Add Core"
 		* Configure the core as the following:
