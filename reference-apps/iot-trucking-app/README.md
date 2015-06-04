@@ -332,9 +332,27 @@ Lets now configure solr to be able to index trucking event data by adding a new 
 2. Replace the example's schema.xml with the schema.xml for trucking events
 	* cd workspace/solr/solr-4.10.0/example/solr/truck_event_logs/conf
 	* rm -fr schema.xml
-	* copy the contents of this schema.xml into new schema.xml in that directory
+	* copy the contents of this [schema.xml](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/solr/schema.xml) into new schema.xml in that directory
 	
-	
+3. Add new solr core called truck-event-data via the Solr Admin
+	* Start up Solr Server as a background process
+		* cd workspace/solr/solr-4.10.0/example/
+		* nohup $JAVA_HOME/bin/java -jar start.jar &
+		* Go the Solr Admin Console: [SOLR_HOS]:8983/solr/
+		* Click on ""Core Admin" Tab  --> Select "Add Core"
+		* Configure the core as the following:
+			* name = truck_event_logs
+			* instanceDir = /[REPLACE_WITH_YOUR_BASE_DIR]/workspace/solr/solr-4.10.0/example/solr/truck_event_logs
+			* dataDir = data
+			* config = solrconfig.xml
+			* schem = schema.xml
+		* Select "Add Core" and you should see a new core claled truck_event_logs
+		
+4. Leave the solr server process running in the backgroud.
+	* If for some reason you need to kill it, do the following:
+		* ps -ef | grep solr
+		* kill <process_id>
+		
 	
 ### Install & Configure ActiveMQ 5.9.8
 ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time

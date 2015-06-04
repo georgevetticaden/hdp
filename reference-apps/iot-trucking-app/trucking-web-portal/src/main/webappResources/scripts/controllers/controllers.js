@@ -146,17 +146,17 @@ angular.module('mvcRestBaseApp')
 			$scope.initModel = function() {
 				$scope.registryParams = {};
 					
-				$scope.registryParams.ambariUrl = 'http://centralregion01.cloud.hortonworks.com:8080'
-				$scope.registryParams.clusterName="centralregioncluster";
+				$scope.registryParams.ambariUrl = ''
+				$scope.registryParams.clusterName="";
 				
-				$scope.registryParams.hbaseSliderPublisherUrl="http://centralregion09.cloud.hortonworks.com:34112/ws/v1/slider/publisher";
+				$scope.registryParams.hbaseSliderPublisherUrl="";
 				$scope.registryParams.hbaseDeploymentMode="SLIDER";
 				
-				$scope.registryParams.stormSliderPublisherUrl="http://centralregion09.cloud.hortonworks.com:56232/ws/v1/slider/publisher";
+				$scope.registryParams.stormSliderPublisherUrl="";
 				$scope.registryParams.stormDeploymentMode="SLIDER";
 				
-				$scope.registryParams.activeMQHost ="george-activemq01.cloud.hortonworks.com";
-				$scope.registryParams.solrServerUrl="http://vett-search01.cloud.hortonworks.com:8983/solr";
+				$scope.registryParams.activeMQHost ="";
+				$scope.registryParams.solrServerUrl="";
 			};
 			
 			$scope.configureEndpoints = function(registryParams) {
