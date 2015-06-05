@@ -263,7 +263,7 @@ Create the Kafka Topic required by the application:
 
 ##### Install Solr (Single Node)
 1. Read through [Solr Ref Guide](https://archive.apache.org/dist/lucene/solr/ref-guide/apache-solr-ref-guide-4.10.pdf) to get an understanding of what we will be doing below. 
-2. Log into the node where you installed the Maven Projects in the earlier step as root
+2. Log into the edge node where you installed the Maven Projects in the earlier step as root
 3. cd workspace 
 4. mkdir solr
 5. adduser solr
@@ -362,10 +362,14 @@ Lets now configure solr to be able to index trucking event data by adding a new 
 ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time
 Do the following the edge Node:
 
-1. wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-activemq-5.9.0-bin.tar.gz
-2. Untar the binary
+1. Log into the node where you installed the Maven Projects in the earlier step as root
+2. cd workspace
+3. mkdir activemq
+4. cd activemq
+5. wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-activemq-5.9.0-bin.tar.gz
+2. tar -zxvf apache-activemq-5.9.0-bin.tar.gz
 3. Start ActiveMQ by running the following: 
-apache-activemq-5.9.0/bin/activemq start xbean:file:/mnt/activemq/apache-activemq-5.9.0/conf/activemq.xml
+apache-activemq-5.9.0/bin/activemq start xbean:file:workspace/activemq/apache-activemq-5.9.0/conf/activemq.xml
 4. Verify it is up by running:
 activemq/apache-activemq-5.9.0/bin/activemq status
 
