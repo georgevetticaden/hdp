@@ -5,6 +5,7 @@ package hortonworks.hdp.refapp.trucking.config.web;
 import hortonworks.hdp.apputil.registry.HDPServiceRegistry;
 import hortonworks.hdp.refapp.trucking.config.app.AppConfig;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,13 +41,13 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		StompBrokerRelayRegistration registration = registry.enableStompBrokerRelay("/queue", "/topic");
-//		String activeMQHost = serviceRegistry.getCustomValue("trucking.activemq.host");
-//		if(StringUtils.isEmpty(activeMQHost)) {
-//			String errMsg = "Property[trucking.activemq.host] in ref-app-hdp-service-config.properties must be configured for WebSocket";
-//			LOG.error(errMsg);
-//			throw new  RuntimeException(errMsg);
-//		}
-		registration.setRelayHost("george-activemq01.cloud.hortonworks.com");
+		String activeMQHost = System.getProperty("trucking.activemq.host");
+		if(StringUtils.isEmpty(activeMQHost)) {
+			String errMsg = "Property[trucking.activemq.host] in ref-app-hdp-service-config.properties must be configured for WebSocket";
+			LOG.error(errMsg);
+			throw new  RuntimeException(errMsg);
+		}
+		registration.setRelayHost(activeMQHost);
 		registration.setRelayPort(61613);
 		registry.setApplicationDestinationPrefixes("/app");
 	}

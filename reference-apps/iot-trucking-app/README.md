@@ -362,30 +362,39 @@ Lets now configure solr to be able to index trucking event data by adding a new 
 ActiveMQ is required for the Storm Topology to push alerts to and for the trucking-web-portal's websocket connection to show driver events in real-time
 Do the following the edge Node:
 
+##### Install ActiveMQ
 1. Log into the node where you installed the Maven Projects in the earlier step as root
 2. cd workspace
 3. mkdir activemq
 4. cd activemq
 5. wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-activemq-5.9.0-bin.tar.gz
 2. tar -zxvf apache-activemq-5.9.0-bin.tar.gz
-3. Start ActiveMQ by running the following: 
-apache-activemq-5.9.0/bin/activemq start xbean:file:workspace/activemq/apache-activemq-5.9.0/conf/activemq.xml
+
+
+##### Configur and Start ActiveMQ
+1. cd workspace/activemq/apache-activemq-5.9.0/conf
+2. Replace the activemq.xml file with this [activemq.xml](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/activemq/activemq.xml). 
+3. Start ActiveMQ with this config
+	* cd workspace/activemq/apache-activemq-5.9.0/bin
+	* ./activemq start xbean:file:workspace/activemq/apache-activemq-5.9.0/conf/activemq.xml
 4. Verify it is up by running:
-activemq/apache-activemq-5.9.0/bin/activemq status
+	* activemq/apache-activemq-5.9.0/bin/activemq status
+	* Hit the activeMQ console (credentials: admin/admin): 
+		e.g:  http://[REPlACE_WITH_HOSTNAME]:8161/admin/topics.jsp
+5. Leave ActiveMQ running
 
 
 
 
-### Build and Run The trucking-web-portal Application
+### Build and Run The IOT Web Portal Application
 The trucking web portal is the front end app to the trucking IOT application that does the following:
 
 1. Deploys the storm topology to the storm cluster
 2. Generate streams of trucking data from different trucks
 3. Renders a map with the real-time trucking data that is flowing through STorm and into HBase. 
 
-#####  Build the Code
+#####  Build and Configure the IOT Web Portal
 Log into the node where you installed the Maven Projects in the earlier step as root
-
 
 1. cd workspace/hdp/app-utils/hdp-app-utils
 2. Setup the JAVA_HOME variable
@@ -398,18 +407,41 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 	* cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
 	* Open file called ref-app-hdp-service-config.properties and configure the following properties:
 		* trucking.activemq.host --> set this to the host where you installed and running activemq
-		* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
+		* trucking.notification.topic.connection.url --> replace the host with the host for your activemq instance
+		* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology 			* (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
 )
-6. cd workspace/hdp/reference-apps/iot-trucking-app
-7. mvn clean install -DskipTests=true
+
+#####  Start the IOT Web Portal Application Server
+
+1. cd workspace/hdp/reference-apps/iot-trucking-app
+2. Ensure that you set JAVA_HOME env variable to a 1.7:
+	* e.g: export JAVA_HOME=/usr/jdk64/jdk1.7.0_67
+3. mvn clean install -DskipTests=true
 	* Build will take a few minutes. This will build all the components for the iot-trucking-app
-8. cd trucking-web-portal
-9. nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry &
-10. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
+4. cd trucking-web-portal
+5. Run the following command to start the portal jetty server. Replace the activemq host var with your host
+	* nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry -Dtrucking.activemq.host=[REPLACE_WITH_THE_FQDN_OF_ACTIVEMQ_HOST] &
+
+
+##### Configure the Endpoints for the App, Generate Truck Events and View Real-time Alerts
+
+1. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 
 ![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
 
-11.Configure the Application with HDP Service Endpoints:
+2. Click the link "Configure HDP Service Endpoints" to Configure the Application with HDP Service Endpoints:
+	* Set the Following properties:
+		* Ambari Server URL = the ambari server url with port
+		* Cluster Name = the name you gave to the ambari cluster
+		* Set HBase Deployment Option to defaulted as "Slider"
+		* Slider HBase Publisher URL = Find this value by doing the following:
+			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider View
+			* Quick Links --> Yarn Application --> Application Master
+			* Search for the publisher URL. 
+				* e.g:  http://iot08.cloud.hortonworks.com:58654/ws/v1/slider/publisher
+			
+	* 
+
 
 ![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint.png)
 
