@@ -401,7 +401,10 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 	* export JAVA_HOME=/usr/jdk64/jdk1.7.0_67
 2. mvn clean install -DskipTests=true
 	* This will build set of hdp app utilities required for the iot-trucking app
-3. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal 
+3. cd workspace/hdp/iot…
+4.  mvn clean install -DskipTests=true
+	* This will build all the related projects associated the iot app
+5. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal 
 4. sudo bower --allow-root update
 5. Edit properites file for the app:
 	* cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
@@ -420,7 +423,7 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 	* Build will take a few minutes. This will build all the components for the iot-trucking-app
 4. cd trucking-web-portal
 5. Run the following command to start the portal jetty server. Replace the activemq host var with your host
-	* nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry -Dtrucking.activemq.host=[REPLACE_WITH_THE_FQDN_OF_ACTIVEMQ_HOST] &
+	* nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry -Dtrucking.activemq.host=[REPLACE_WITH_THE_FQDN_OF_ACTIVEMQ_HOST] &
 
 
 ##### Configure the Endpoints for the App, Generate Truck Events and View Real-time Alerts
