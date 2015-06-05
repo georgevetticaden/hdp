@@ -145,7 +145,12 @@ The following are the steps to configure the CS Queues as described above.
 6. Call the python script that configure the capacity scheduler queue via Ambari APIs:
 	* python3 main_updateCSQueue.py 
 7. Update the the following yarn config property (in scheduler stab)and restart the Yarn service
-	* yarn.scheduler.minimum-allocation-mb = 682	
+	* yarn.scheduler.minimum-allocation-mb = 682
+8. Verify the queue configuration by doing the following:
+	* Ambari --> Yarn --> ResourceManager UI --> Scheduler
+	* The Queue configuration shoudl look like something like this:
+
+![Queue Configuration](readme-design-artifacts/iot-trucking-cluster-Capacity Scheduler.png)	
 
 
 ### Slider Setup
@@ -429,30 +434,37 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 ##### Configure the Endpoints for the App, Generate Truck Events and View Real-time Alerts
 
 1. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
-
 ![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
-
 2. Click the link "Configure HDP Service Endpoints" to Configure the Application with HDP Service Endpoints:
 	* Set the Following properties:
 		* Ambari Server URL = the ambari server url with port
 		* Cluster Name = the name you gave to the ambari cluster
 		* Set HBase Deployment Option to defaulted as "Slider"
 		* Slider HBase Publisher URL = Find this value by doing the following:
-			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider View
+			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider App
 			* Quick Links --> Yarn Application --> Application Master
 			* Search for the publisher URL. 
 				* e.g:  http://iot08.cloud.hortonworks.com:58654/ws/v1/slider/publisher
-			
-	* 
-
-
+		* Slider Storm Publisher URL = Find this value by doing the following:
+			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider App
+			* Quick Links --> Yarn Application --> Application Master
+			* Search for the publisher URL. 
+				* e.g:  http://iot08.cloud.hortonworks.com:44070/ws/v1/slider/publisher
+		* ActiveMq host = the FQDN of the host where activemq running
+			* e.g: iot10.cloud.hortonworks.com
+		* Solr Server URL = the url to where solr is running
+			* e.g: http://iot10.cloud.hortonworks.com:8983/solr
+	* See the below for example configuration:
 ![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint.png)
-
-12.Generate the Truck Event Streams
-
-![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams.png)
-
-13.View Truck Alerts
+3. Deploy the Storm Topology
+	* Click the Home Button
+	* Click the "Deploy the Storm Toplogy" link. This will take a few minutes but it will deploy the storm Topology to the storm framework on the cluster
+4. Generate The Truck Event Streams
+	* Click the "Truck Monitoring Application" Link
+	* After the page renders and initializes (about 15 seconds), the "Generate Truck Events" button will be enabled and then click it
+5. View Real-time trucking data
+	* You should now start to see the real-time trucking data and alerts on the map.
+	* See pic below for an example:
 
 ![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-poratl-Generate Truck Streams-Alerts.png)
 
