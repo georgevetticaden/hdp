@@ -15,6 +15,10 @@ import hortonworks.hdp.apputil.slider.storm.StormSliderUtilsTest;
 public abstract class BaseUtilsTest {
 
 	
+	public static final String AMBARI_CLUSTER_NAME = "julycluster";
+	public static final String AMBARI_SERVER_URL = "http://julycluster01.cloud.hortonworks.com:8080";
+
+
 	@Before
 	public void setUpSystemRegistryConfigDirectoryLocation() {
 		//default to relative path
@@ -27,9 +31,20 @@ public abstract class BaseUtilsTest {
 	}		
 	
 	public static final String DEFAULT_CONFIG_FILE_NAME = "hdp-service-config.properties";	
-	private static final String AMBARI_SERVER_URL = "http://centralregion01.cloud.hortonworks.com:8080";
-
 	
+	
+	protected HDPServiceRegistry createHDPServiceRegistry(ServiceRegistryParams serviceRegistryParams) throws Exception {
+		
+		String serviceRegistryPropertyFileLocation = System.getProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY);
+		if(StringUtils.isEmpty(serviceRegistryPropertyFileLocation)) {
+			throw new RuntimeException("To run this Test, you need to configured a system property called["+ RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY + "] " 
+					+ "that points to he location where your registry config directory is located[e.g: /Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sedev/coe/hdp-app-utils/src/test/resources/registry]");
+		}
+		
+		HDPServiceRegistry serviceRegistry = new HDPServiceRegistryImpl();
+		serviceRegistry.populate(serviceRegistryParams);
+		return serviceRegistry;
+	}	
 	
 	protected HDPServiceRegistry createHDPServiceRegistryWithAmbariAndSliderParams(String configFileName, boolean isAbsolutePath) throws Exception {
 		
@@ -43,6 +58,8 @@ public abstract class BaseUtilsTest {
 		serviceRegistry.populate(createServiceRegistryParamsWithAmbariAndSlider());
 		return serviceRegistry;
 	}	
+	
+	
 	
 	
 	protected HDPServiceRegistry createHDPServiceRegistryWithEmptyParams(String configFileName, boolean isAbsolutePath) throws Exception {
@@ -62,7 +79,7 @@ public abstract class BaseUtilsTest {
 	private ServiceRegistryParams createServiceRegistryParamsWithAmbariAndSlider() {
 		ServiceRegistryParams params = new ServiceRegistryParams();
 		params.setAmbariUrl(AMBARI_SERVER_URL);
-		params.setClusterName("centralregioncluster");
+		params.setClusterName(AMBARI_CLUSTER_NAME);
 		
 		params.setStormDeploymentMode(DeploymentMode.SLIDER);
 		params.setStormSliderPublisherUrl(StormSliderUtilsTest.SLIDER_STORM_PUBLISHER_URL);
@@ -72,6 +89,8 @@ public abstract class BaseUtilsTest {
 		
 		return params;
 	}	
+	
+	
 	
 	private ServiceRegistryParams createEmptyServiceRegistryParams() {
 		ServiceRegistryParams params = new ServiceRegistryParams();		
