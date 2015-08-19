@@ -384,7 +384,7 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 					LOG.info("Populating Storm endpoints from Ambari");
 				}
 				
-				stormNimbusHost = ambariService.getStormNimbusHost();
+				stormNimbusHost = ambariService.getStormNimbusHostList().get(0);
 				stormNimbusPort = ambariService.getStormNimbusPort();
 				stormUIServer = ambariService.getStormUIServer();
 				stormUIPort = ambariService.getStormUIPort();

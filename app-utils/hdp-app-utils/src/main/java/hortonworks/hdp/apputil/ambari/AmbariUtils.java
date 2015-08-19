@@ -73,8 +73,21 @@ public class AmbariUtils {
 		return getLatestConfigurationValueFor("storm-site", "nimbus.thrift.port");
 	}
 	
-	public String getStormNimbusHost() throws Exception {
-		return getLatestConfigurationValueFor("storm-site", "nimbus.host");
+	public List<String> getStormNimbusHostList() throws Exception {
+		String nimbusHostListString =  getLatestConfigurationValueFor("storm-site", "nimbus.seeds");
+		String parsedNimbustListString = nimbusHostListString.replace("[", "").replace("]", "");
+		
+		
+		String[] nimbusHostListAsArray = parsedNimbustListString.split(",");
+		List<String> nimbusHostList = new ArrayList<String>();
+		
+		if(nimbusHostListAsArray != null) {
+			for(String nimbusHost: nimbusHostListAsArray) {
+				String nimbusHostParsed = nimbusHost.replace("'", "");
+				nimbusHostList.add(nimbusHostParsed);
+			}
+		}
+		return nimbusHostList;
 	}	
 	
 	public String getStormUIServer() throws Exception {
@@ -181,16 +194,16 @@ public class AmbariUtils {
 	private String getLatestConfigurationValueFor(String configurationType, String property) throws Exception {
 		String actionUrl = "/configurations?type="+configurationType;
 		String restUrl = constructRESTUrl(actionUrl);
-		List<Map<String, Object>> hbaseConfig = (List<Map<String, Object>>)executeRESTGetCall(restUrl).get("items");
+		List<Map<String, Object>> config = (List<Map<String, Object>>)executeRESTGetCall(restUrl).get("items");
 		
-		restUrl = (String) hbaseConfig.get(hbaseConfig.size()-1).get("href");
+		restUrl = (String) config.get(config.size()-1).get("href");
 		
 		
 
-		Map<String, Object> hbasePropertiesMap = executeRESTGetCall(restUrl);
-		List<Map<String, Object>> hbasePropertiesList = (List<Map<String, Object>>) hbasePropertiesMap.get("items");
-		Map<String, String> hbaseProperties =  (Map<String, String>) hbasePropertiesList.get(0).get("properties");
-		return hbaseProperties.get(property);
+		Map<String, Object> propertiesMap = executeRESTGetCall(restUrl);
+		List<Map<String, Object>> propertiesList = (List<Map<String, Object>>) propertiesMap.get("items");
+		Map<String, String> properties =  (Map<String, String>) propertiesList.get(0).get("properties");
+		return properties.get(property);
 	}
 	
 	

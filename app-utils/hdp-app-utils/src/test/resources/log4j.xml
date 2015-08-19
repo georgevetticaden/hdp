@@ -24,6 +24,10 @@
 		</layout>	
 	</appender>
 	
+	<logger name="org.springframework.web.client">
+		<level value="debug"/>
+	</logger>
+	
 	<logger name="hortonworks.hdp.apputil">
 		<level value="info" />
 	</logger>	

@@ -11,13 +11,14 @@ import org.junit.Test;
 
 public class AmbariUtilsTest {
 	
-	private static final String AMBARI_URL = "http://centralregion01.cloud.hortonworks.com:8080/api/v1/clusters/centralregioncluster";
+	private static final String AMBARI_URL = "http://julycluster01.cloud.hortonworks.com:8080/api/v1/clusters/julycluster";
+	//private static final String AMBARI_URL = "http://10.22.0.210:8080/api/v1/clusters/opensoc";
 	
 	private static final Logger LOG = Logger.getLogger(AmbariUtils.class);
 	AmbariUtils ambariService = new AmbariUtils(AMBARI_URL); 
 		
 
-	//@Test
+	@Test
 	public void getHBaseZookeeperQuorum() throws Exception {
 		List<String> quorumList = ambariService.getHBaseZookeeperQuorum();
 		assertThat(quorumList.size(), is(3));
@@ -27,37 +28,37 @@ public class AmbariUtilsTest {
 			
 	}
 	
-	//@Test
+	@Test
 	public void getHBaseZookeeperCientPort() throws Exception {
 		assertThat(ambariService.getHBaseZookepperCientPort(), is("2181"));
 	}
 	
-	//@Test
+	@Test
 	public void getHBaseZookeeperParentNode() throws Exception {
 		assertThat(ambariService.getHBaseZookeeperParentNode(), is("/hbase-unsecure"));
 	}	
 	
-	//@Test
+	@Test
 	public void getStormZookeeperQuorum() throws Exception{
-		assertThat(ambariService.getStormZookeeperQuorum(), is("['vett-cluster01.cloud.hortonworks.com','vett-cluster02.cloud.hortonworks.com','vett-cluster03.cloud.hortonworks.com']"));
+		assertThat(ambariService.getStormZookeeperQuorum(), is("['julycluster02.cloud.hortonworks.com','julycluster01.cloud.hortonworks.com','julycluster03.cloud.hortonworks.com']"));
 	}
 	
-	//@Test
+	@Test
 	public void getStormNimbusPort() throws Exception{
 		assertThat(ambariService.getStormNimbusPort(), is("6627"));
 	}	
 	
-	//@Test
+	@Test
 	public void getStormNimbusHost() throws Exception{
-		assertThat(ambariService.getStormNimbusHost(), is("vett-cluster02.cloud.hortonworks.com"));
+		assertThat(ambariService.getStormNimbusHostList().get(0), is("julycluster02.cloud.hortonworks.com"));
 	}	
 	
-	//@Test
+	@Test
 	public void getStormUIServerHost() throws Exception {
 		assertThat(ambariService.getStormUIServer(), is("vett-cluster02.cloud.hortonworks.com"));
 	}
 	
-	//@Test
+	@Test
 	public void getStormUIPort() throws Exception {
 		assertThat(ambariService.getStormUIPort(), is("8744"));
 	}	
@@ -110,9 +111,9 @@ public class AmbariUtilsTest {
 	@Test
 	public void getKafkaBrokerList() throws Exception  {
 		List<String> kafkaHosts = ambariService.getKafkaBrokerList();
-		assertThat(kafkaHosts.size(), is(2));
-		assertTrue(kafkaHosts.contains("centralregion01.cloud.hortonworks.com"));
-		assertTrue(kafkaHosts.contains("centralregion02.cloud.hortonworks.com"));
+		LOG.info(kafkaHosts);
+		assertThat(kafkaHosts.size(), is(1));
+		assertTrue(kafkaHosts.contains("julycluster01.cloud.hortonworks.com"));
 	}
 	
 	@Test
