@@ -31,10 +31,9 @@ This project is meant to be a reference application/assembly for an IOT use case
 
 1. **ecm-core** - Core capabilities/APIs for the DocumentStore and IndexStore. This will be used by the streaming and online applications.
 2. **ecm-streaming** - Storm Topology for the Document Porcessing. Uses ecm-core to interact with Index and Image Store
-3. **ecm-web** - Exposes REST-Ful APIs on top of ecm-core. Also provides a web portal to upload, download and search for documents
-4. **ecm-ambari-view** - An Ambari View for the the ECM Reference App
-5. **ecm-ingestion** - Provides ingestion utilities such as: Custom Kafka Flume Sink that supports storing a serialized "DocumentUpdateRequest" object and Customer Flume DocumentInterceptor that extracts metadata of the document from the file name
-6. **ecm-common** - Common Classes used by the above 4 projects including: Common API DTO classes and Common Utilities
+3. **ecm-ambari-view** - An Ambari View for the the ECM Reference App
+4. **ecm-ingestion** - Provides ingestion utilities such as: Custom Kafka Flume Sink that supports storing a serialized "DocumentUpdateRequest" object and Customer Flume DocumentInterceptor that extracts metadata of the document from the file name
+5. **ecm-common** - Common Classes used by the above 4 projects including: Common API DTO classes and Common Utilities
 
 # Architecture around the Core Document and Indexing Services
 The below UML class diagram demonstrates how the different projects are used together.
