@@ -14,7 +14,7 @@ Hence this solution is a classic Hbase+Solr model to implement the search applic
 
 The following diagram provides more details on this Ref Architecture:
 
-![Architecture Diagram](ecm-ref-arch.png)
+![Architecture Diagram](ecm-common/ecm-ref-arch.png)
 
 ## Business Use Case Setup
 
@@ -38,4 +38,4 @@ This project is meant to be a reference application/assembly for an IOT use case
 # Architecture around the Core Document and Indexing Services
 The below UML class diagram demonstrates how the different projects are used together.
 
-![Architecture Diagram](uml-architecture.png)
+![Architecture Diagram](ecm-common/uml-architecture.png)
