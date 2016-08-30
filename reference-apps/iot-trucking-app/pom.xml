@@ -55,7 +55,13 @@
         <repository>
             <id>hortonworks</id>
             <url>http://repo.hortonworks.com/content/repositories/releases/</url>
-        </repository>		
+        </repository>	
+       <!-- Need to add the followign public repo because of jetty 6.1.26.hwx compilation error -->		
+		<repository>
+			<id>hortonworks-public</id>
+			<name>Hortonworks Public</name>
+			<url>http://repo.hortonworks.com/content/groups/public/</url>
+		</repository>         	
 	</repositories>
 
 
