@@ -1,8 +1,8 @@
 # Reference Architecture
 The High Level Reference Architecture consists of the following: 
 
-1. **HBase** - as the system of record for the documents/images including thumbnails.  We will be working with our HBase engineering team on some enhancements to make this work performant. 
-2. **SOLR** - acting as the system of record for the the metadata and providing the indexing and searching capabilities. We will be working with some experts from Lucidworks to make this performant. 
+1. **HBase** - as the system of record for the documents/images including thumbnails. 
+2. **SOLR** - acting as the system of record for the the metadata and providing the indexing and searching capabilities.
 3. When a user queries  for a content via metadata, we will use Solr to query the index. The  solr query will return a unique hbase row key which will be used to quickly retrieve the image from Hbase. 
 3. **Kafka** - Documents will be pushed to Kafka for Streaming, Batch and B2B integration
 4. **Spring Data Solr ** - Set of scripts to setup the cluster
@@ -14,7 +14,7 @@ Hence this solution is a classic Hbase+Solr model to implement the search applic
 
 The following diagram provides more details on this Ref Architecture:
 
-![Architecture Diagram](ecm-ref-arch.png)
+![Architecture Diagram](ecm-common/ecm-ref-arch.png)
 
 ## Business Use Case Setup
 
@@ -38,4 +38,4 @@ This project is meant to be a reference application/assembly for an IOT use case
 # Architecture around the Core Document and Indexing Services
 The below UML class diagram demonstrates how the different projects are used together.
 
-![Architecture Diagram](uml-architecture.png)
+![Architecture Diagram](ecm-common/uml-architecture.png)
