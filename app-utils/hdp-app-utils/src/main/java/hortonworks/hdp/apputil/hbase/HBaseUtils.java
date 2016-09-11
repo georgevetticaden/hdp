@@ -14,13 +14,15 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HConnection;
 import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTable;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class HBaseUtils {
 	
 	private HDPServiceRegistry registry;
 	
-	private static final Logger LOG = Logger.getLogger(HBaseUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HBaseUtils.class);
 
 	public HBaseUtils(HDPServiceRegistry registry) {
 		this.registry = registry;

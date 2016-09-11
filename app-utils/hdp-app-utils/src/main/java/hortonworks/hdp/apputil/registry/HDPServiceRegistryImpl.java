@@ -19,7 +19,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 
-	private static final Logger LOG = Logger.getLogger(HDPServiceRegistryImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HDPServiceRegistryImpl.class);
 	//private static final String DEFAULT_CONFIG_NAME = "hdp-service-config.properties";
 	
 	private Map<String, String> registry = new HashMap<String, String>();

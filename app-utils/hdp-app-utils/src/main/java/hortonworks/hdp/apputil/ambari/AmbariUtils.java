@@ -9,7 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AmbariUtils {
 
-	private static final Logger LOG = Logger.getLogger(AmbariUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AmbariUtils.class);
 	private RestTemplate restTemplate;
 	private ObjectMapper mapper;
 	private String ambariRESTUrl;

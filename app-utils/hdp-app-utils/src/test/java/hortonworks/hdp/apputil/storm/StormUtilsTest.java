@@ -13,12 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-
-import backtype.storm.generated.StormTopology;
-import backtype.storm.generated.TopologySummary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.generated.TopologySummary;
 
 
 public class StormUtilsTest extends BaseUtilsTest {
@@ -26,7 +26,7 @@ public class StormUtilsTest extends BaseUtilsTest {
 	private static final String STORM_CONFIG_LOCATION = "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sedev/coe/hdp-app-utils/src/test/resources/storm/storm-topology-config.properties";
 	private static final String ACTIVE_MQ_CONNECTION_URL = "tcp://george-activemq01.cloud.hortonworks.com:61616";
 	private static final String TOPOLOGY_NAME = "truck-event-processor";
-	private static final Logger LOG = Logger.getLogger(StormUtilsTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StormUtilsTest.class);
 	private static final String SOLR_SERVER_URL = "http://george-search01.cloud.hortonworks.com:8983/solr";
 	private static final String STORM_TOPOLOGY_KEY = "storm.topology.jar";
 

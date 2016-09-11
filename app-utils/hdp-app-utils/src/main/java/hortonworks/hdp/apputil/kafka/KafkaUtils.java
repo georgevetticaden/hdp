@@ -10,10 +10,12 @@ import java.util.Set;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.serialize.ZkSerializer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import scala.collection.Map;
 import kafka.admin.AdminUtils;
+import kafka.admin.RackAwareMode;
 import kafka.utils.ZKStringSerializer$;
 import kafka.utils.ZkUtils;
 import scala.collection.JavaConversions;
@@ -21,7 +23,7 @@ import scala.collection.JavaConversions;
 public class KafkaUtils {
 
 	
-	private static final Logger LOG = Logger.getLogger(KafkaUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(KafkaUtils.class);
 	
 	private HDPServiceRegistry serviceRegistry;
 
@@ -31,12 +33,11 @@ public class KafkaUtils {
 		this.serviceRegistry = serviceRegistry;
 	}
 
-	public void createTopic(String topicName, int replicationFactor, int numPartitions) {
-		ZkClient client = createZookepperClient();
-		Properties topologyConfig = new Properties();
-		AdminUtils.createTopic(client, topicName, numPartitions, replicationFactor, topologyConfig);
-		
-	}
+//	public void createTopic(String topicName, int replicationFactor, int numPartitions) {
+//		ZkClient client = createZookepperClient();
+//		Properties topologyConfig = new Properties();
+//		AdminUtils.createTopic(client, topicName, numPartitions, replicationFactor, topologyConfig, new RackAwareMode.Disabled$());
+//	}
 
 	public void deleteTopic(String topicName) {
 		ZkClient client = createZookepperClient();
@@ -44,17 +45,17 @@ public class KafkaUtils {
 		client.deleteRecursive(ZkUtils.getTopicPath(topicName));
 	}
 	
-	public Set<String> getTopics() {
-		ZkClient zClient = createZookepperClient();
-		Map<String, Properties> topicsScala = AdminUtils.fetchAllTopicConfigs(zClient);
-		java.util.Map<String, Properties> topics = JavaConversions.asJavaMap(topicsScala);
-		
-		Set<String> topicNames = new HashSet<String>();
-		for(String key: topics.keySet()) {
-			topicNames.add(key);
-		}
-		return topicNames;
-	}
+//	public Set<String> getTopics() {
+//		ZkClient zClient = createZookepperClient();
+//		Map<String, Properties> topicsScala = AdminUtils.fetchAllTopicConfigs(zClient);
+//		java.util.Map<String, Properties> topics = JavaConversions.asJavaMap(topicsScala);
+//		
+//		Set<String> topicNames = new HashSet<String>();
+//		for(String key: topics.keySet()) {
+//			topicNames.add(key);
+//		}
+//		return topicNames;
+//	}
 	
 	private ZkClient createZookepperClient() {
 		String zookeeperHostPort = serviceRegistry.getKafkaZookeeperHost() + ":" + serviceRegistry.getKafkaZookeeperClientPort();

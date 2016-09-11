@@ -1,6 +1,6 @@
 package hortonworks.hdp.apputil.storm;
 
-import backtype.storm.generated.StormTopology;
+import org.apache.storm.generated.StormTopology;
 
 public class StormTopologyParams {
 
@@ -9,7 +9,19 @@ public class StormTopologyParams {
 	private String topologyJarLocation;
 	private String topologyName;
 	private StormTopology topology;
+	private int numberOfWorkers;
+	private Integer eventLogExecutors;
 	
+
+	public Integer getEventLogExecutors() {
+		return eventLogExecutors;
+	}
+
+
+	public void setEventLogExecutors(Integer eventLogExecutors) {
+		this.eventLogExecutors = eventLogExecutors;
+	}
+
 
 	public void setTopologyName(String topologyName) {
 		this.topologyName = topologyName;
@@ -59,6 +71,24 @@ public class StormTopologyParams {
 
 	public void setTopology(StormTopology topology) {
 		this.topology = topology;
+	}
+
+
+
+
+	public int getNumberOfWorkers() {
+		return numberOfWorkers;
+	}
+
+
+	public void setNumberOfWorkers(int numberOfWorkers) {
+		this.numberOfWorkers = numberOfWorkers;
+	}
+
+
+	public void setTopologyEventLogExecutors(Integer executors) {
+		this.eventLogExecutors = executors;
+		
 	}
 	
 	

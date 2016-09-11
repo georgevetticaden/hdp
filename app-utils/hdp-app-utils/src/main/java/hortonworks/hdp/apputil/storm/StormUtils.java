@@ -7,21 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.json.simple.JSONValue;
-
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.KillOptions;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.generated.TopologySummary;
-import backtype.storm.utils.NimbusClient;
-import backtype.storm.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.storm.Config;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.KillOptions;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.generated.TopologySummary;
+import org.apache.storm.shade.org.json.simple.JSONValue;
+import org.apache.storm.utils.NimbusClient;
+import org.apache.storm.utils.Utils;
 
 
 public class StormUtils {
 
 	
-	private static final Logger LOG = Logger.getLogger(StormUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StormUtils.class);
 
 	private HDPServiceRegistry serviceRegistry;
 
@@ -39,6 +40,13 @@ public class StormUtils {
 
 		/* Create the storm client config */
 		Map stormClientConfiguration = constructStormClientConfig();
+		//set numberOfWorkers
+		stormClientConfiguration.put(Config.TOPOLOGY_WORKERS, topologyParams.getNumberOfWorkers());		
+		//set numberOfExecutors
+		stormClientConfiguration.put(Config.TOPOLOGY_EVENTLOGGER_EXECUTORS, topologyParams.getEventLogExecutors());
+			
+		LOG.debug("The Storm Client Configuration to deploy the topology remotely is: " + stormClientConfiguration);
+		
 		
 		/* Upload topology jar to Cluster */
 		String uploadedJarLocation;
@@ -151,10 +159,6 @@ public class StormUtils {
 		int nimbusPort = Integer.valueOf(serviceRegistry.getStormNimbusPort());
 		stormClientConfiguration.put("nimbus.thrift.port", nimbusPort);
 		
-		//set numberOfWorkers
-		//TODO: Not sure if we need to populate the number of topology workers. For not commenting out
-		//Integer topologyWorkers = Integer.valueOf(topologyConfig.getProperty("storm.trucker.topology.workers"));
-		//stormClientConfiguration.put(Config.TOPOLOGY_WORKERS, topologyWorkers);		
 		return stormClientConfiguration;
 	}
 	

@@ -22,29 +22,29 @@ public class KafkaUtilsTest extends BaseUtilsTest {
 		this.kafkaUtils = new KafkaUtils(serviceRegistry);
 	}
 	
-	@Test
-	public void testCreateAndListAndDeleteTopic() {
-		String topicName = "test_topic";
-		
-		//delete the topic first if it exists
-		kafkaUtils.deleteTopic(topicName);
-		
-		//add the topic
-		int replicationFactor = 1;
-		int numPartitions = 2;
-		kafkaUtils.createTopic(topicName, replicationFactor, numPartitions);
-		
-		//verify the topic got created
-		Set<String> topicNames = kafkaUtils.getTopics();
-		assertTrue(topicNames.contains(topicName));
-		
-		
-		//delete the topic adn verifiy it was deleted
-		kafkaUtils.deleteTopic(topicName);
-		topicNames = kafkaUtils.getTopics();
-		assertFalse(topicNames.contains(topicName));		
-		
-	}
+//	@Test
+//	public void testCreateAndListAndDeleteTopic() {
+//		String topicName = "test_topic";
+//		
+//		//delete the topic first if it exists
+//		kafkaUtils.deleteTopic(topicName);
+//		
+//		//add the topic
+//		int replicationFactor = 1;
+//		int numPartitions = 2;
+//		kafkaUtils.createTopic(topicName, replicationFactor, numPartitions);
+//		
+//		//verify the topic got created
+//		Set<String> topicNames = kafkaUtils.getTopics();
+//		assertTrue(topicNames.contains(topicName));
+//		
+//		
+//		//delete the topic adn verifiy it was deleted
+//		kafkaUtils.deleteTopic(topicName);
+//		topicNames = kafkaUtils.getTopics();
+//		assertFalse(topicNames.contains(topicName));		
+//		
+//	}
 	
 	@Test
 	public void testDeleteTopic() {
@@ -54,13 +54,13 @@ public class KafkaUtilsTest extends BaseUtilsTest {
 		kafkaUtils.deleteTopic(topicName);		
 	}
 	
-	@Test
-	public void testCreateTopic() {
-		String topicName = "document_events_2";
-		int replicationFactor = 1;
-		int numPartitions = 2;
-		kafkaUtils.createTopic(topicName, replicationFactor, numPartitions);		
-	}
+//	@Test
+//	public void testCreateTopic() {
+//		String topicName = "document_events_2";
+//		int replicationFactor = 1;
+//		int numPartitions = 2;
+//		kafkaUtils.createTopic(topicName, replicationFactor, numPartitions);		
+//	}
 	
 	
 }

@@ -24,11 +24,11 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 	public void testPopulateRegistryFromFileWithRelativePathFromCustomFileThatExists() throws Exception {
 		
 		//We are passing in a file that exists
-		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariAndSliderParams(DEFAULT_CONFIG_FILE_NAME, false);
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbari(DEFAULT_CONFIG_FILE_NAME, false);
 	
-		assertThat(registry.getRegistry().size(), is(24));
-		assertThat(registry.getAmbariServerUrl(), is("http://centralregion01.cloud.hortonworks.com:8080"));
-		assertThat(registry.getFalconServerPort(), is("15000"));
+		assertThat(registry.getRegistry().size(), is(23));
+		assertThat(registry.getAmbariServerUrl(), is("http://hdp0.field.hortonworks.com:8080"));
+		//assertThat(registry.getFalconServerPort(), is("15000"));
 	}
 	
 	@Test
@@ -67,12 +67,12 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 
 		//this test will fail until you change to correct absolte path..
 		//Pass in absolute file that exists
-		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sedev/coe/hdp-app-utils/src/test/resources/registry");
-		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariAndSliderParams(DEFAULT_CONFIG_FILE_NAME, true);
+		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/hdp/app-utils/hdp-app-utils/src/test/resources/registry");
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbari(DEFAULT_CONFIG_FILE_NAME, true);
 	
-		assertThat(registry.getRegistry().size(), is(24));
-		assertThat(registry.getAmbariServerUrl(), is("http://centralregion01.cloud.hortonworks.com:8080"));
-		assertThat(registry.getFalconServerPort(), is("15000"));
+		assertThat(registry.getRegistry().size(), is(23));
+		assertThat(registry.getAmbariServerUrl(), is("http://hdp0.field.hortonworks.com:8080"));
+		//assertThat(registry.getFalconServerPort(), is("15000"));
 	}
 	
 //	@Test
@@ -106,9 +106,9 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 	}	
 	
 	@Test
-	public void testPopulateRegistryFromAmbariAndSliderHBaseAndStorm() throws Exception{
+	public void testPopulateRegistryFromAmbari() throws Exception{
 
-		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariAndSliderParams(DEFAULT_CONFIG_FILE_NAME, false);
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbari(DEFAULT_CONFIG_FILE_NAME, false);
 		//do asserts
 		testEntireRegistry(registry);
 	}
@@ -116,10 +116,10 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 	@Test
 	public void testWritingRegistryToFile() throws Exception {
 
-		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sedev/coe/hdp-app-utils/src/test/resources/registry");
+		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/hdp/app-utils/hdp-app-utils/src/test/resources/registry");
 		
 		//Right now write is only supported with absolute Path
-		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariAndSliderParams("written-to-hdp-service-config.properties", true);
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbari("george-hdp-service-config.properties", true);
 		registry.writeToPropertiesFile();
 	}
 	
@@ -171,26 +171,26 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 	
 	public void testEntireRegistry(HDPServiceRegistry serviceRegistry) {
 		
-		assertThat(serviceRegistry.getFalconServerUrl(),  is("http://centralregion03.cloud.hortonworks.com:15000"));
+		//assertThat(serviceRegistry.getFalconServerUrl(),  is("http://centralregion03.cloud.hortonworks.com:15000"));
 		
 		assertThat(serviceRegistry.getHBaseZookeeperClientPort() ,  is("2181"));
-		assertThat(serviceRegistry.getHBaseZookeeperHost(), is("centralregion01.cloud.hortonworks.com"));
-		assertThat(serviceRegistry.getHBaseZookeeperZNodeParent(), is("/services/slider/users/yarn/hbase-on-yarn-v36"));
+		assertThat(serviceRegistry.getHBaseZookeeperHost(), is("hdp0.field.hortonworks.com"));
+		//assertThat(serviceRegistry.getHBaseZookeeperZNodeParent(), is("/services/slider/users/yarn/hbase-on-yarn-v36"));
 		
-		assertThat(serviceRegistry.getHDFSUrl(), is("hdfs://centralregion01.cloud.hortonworks.com:8020"));
+		assertThat(serviceRegistry.getHDFSUrl(), is("hdfs://hdp0.field.hortonworks.com:8020"));
 		
-		assertThat(serviceRegistry.getHiveMetaStoreUrl() , is("thrift://centralregion03.cloud.hortonworks.com:9083"));
-		assertThat(serviceRegistry.getHiveServer2ConnectionURL() , is("jdbc:hive2://centralregion03.cloud.hortonworks.com:10000"));
+		assertThat(serviceRegistry.getHiveMetaStoreUrl() , is("thrift://hdp2.field.hortonworks.com:9083"));
+		assertThat(serviceRegistry.getHiveServer2ConnectionURL() , is("jdbc:hive2://hdp2.field.hortonworks.com:10000"));
 
-		assertThat(serviceRegistry.getKafkaBrokerList()  , is("centralregion01.cloud.hortonworks.com:6667,centralregion02.cloud.hortonworks.com:6667"));
+		assertThat(serviceRegistry.getKafkaBrokerList()  , is("hdp0.field.hortonworks.com:6667"));
 		assertThat(serviceRegistry.getKafkaZookeeperClientPort(), is("2181"));
-		assertThat(serviceRegistry.getKafkaZookeeperHost(), is("centralregion01.cloud.hortonworks.com"));
+		assertThat(serviceRegistry.getKafkaZookeeperHost(), is("hdp0.field.hortonworks.com"));
 		assertThat(serviceRegistry.getKafkaZookeeperZNodeParent(), is(""));
 		
-		assertThat(serviceRegistry.getStormNimbusHost(), is("centralregion08.cloud.hortonworks.com"));
-		assertThat(serviceRegistry.getStormNimbusPort(), is("46464"));
-		assertThat(serviceRegistry.getStormZookeeperQuorum(), is("centralregion01.cloud.hortonworks.com,centralregion02.cloud.hortonworks.com,centralregion03.cloud.hortonworks.com"));
-		assertThat(serviceRegistry.getStormUIUrl() , is("http://centralregion09.cloud.hortonworks.com:57725"));
+		assertThat(serviceRegistry.getStormNimbusHost(), is("hdp1.field.hortonworks.com"));
+		assertThat(serviceRegistry.getStormNimbusPort(), is("6627"));
+		assertThat(serviceRegistry.getStormZookeeperQuorum(), is("hdp0.field.hortonworks.com,hdp1.field.hortonworks.com,hdp2.field.hortonworks.com"));
+		assertThat(serviceRegistry.getStormUIUrl() , is("http://hdp1.field.hortonworks.com:8744"));
 
 		
 		List<String> zookeepers = serviceRegistry.getStormZookeeperQuorumAsList();
@@ -199,17 +199,17 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 			System.out.println(zookeeper);
 		}		
 
-		assertThat(serviceRegistry.getPhoenixConnectionURL(), is("jdbc:phoenix:centralregion01.cloud.hortonworks.com:2181:/services/slider/users/yarn/hbase-on-yarn-v36"));
+		assertThat(serviceRegistry.getPhoenixConnectionURL(), is("jdbc:phoenix:hdp0.field.hortonworks.com:2181:/hbase-unsecure"));
 
-		assertThat(serviceRegistry.getClusterName(),  is("centralregioncluster"));
+		assertThat(serviceRegistry.getClusterName(),  is("HDP_2_5"));
 		
-		assertThat(serviceRegistry.getAmbariServerUrl(),  is("http://centralregion01.cloud.hortonworks.com:8080"));
+		assertThat(serviceRegistry.getAmbariServerUrl(),  is("http://hdp0.field.hortonworks.com:8080"));
 
-		assertThat(serviceRegistry.getResourceManagerURL(), is("centralregion02.cloud.hortonworks.com:8050"));
-		assertThat(serviceRegistry.getResourceManagerUIURL() , is("http://centralregion02.cloud.hortonworks.com:8088"));
+		assertThat(serviceRegistry.getResourceManagerURL(), is("hdp1.field.hortonworks.com:8050"));
+		assertThat(serviceRegistry.getResourceManagerUIURL() , is("http://hdp1.field.hortonworks.com:8088"));
 		
 		
-		assertThat(serviceRegistry.getOozieUrl() , is("http://centralregion03.cloud.hortonworks.com:11000/oozie"));	
+		assertThat(serviceRegistry.getOozieUrl() , is("http://hdp2.field.hortonworks.com:11000/oozie"));	
 	}
 	
 	@Test

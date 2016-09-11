@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class FalconUtils {
 	
-	private static final Logger LOG = Logger.getLogger(FalconUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FalconUtils.class);
 	private static final String USER_SUBMITTING_JOB = "user.name=hdfs";
 	
 	private RestTemplate restTemplate;

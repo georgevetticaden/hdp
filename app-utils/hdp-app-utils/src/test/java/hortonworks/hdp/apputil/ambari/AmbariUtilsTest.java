@@ -6,15 +6,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 public class AmbariUtilsTest {
 	
-	private static final String AMBARI_URL = "http://julycluster01.cloud.hortonworks.com:8080/api/v1/clusters/julycluster";
+	private static final String AMBARI_URL = "http://hdp0.field.hortonworks.com:8080/api/v1/clusters/HDP_2_5";
 	//private static final String AMBARI_URL = "http://10.22.0.210:8080/api/v1/clusters/opensoc";
 	
-	private static final Logger LOG = Logger.getLogger(AmbariUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AmbariUtils.class);
 	AmbariUtils ambariService = new AmbariUtils(AMBARI_URL); 
 		
 
@@ -22,9 +23,9 @@ public class AmbariUtilsTest {
 	public void getHBaseZookeeperQuorum() throws Exception {
 		List<String> quorumList = ambariService.getHBaseZookeeperQuorum();
 		assertThat(quorumList.size(), is(3));
-		assertTrue(quorumList.contains("vett-cluster01.cloud.hortonworks.com"));
-		assertTrue(quorumList.contains("vett-cluster02.cloud.hortonworks.com"));
-		assertTrue(quorumList.contains("vett-cluster03.cloud.hortonworks.com"));
+		assertTrue(quorumList.contains("hdp0.field.hortonworks.com"));
+		assertTrue(quorumList.contains("hdp1.field.hortonworks.com"));
+		assertTrue(quorumList.contains("hdp2.field.hortonworks.com"));
 			
 	}
 	
@@ -40,7 +41,7 @@ public class AmbariUtilsTest {
 	
 	@Test
 	public void getStormZookeeperQuorum() throws Exception{
-		assertThat(ambariService.getStormZookeeperQuorum(), is("['julycluster02.cloud.hortonworks.com','julycluster01.cloud.hortonworks.com','julycluster03.cloud.hortonworks.com']"));
+		assertThat(ambariService.getStormZookeeperQuorum(), is("['hdp0.field.hortonworks.com','hdp1.field.hortonworks.com','hdp2.field.hortonworks.com']"));
 	}
 	
 	@Test
@@ -50,12 +51,12 @@ public class AmbariUtilsTest {
 	
 	@Test
 	public void getStormNimbusHost() throws Exception{
-		assertThat(ambariService.getStormNimbusHostList().get(0), is("julycluster02.cloud.hortonworks.com"));
+		assertThat(ambariService.getStormNimbusHostList().get(0), is("hdp1.field.hortonworks.com"));
 	}	
 	
 	@Test
 	public void getStormUIServerHost() throws Exception {
-		assertThat(ambariService.getStormUIServer(), is("vett-cluster02.cloud.hortonworks.com"));
+		assertThat(ambariService.getStormUIServer(), is("hdp1.field.hortonworks.com"));
 	}
 	
 	@Test
@@ -65,17 +66,17 @@ public class AmbariUtilsTest {
 
 	@Test
 	public void getHDFSUrl() throws Exception{
-		assertThat(ambariService.getHDFSUrl(), is("hdfs://centralregion01.cloud.hortonworks.com:8020"));
+		assertThat(ambariService.getHDFSUrl(), is("hdfs://hdp0.field.hortonworks.com:8020"));
 	}	
 
 	@Test
 	public void getHiveMetaStoreUrl() throws Exception{
-		assertThat(ambariService.getHiveMetaStoreUrl(), is("thrift://centralregion03.cloud.hortonworks.com:9083"));
+		assertThat(ambariService.getHiveMetaStoreUrl(), is("thrift://hdp2.field.hortonworks.com:9083"));
 	}	
 	
 	@Test
 	public void getHiveServer2Host() throws Exception {
-		assertThat(ambariService.getHiveServer2Host(), is("centralregion03.cloud.hortonworks.com"));
+		assertThat(ambariService.getHiveServer2Host(), is("hdp2.field.hortonworks.com"));
 	}	
 	
 	@Test
@@ -83,37 +84,37 @@ public class AmbariUtilsTest {
 		assertThat(ambariService.getHiveServer2ThriftPort(), is("10000"));
 	}		
 	
-	@Test
+	//@Test
 	public void getFalconHost() throws Exception{
 		assertThat(ambariService.getFalconHost(), is("centralregion03.cloud.hortonworks.com"));
 	}		
 	
-	@Test
+	//@Test
 	public void getFalconBrokerUrl() throws Exception {
 		assertThat(ambariService.getFalconBrokerUrl(), is("tcp://centralregion03.cloud.hortonworks.com:61616"));
 	}
 	
 	@Test
 	public void getResourceManagerURL() throws Exception {
-		assertThat(ambariService.getResourceManagerUrl(), is("centralregion02.cloud.hortonworks.com:8050"));
+		assertThat(ambariService.getResourceManagerUrl(), is("hdp1.field.hortonworks.com:8050"));
 	}
 	
 	@Test
 	public void getResourceManagerUIUrl() throws Exception {
-		assertThat(ambariService.getResourceManagerUIUrl(), is("centralregion02.cloud.hortonworks.com:8088"));
+		assertThat(ambariService.getResourceManagerUIUrl(), is("hdp1.field.hortonworks.com:8088"));
 	}	
 	
 	@Test
 	public void getOozieServerUrl() throws Exception {
-		assertThat(ambariService.getOozieServerUrl(), is("http://centralregion03.cloud.hortonworks.com:11000/oozie"));
+		assertThat(ambariService.getOozieServerUrl(), is("http://hdp2.field.hortonworks.com:11000/oozie"));
 	}	
 	
 	@Test
 	public void getKafkaBrokerList() throws Exception  {
 		List<String> kafkaHosts = ambariService.getKafkaBrokerList();
-		LOG.info(kafkaHosts);
+		LOG.info("Kafka Host", kafkaHosts);
 		assertThat(kafkaHosts.size(), is(1));
-		assertTrue(kafkaHosts.contains("julycluster01.cloud.hortonworks.com"));
+		assertTrue(kafkaHosts.contains("hdp0.field.hortonworks.com"));
 	}
 	
 	@Test
@@ -123,7 +124,7 @@ public class AmbariUtilsTest {
 	
 	@Test
 	public void getKafkaZookeeperConnect() throws Exception  {
-		assertThat(ambariService.getKafkaZookeeperConnect(), is("centralregion01.cloud.hortonworks.com:2181,centralregion02.cloud.hortonworks.com:2181,centralregion03.cloud.hortonworks.com:2181"));
+		assertThat(ambariService.getKafkaZookeeperConnect(), is("hdp0.field.hortonworks.com:2181,hdp1.field.hortonworks.com:2181,hdp2.field.hortonworks.com:2181"));
 	}	
 
 	@Test

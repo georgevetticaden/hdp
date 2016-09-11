@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HBaseSliderUtils {
 
-	private static final Logger LOG = Logger.getLogger(HBaseSliderUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HBaseSliderUtils.class);
 	private RestTemplate restTemplate;
 	private ObjectMapper mapper;
 	private String hbaseSliderPublisherUrl;

@@ -15,8 +15,8 @@ import hortonworks.hdp.apputil.slider.storm.StormSliderUtilsTest;
 public abstract class BaseUtilsTest {
 
 	
-	public static final String AMBARI_CLUSTER_NAME = "julycluster";
-	public static final String AMBARI_SERVER_URL = "http://julycluster01.cloud.hortonworks.com:8080";
+	public static final String AMBARI_CLUSTER_NAME = "HDP_2_5";
+	public static final String AMBARI_SERVER_URL = "http://hdp0.field.hortonworks.com:8080";
 
 
 	@Before
@@ -59,6 +59,19 @@ public abstract class BaseUtilsTest {
 		return serviceRegistry;
 	}	
 	
+	protected HDPServiceRegistry createHDPServiceRegistryWithAmbari(String configFileName, boolean isAbsolutePath) throws Exception {
+		
+		String serviceRegistryPropertyFileLocation = System.getProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY);
+		if(StringUtils.isEmpty(serviceRegistryPropertyFileLocation)) {
+			throw new RuntimeException("To run this Test, you need to configured a system property called["+ RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY + "] " 
+					+ "that points to he location where your registry config directory is located[e.g: /Users/gvetticaden/Dropbox/Hortonworks/Development/Git/sedev/coe/hdp-app-utils/src/test/resources/registry]");
+		}
+		
+		HDPServiceRegistry serviceRegistry = new HDPServiceRegistryImpl(serviceRegistryPropertyFileLocation, configFileName, isAbsolutePath);
+		serviceRegistry.populate(createServiceRegistryParamsWithAmbari());
+		return serviceRegistry;
+	}	
+	
 	
 	
 	
@@ -86,6 +99,17 @@ public abstract class BaseUtilsTest {
 		
 		params.setHbaseDeploymentMode(DeploymentMode.SLIDER);
 		params.setHbaseSliderPublisherUrl(HBaseSliderUtilsTest.SLIDER_HBASE_PUBLISHER_URL);
+		
+		return params;
+	}	
+	
+	private ServiceRegistryParams createServiceRegistryParamsWithAmbari() {
+		ServiceRegistryParams params = new ServiceRegistryParams();
+		params.setAmbariUrl(AMBARI_SERVER_URL);
+		params.setClusterName(AMBARI_CLUSTER_NAME);
+		
+		params.setStormDeploymentMode(DeploymentMode.STANDALONE);
+		params.setHbaseDeploymentMode(DeploymentMode.STANDALONE);
 		
 		return params;
 	}	
