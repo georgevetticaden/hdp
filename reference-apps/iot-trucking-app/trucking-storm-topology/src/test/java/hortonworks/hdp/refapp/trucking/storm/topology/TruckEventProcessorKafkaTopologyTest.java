@@ -7,16 +7,16 @@ import hortonworks.hdp.apputil.storm.StormUtils;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import backtype.storm.generated.StormTopology;
-import backtype.storm.generated.TopologySummary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.generated.TopologySummary;
 
 public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 	
-	private static final Logger LOG = Logger.getLogger(TruckEventProcessorKafkaTopologyTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckEventProcessorKafkaTopologyTest.class);
 	private static final String STORM_TOPOLOGY_KEY = "trucking.storm.topology.jar";
 	
 
@@ -28,11 +28,13 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 	@BeforeClass
 	public static void setup() throws Exception {
 
+		LOG.debug("Setting up Endpoints with HDP Service Registry");
 		serviceRegistry = createHDPServiceRegistry();
 		stormUtils = new StormUtils(serviceRegistry);
 		topologyConfig = constructStormTopologyConfig(serviceRegistry);
 	}
 	
+
 	
 	@Test
 	public void testDeployTopology() throws Exception{
@@ -51,6 +53,8 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		topologyParams.setTopology(topology);
 		topologyParams.setTopologyName(topologyConfig.getProperty("trucking.topology.name"));
 		topologyParams.setTopologyJarLocation(topologyConfig.getProperty(STORM_TOPOLOGY_KEY));
+		topologyParams.setNumberOfWorkers(Integer.valueOf(topologyConfig.getProperty("trucking.storm.trucker.topology.workers")));
+		topologyParams.setTopologyEventLogExecutors(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.eventlogger.executors")));
 		return topologyParams;
 	}
 	

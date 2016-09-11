@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="hortonworks.hdp.apputil" level="debug">
+    	<AppenderRef ref="CONSOLE"/>
+    </Logger>
+    
+    <Root level="ERROR">
+      	<AppenderRef ref="CONSOLE"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
+

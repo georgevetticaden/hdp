@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
@@ -15,17 +16,17 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 
 
 
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Tuple;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Tuple;
 
 public class SolrIndexingBolt implements IRichBolt {
 
 
 	private static final long serialVersionUID = -5319490672681173657L;
-	private static final Logger LOG = Logger.getLogger(SolrIndexingBolt.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SolrIndexingBolt.class);
 	
 	private OutputCollector collector;
 	private Properties config;

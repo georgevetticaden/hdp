@@ -4,22 +4,21 @@ import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
-
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Tuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TruckEventRuleBolt implements IRichBolt {
 	
 
 	private static final long serialVersionUID = 6816706717943954742L;
-	private static final Logger LOG = Logger.getLogger(TruckEventRuleBolt.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckEventRuleBolt.class);
 	
 	private OutputCollector collector;
 	private TruckEventRuleEngine ruleEngine;

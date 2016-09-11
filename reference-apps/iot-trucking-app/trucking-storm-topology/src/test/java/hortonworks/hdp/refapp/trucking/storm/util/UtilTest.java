@@ -1,14 +1,102 @@
 package hortonworks.hdp.refapp.trucking.storm.util;
 
+import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckDriver;
+import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckDriverInfractionCount;
+
+import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.hadoop.fs.Path;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.Test;
 
 public class UtilTest {
+	
+	@Test
+	public void createTimeStamp() {
+		String value = "2016-09-08 07:07:11.358";
+		Timestamp eventTime = Timestamp.valueOf(value);
+		System.out.println(eventTime.getTime());
+	}
+	
+	@Test
+	public void dateToString() throws Exception
+	{
+		Timestamp timeStamp = new Timestamp(new Date().getTime());
+		String value = timeStamp + "|";
+
+		
+		StringSerializer serializer = new StringSerializer();
+		byte[] seriliazedValue = serializer.serialize("test", value);
+		
+		StringDeserializer deserializer = new StringDeserializer();
+		String deserializedValue= deserializer.deserialize("test", seriliazedValue);
+		
+		String stringDeserilaiaedValue = new String(seriliazedValue, "UTF-8");
+		System.out.println(deserializedValue);
+		System.out.println(stringDeserilaiaedValue);
+	}
+	
+	@Test
+	public void testCrazString() {
+		String value = "truck_events���}��MW^�)14eDIVIDER2016-09-08 12:55:30.217|85|14|Adis Cesir|1384345811|Joplin to Kansas City|Normal|39.1|-94.59|1";
+		String values[] = value.split("DIVIDER");
+		
+		System.out.println(values.length);
+		System.out.println(values[0]);
+		System.out.println(values[1]);
+		
+		String secondSplit[] = values[1].split("\\|");
+		
+		System.out.println(Timestamp.valueOf(secondSplit[0]));
+		
+	}
+	
+	@Test
+	public void testDriverInfraction() {
+		TruckDriver truckDriver1 = createTruckDriver(1, 100);
+		TruckDriverInfractionCount infractionCount1 = new TruckDriverInfractionCount(truckDriver1);
+		infractionCount1.addInfraction("Overspeed");
+		infractionCount1.addInfraction("Unsafe following distance");
+		infractionCount1.addInfraction("Unsafe following distance");
+		System.out.println(infractionCount1.hashCode());
+		
+		TruckDriver truckDriver2 = createTruckDriver(2, 200);
+		TruckDriverInfractionCount infractionCount2 = new TruckDriverInfractionCount(truckDriver2);
+		infractionCount2.addInfraction("Overspeed");
+		infractionCount2.addInfraction("Overspeed");
+		infractionCount2.addInfraction("Unsafe following distance");
+		
+		Map<TruckDriver, TruckDriverInfractionCount> map = new HashMap<TruckDriver, TruckDriverInfractionCount>();
+		map.put(truckDriver1, infractionCount1);
+		map.put(truckDriver2, infractionCount2);
+		
+		TruckDriver truckDriverOne = createTruckDriver(1, 100);
+		System.out.println(map.get(truckDriverOne));
+		
+		TruckDriver truckDriverTwo = createTruckDriver(2, 200);
+		System.out.println(map.get(truckDriverTwo));		
+		
+		//System.out.println(infractionCount1);
+//		for(String key = infractionCount1.getInfractionCountByEventType().keySet()) {
+//			System.out.println(key + ":"  + infractionCount1.getInfractionCountByEventType().get(key));
+//		}
+		
+		//System
+		
+	}
+
+
+	private TruckDriver createTruckDriver(int driverId, int truckId) {
+		return new TruckDriver(driverId, truckId);
+	}
 
 	@Test
 	public void date() {

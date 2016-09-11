@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
   	<groupId>hortonworks.hdp.refapp.trucking</groupId>
   	<artifactId>iot-trucking-app</artifactId>
-  	<version>3.0.0-SNAPSHOT</version>
+  	<version>5.0.0-SNAPSHOT</version>
   	<packaging>pom</packaging>
 
    <modules>
@@ -15,19 +15,21 @@
    </modules>
     
     <properties>
-    	<hdp.app.utils.version>2.0.0</hdp.app.utils.version>
+    	<hdp.app.utils.version>2.5.0</hdp.app.utils.version>
     	
-		<hadoop.version>2.6.0.2.2.0.0-2041</hadoop.version>
-		<storm.version>0.9.3.2.2.0.0-2041</storm.version> 
-		<storm.kafka.version>0.9.3.2.2.0.0-2041</storm.kafka.version>
-		<kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
-		<storm.hdfs.version>0.9.3.2.2.0.0-2041</storm.hdfs.version>
-		<hbase.version>0.98.4.2.2.0.0-2041-hadoop2</hbase.version>
-		<hive.version>0.14.0.2.2.0.0-2041</hive.version>
+		<hadoop.version>2.7.3.2.5.0.0-1245</hadoop.version>
+		<storm.version>1.0.1.2.5.0.0-1245</storm.version> 
+		<storm.kafka.version>1.0.1.2.5.0.0-1245</storm.kafka.version>
+		<kafka.version>0.10.0.2.5.0.0-1245</kafka.version>
+		<storm.hdfs.version>1.0.1.2.5.0.0-1245</storm.hdfs.version>
+		<hbase.version>1.1.2.2.5.0.0-1245</hbase.version>
+		<hive.version>2.1.0.2.5.0.0-1245</hive.version>
 		<solr.version>4.7.2</solr.version>
 		
+		<log4j2.version>2.6.2</log4j2.version>
 		<log4j.version>1.2.17</log4j.version>    
 		<junit.version>4.5</junit.version>    
+		
     </properties>
     
 	<build>

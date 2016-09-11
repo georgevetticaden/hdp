@@ -20,16 +20,17 @@ import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class TruckEventRuleEngine implements Serializable {
 	
 	private static final long serialVersionUID = -5526455911057368428L;
-	private static final Logger LOG = Logger.getLogger(TruckEventRuleEngine.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckEventRuleEngine.class);
 	public static final int MAX_UNSAFE_EVENTS = 5;
 	
 	public Map<Integer, LinkedList<String>> driverEvents = new HashMap<Integer, LinkedList<String>>();

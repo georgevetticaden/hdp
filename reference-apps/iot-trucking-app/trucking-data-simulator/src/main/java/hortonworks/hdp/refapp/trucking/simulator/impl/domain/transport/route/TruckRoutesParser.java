@@ -19,14 +19,16 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 
 
 public class TruckRoutesParser {
 	
-	private static final Logger LOG = Logger.getLogger(TruckRoutesParser.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckRoutesParser.class);
 	private static final DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 	public Route parseRoute(String routeFile) {

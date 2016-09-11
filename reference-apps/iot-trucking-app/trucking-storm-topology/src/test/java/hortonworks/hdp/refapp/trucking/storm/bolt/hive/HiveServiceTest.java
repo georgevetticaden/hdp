@@ -6,18 +6,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HiveServiceTest {
 	
 	
-	private static final Logger LOG = Logger.getLogger(HiveServiceTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HiveServiceTest.class);
 	
 
 	
 	
-	//@Test
+	@Test
 	public void testHiveServer2() throws Exception {
 		String driverName = "org.apache.hive.jdbc.HiveDriver";
 
@@ -27,11 +28,11 @@ public class HiveServiceTest {
 		// as
 		Connection con = DriverManager
 				.getConnection(
-						"jdbc:hive2://centralregion03.cloud.hortonworks.com:10000/default",
+						"jdbc:hive2://hdp2.field.hortonworks.com:10000",
 						"yarn", "");
 		Statement stmt = con.createStatement();
 
-		String path = "hdfs://centralregion01.cloud.hortonworks.com:8020/truck-events-v4/staging/truckEventshdfs_bolt-9-0-1420300308281.txt";
+		String path = "hdfs://hdp0.field.hortonworks.com:8020/truck-events-v4/staging/truckEventshdfs_bolt-8-1-1473090187495.txt";
 		String tableName2 = "truck_events_text_partition_single";
 
 		String partitionValue = "2015-01-03-20";
@@ -42,7 +43,7 @@ public class HiveServiceTest {
 		StringBuilder ddl = new StringBuilder();
 		ddl.append(" load data inpath ").append(" '").append(path).append("' ")
 				.append(" into table ").append(tableName2)
-				.append(" partition ").append(" (date='")
+				.append(" partition ").append(" (dateTruck='")
 				.append(partitionValue).append("')");
 
 		String sql = ddl.toString();
@@ -51,7 +52,7 @@ public class HiveServiceTest {
 	}
 	
 
-	//@Test
+	@Test
 	public void testHiveTablePartitionHIveServer2Connection() throws Exception {
 //		String driverName = "org.apache.hive.jdbc.HiveDriver";
 //		Class.forName(driverName);		
@@ -61,6 +62,7 @@ public class HiveServiceTest {
 		String databaseName = "default";
 		String sourceFSUrl = "";
 		HiveTablePartitionHiveServer2Action action = new HiveTablePartitionHiveServer2Action(hiveServer2ConnectionString, hiveServer2ConnectUser, tableName, databaseName, sourceFSUrl);
+		
 	}
 
 }

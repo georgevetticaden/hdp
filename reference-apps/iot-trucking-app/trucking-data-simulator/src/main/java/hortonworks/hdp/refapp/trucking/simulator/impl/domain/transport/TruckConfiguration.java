@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TruckConfiguration {
 
-	private static Logger LOGGER = Logger.getLogger(TruckConfiguration.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(TruckConfiguration.class);
 
 	public static final long END_ROUTE_AFTER_METERS = 120000; // 75 miles
 	private static final int TRUCK_FLEET_SIZE=100;	

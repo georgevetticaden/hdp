@@ -42,7 +42,7 @@ public class JmsEventCollector extends AbstractEventCollector {
 
 	@Override
 	public void onReceive(Object message) throws Exception {
-		logger.info(message);
+		logger.info("onreceive", message);
 		try {
 			TextMessage textMessage = session.createTextMessage(message
 					.toString());

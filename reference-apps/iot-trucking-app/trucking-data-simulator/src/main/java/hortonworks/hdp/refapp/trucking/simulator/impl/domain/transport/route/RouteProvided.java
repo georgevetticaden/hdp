@@ -4,12 +4,15 @@ import hortonworks.hdp.refapp.trucking.simulator.impl.domain.gps.Location;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 
 public class RouteProvided implements Route {
 
-	private static final Logger LOG = Logger.getLogger(RouteProvided.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RouteProvided.class);
 	
 	private List<Location> locations;
 	private int locationIndex=0;

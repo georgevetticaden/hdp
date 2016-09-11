@@ -17,21 +17,21 @@ import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Tuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Tuple;
 
 public class WebSocketBolt implements IRichBolt {
 
 	//ActiveMQ messages will expire after 10 seconds
 	private static final long ACTIVEMQ_MESSAGE_TTL = 10000;
 	private static final long serialVersionUID = -5319490672681173657L;
-	private static final Logger LOG = Logger.getLogger(WebSocketBolt.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WebSocketBolt.class);
 	
 	
 	private OutputCollector collector;

@@ -8,17 +8,17 @@ import hortonworks.hdp.refapp.trucking.storm.topology.TruckEventProcessorKafkaTo
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import backtype.storm.generated.StormTopology;
+import org.apache.storm.generated.StormTopology;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class StormService {
 
 	
-	private static final Logger LOG = Logger.getLogger(StormService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StormService.class);
 
 	private HDPServiceRegistry registry;	
 
@@ -39,6 +39,8 @@ public class StormService {
 		
 		topologyParams.setTopology(topology);
 		topologyParams.setTopologyName(registry.getCustomValue("trucking.topology.name"));
+		topologyParams.setNumberOfWorkers(Integer.valueOf(registry.getCustomValue("trucking.storm.trucker.topology.workers")));
+		topologyParams.setEventLogExecutors(Integer.valueOf(registry.getCustomValue("trucking.storm.topology.eventlogger.executors")));
 		
 		String stormTopologyJarLocation = registry.getCustomValue("trucking.storm.topology.jar");
 		LOG.info("Storm Topology Jar Location is: " + stormTopologyJarLocation);

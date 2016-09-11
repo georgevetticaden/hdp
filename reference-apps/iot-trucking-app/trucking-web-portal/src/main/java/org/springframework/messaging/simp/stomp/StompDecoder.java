@@ -22,8 +22,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.support.MessageBuilder;
@@ -50,7 +50,7 @@ public class StompDecoder {
 
 	private static final byte[] HEARTBEAT_PAYLOAD = new byte[] {'\n'};
 
-	private final Log logger = LogFactory.getLog(StompDecoder.class);
+	private final Logger logger = LoggerFactory.getLogger(StompDecoder.class);
 
 
 	/**

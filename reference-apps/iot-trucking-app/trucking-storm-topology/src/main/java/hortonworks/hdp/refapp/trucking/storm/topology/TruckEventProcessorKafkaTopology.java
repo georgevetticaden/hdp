@@ -1,6 +1,7 @@
 package hortonworks.hdp.refapp.trucking.storm.topology;
 
 import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckEventRuleBolt;
+import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TumblingWindowInfractionCountBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hbase.TruckHBaseBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hdfs.FileTimeRotationPolicy;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hive.HiveTablePartitionHiveServer2Action;
@@ -10,8 +11,8 @@ import hortonworks.hdp.refapp.trucking.storm.bolt.websocket.WebSocketBolt;
 import hortonworks.hdp.refapp.trucking.storm.kafka.TruckScheme2;
 
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.apache.storm.hdfs.bolt.HdfsBolt;
 import org.apache.storm.hdfs.bolt.format.DefaultFileNameFormat;
 import org.apache.storm.hdfs.bolt.format.DelimitedRecordFormat;
@@ -19,22 +20,25 @@ import org.apache.storm.hdfs.bolt.format.FileNameFormat;
 import org.apache.storm.hdfs.bolt.format.RecordFormat;
 import org.apache.storm.hdfs.bolt.sync.CountSyncPolicy;
 import org.apache.storm.hdfs.bolt.sync.SyncPolicy;
-
-import storm.kafka.BrokerHosts;
-import storm.kafka.KafkaSpout;
-import storm.kafka.SpoutConfig;
-import storm.kafka.ZkHosts;
-import backtype.storm.Config;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.spout.SchemeAsMultiScheme;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.tuple.Fields;
+import org.apache.storm.kafka.BrokerHosts;
+import org.apache.storm.kafka.KafkaSpout;
+import org.apache.storm.kafka.SpoutConfig;
+import org.apache.storm.kafka.ZkHosts;
+import org.apache.storm.Config;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.spout.SchemeAsMultiScheme;
+import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.topology.base.BaseWindowedBolt.Count;
+import org.apache.storm.topology.base.BaseWindowedBolt.Duration;
+import org.apache.storm.tuple.Fields;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	
-	private static final Logger LOG = Logger.getLogger(TruckEventProcessorKafkaTopology.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckEventProcessorKafkaTopology.class);
 	
 	
 	public TruckEventProcessorKafkaTopology(String configFileLocation) throws Exception {
@@ -54,13 +58,15 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		configureKafkaSpout(builder);
 
 		/* Set up HDFSBOlt to send every truck event to HDFS */
-		configureHDFSBolt(builder);
+		//configureHDFSBolt(builder);
 		
 		/* configure Solr indexing bolt */
-		configureSolrIndexingBolt(builder);
+		//configureSolrIndexingBolt(builder);
 		
 		/* Setup Monitoring Bolt to track number of alerts per truck driver */
 		configureMonitoringBolt(builder);
+		
+		
 		
 		/* Setup HBse Bolt for to persist violations and all events (if configured to do so)*/
 		//configureHBaseBolt(builder);
@@ -100,7 +106,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		/* Set the number of workers that will be spun up for this topology. 
 		 * Each worker represents a JVM where executor thread will be spawned from */
 		Integer topologyWorkers = Integer.valueOf(topologyConfig.getProperty("trucking.storm.trucker.topology.workers"));
-		conf.put(Config.TOPOLOGY_WORKERS, topologyWorkers);
+		conf.setNumWorkers(topologyWorkers);
 		
 		try {
 			StormSubmitter.submitTopology("truck-event-processor", conf, topology);	
@@ -116,7 +122,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 			LOG.info("Solr indexing enabled");
 			int solrBoltCount = Integer.valueOf(topologyConfig.getProperty("trucking.solr.bolt.thread.count"));
 			SolrIndexingBolt solrBolt = new SolrIndexingBolt(topologyConfig);
-			builder.setBolt("solr_indexer_bolt", solrBolt, solrBoltCount).shuffleGrouping("kafkaSpout");
+			builder.setBolt("solr_indexer_bolt", solrBolt, solrBoltCount).shuffleGrouping("Truck-Events-Kafka-Spout");
 		} else {
 			LOG.info("Solr indexing turned off");
 		}
@@ -128,18 +134,18 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		boolean configureWebSocketBolt = Boolean.valueOf(topologyConfig.getProperty("trucking.notification.topic")).booleanValue();
 		if(configureWebSocketBolt) {
 			WebSocketBolt webSocketBolt = new WebSocketBolt(topologyConfig);
-			builder.setBolt("web_sockets_bolt", webSocketBolt, 4).shuffleGrouping("hbase_bolt");
+			builder.setBolt("Web-Socket-Sink", webSocketBolt, 4).shuffleGrouping("HBase-Sink");
 		}
 	}
 
 	public void configureHBaseBolt(TopologyBuilder builder) {
 		TruckHBaseBolt hbaseBolt = new TruckHBaseBolt(topologyConfig);
-		builder.setBolt("hbase_bolt", hbaseBolt, 2 ).shuffleGrouping("kafkaSpout");
+		builder.setBolt("HBase-Sink", hbaseBolt, 2 ).shuffleGrouping("Truck-Events-Kafka-Spout");
 	}
 	
 	public void configurePhoenixHBaseBolt(TopologyBuilder builder) {
 		TruckPhoenixHBaseBolt hbaseBolt = new TruckPhoenixHBaseBolt(topologyConfig);
-		builder.setBolt("phoenix_hbase_bolt", hbaseBolt, 2 ).shuffleGrouping("kafkaSpout");
+		builder.setBolt("Phoenix-Sink", hbaseBolt, 2 ).shuffleGrouping("Truck-Events-Kafka-Spout");
 	}	
 
 	/**
@@ -148,10 +154,19 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	 */
 	public void configureMonitoringBolt(TopologyBuilder builder) {
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
-		builder.setBolt("monitoring_bolt", 
+		builder.setBolt("Non-Window-Infraction-Count-Rule", 
 						new TruckEventRuleBolt(topologyConfig), boltCount)
-						.fieldsGrouping("kafkaSpout", new Fields("driverId"));
+						.fieldsGrouping("Truck-Events-Kafka-Spout", new Fields("driverId"));
 	}
+	
+	public void configureTumblingWindowInfractionCountBolt(TopologyBuilder builder) {
+		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
+		Duration windowLength = new Duration(1, TimeUnit.MINUTES);
+		builder.setBolt("Tumbling-Window-Infraction-Count", 
+						new TumblingWindowInfractionCountBolt().withWindow(windowLength), boltCount).
+						fieldsGrouping("Truck-Events-Kafka-Spout", new Fields("driverId"));
+	}
+		
 
 	public void configureHDFSBolt(TopologyBuilder builder) {
 		// Use pipe as record boundary
@@ -199,7 +214,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 				
 		
 		int hdfsBoltCount = Integer.valueOf(topologyConfig.getProperty("trucking.hdfsbolt.thread.count"));
-		builder.setBolt("hdfs_bolt", hdfsBolt, hdfsBoltCount).shuffleGrouping("kafkaSpout");
+		builder.setBolt("hdfs_bolt", hdfsBolt, hdfsBoltCount).shuffleGrouping("Truck-Events-Kafka-Spout");
 	}
 
 	public int configureKafkaSpout(TopologyBuilder builder) {
@@ -208,7 +223,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		int spoutCount = Integer.valueOf(topologyConfig.getProperty("trucking.spout.thread.count"));
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
 		
-		builder.setSpout("kafkaSpout", kafkaSpout, spoutCount);
+		builder.setSpout("Truck-Events-Kafka-Spout", kafkaSpout, spoutCount);
 		return boltCount;
 	}
 

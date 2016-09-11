@@ -5,7 +5,7 @@
 	<parent>
 	  	<groupId>hortonworks.hdp.refapp.trucking</groupId>
 	  	<artifactId>iot-trucking-app</artifactId>
-	  	<version>3.0.0-SNAPSHOT</version>
+	  	<version>5.0.0-SNAPSHOT</version>
     </parent>
     	
     <artifactId>trucking-storm-topology</artifactId>
@@ -21,11 +21,48 @@
 
 	<dependencies>
 	
-		<!-- Adding Kafka dependencies because latest kafka-storm has changed that to provided -->
+		<!-- Logging Dependencies -->
+		
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.21</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.6.2</version>
+		    <scope>provided</scope>
+		</dependency>	
+		
+		<dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-core</artifactId>
+	        <version>${log4j2.version}</version>  
+	      	<scope>provided</scope>                   	
+		</dependency>			
+		
+		
+		
+	
+            	
+	
+	<!-- Adding Kafka dependencies because latest kafka-storm has changed that to provided -->
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka_2.10</artifactId>
-			<version>${kafka.version}</version>			
+			<version>${kafka.version}</version>		
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>	
+                <exclusion>
+                	<groupId>org.slf4j</groupId>
+                	<artifactId>slf4j-log4j12</artifactId>
+                </exclusion>						
+			</exclusions>	
 		</dependency>
 
 		<dependency>
@@ -38,15 +75,14 @@
 		    <artifactId>xalan</artifactId>
 		    <version>2.7.1</version>
 		</dependency>	
-
 		
 		<!-- Topology Domain Objects -->
 		<dependency>
 		  <groupId>hortonworks.hdp..refapp.trucking</groupId>
 		  <artifactId>trucking-domain-objects</artifactId>
 		  <version>${trucking.domain.objects.version}</version>			
-		</dependency>		
-		 
+		</dependency>
+		
 		<!-- Storm Dependencies -->
         <dependency>
             <groupId>org.apache.storm</groupId>
@@ -62,23 +98,46 @@
                 	<groupId>org.slf4j</groupId>
                 	<artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
+                <exclusion>
+			    	<groupId>org.apache.logging.log4j</groupId>
+			        <artifactId>log4j-core</artifactId>                	
+                </exclusion>
+                <exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+	        		<artifactId>log4j-api</artifactId>                
+                
+                </exclusion>
+                
+
+                
             </exclusions>
         </dependency>
-   
-        		
+        
 		<!-- Storm Kafka Dependencies -->
 		<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>storm-kafka</artifactId>
 			<version>${storm.kafka.version}</version>
 		</dependency>
-		
-		
+
 		<!-- Storm HDFS Dependencies -->
 		<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>storm-hdfs</artifactId>
 			<version>${storm.hdfs.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty</artifactId>
+				</exclusion>	
+				
+			
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>					
+								
+			</exclusions>
 		</dependency>
 		
 		<!-- Hadoop Dependencies -->
@@ -97,6 +156,12 @@
 		        	<groupId>commons-httpclient</groupId>
 		        	<artifactId>commons-httpclient</artifactId>
 		        </exclusion>
+		        
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>	
+										        
 		    </exclusions>
 		</dependency>		
 	
@@ -114,6 +179,14 @@
                 	<groupId>org.slf4j</groupId>
                 	<artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
+                
+		
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>
+										
+			               
             </exclusions>			
 		</dependency>
 		
@@ -141,7 +214,31 @@
 		        <exclusion>
 		        	<groupId>org.apache.hive.shims</groupId>
 		        	<artifactId>hive-shims-0.20</artifactId>
-		        </exclusion>             
+		        </exclusion>    
+                <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                	<artifactId>log4j-api</artifactId>
+                </exclusion>  
+                <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                	<artifactId>log4j-1.2-api</artifactId>
+                </exclusion>                  
+                
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>  
+				
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-web</artifactId>
+				</exclusion>
+				
+				<exclusion>
+				    <groupId>org.apache.logging.log4j</groupId>
+				    <artifactId>log4j-slf4j-impl</artifactId>				
+				</exclusion>
+							               		                 
             </exclusions>	    		
     	</dependency>
 		
@@ -155,12 +252,17 @@
 					<groupId>org.apache.zookeeper</groupId>
 					<artifactId>zookeeper</artifactId>
 				</exclusion>
+				
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>				
 			</exclusions>
 		</dependency>	
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.3.1</version>
+			<version>4.3.1</version>			
 		</dependency>	
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -183,11 +285,7 @@
 			<version>${mail.version}</version>
 		</dependency>
 		
-		<dependency>        
-    		<groupId>log4j</groupId>        
-    		<artifactId>log4j</artifactId>        
-    		<version>${log4j.version}</version>    
-    	</dependency> 		
+	
     	<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
@@ -209,13 +307,20 @@
 			  <artifactId>hdp-app-utils</artifactId>
 			  <version>${hdp.app.utils.version}</version>
 			  <scope>test</scope>	
+			  
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>			
+			</exclusions>				  
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework.version}</version>
-			<scope>test</scope>
+			<scope>test</scope>				
 		</dependency>	
   
   		
@@ -224,16 +329,13 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>		
-		
+		</dependency>				
+						
 	</dependencies>
 
 	<build>
-
-
   
 		<plugins>
-		
 		
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>

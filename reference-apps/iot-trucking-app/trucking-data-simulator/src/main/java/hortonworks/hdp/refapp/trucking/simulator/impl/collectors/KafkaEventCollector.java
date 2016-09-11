@@ -5,27 +5,35 @@ import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEye
 
 import java.util.Properties;
 
-import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+
 
 
 public class KafkaEventCollector extends AbstractEventCollector {
 
 	private static final String TOPIC = "truck_events";
 	
-	private Producer<String, String> kafkaProducer;
+	private KafkaProducer<String, String> kafkaProducer;
 
 	public KafkaEventCollector(String kafkaBrokerList) {
         Properties props = new Properties();
-        props.put("metadata.broker.list", kafkaBrokerList);
+        props.put("bootstrap.servers", kafkaBrokerList);
 
-        props.put("serializer.class", "kafka.serializer.StringEncoder");
         props.put("request.required.acks", "1");
+        
+        props.put("key.serializer", 
+                "org.apache.kafka.common.serialization.StringSerializer");
+                
+             props.put("value.serializer", 
+                "org.apache.kafka.common.serialization.StringSerializer");        
  
-        try {
-        	ProducerConfig producerConfig = new ProducerConfig(props);		
-            kafkaProducer = new Producer<String, String>(producerConfig);        	
+        try {		
+            kafkaProducer = new KafkaProducer<String, String>(props);        	
         } catch (Exception e) {
         	logger.error("Error creating producer" , e);
         }
@@ -36,13 +44,13 @@ public class KafkaEventCollector extends AbstractEventCollector {
 	@Override
 	public void onReceive(Object event) throws Exception {
 		MobileEyeEvent mee = (MobileEyeEvent) event;
-		String eventToPass = mee.toString();
+		String eventToPass = "DIVIDER" + mee.toString();
 		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
 		
 		logger.debug("Creating event["+eventToPass+"] for driver["+driverId + "] in truck [" + mee.getTruck() + "]");
 		
 		try {
-			KeyedMessage<String, String> data = new KeyedMessage<String, String>(TOPIC, driverId, eventToPass);
+			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TOPIC, driverId, eventToPass);
 			kafkaProducer.send(data);			
 		} catch (Exception e) {
 			logger.error("Error sending event[" + eventToPass + "] to Kafka queue", e);

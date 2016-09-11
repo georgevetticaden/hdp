@@ -6,7 +6,8 @@ import hortonworks.hdp.apputil.registry.HDPServiceRegistry;
 import hortonworks.hdp.refapp.trucking.config.app.AppConfig;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @ComponentScan(basePackages="hortonworks.hdp.refapp")
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
-	private static final Logger LOG = Logger.getLogger(WebSocketConfig.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WebSocketConfig.class);
 	@Autowired
 	private AppConfig appConfig;
 	

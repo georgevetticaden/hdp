@@ -13,7 +13,8 @@ import java.util.TimeZone;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.conf.HiveConf;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.storm.hdfs.common.rotation.RotationAction;
 
 /**
@@ -26,7 +27,7 @@ public class HiveTablePartitionHiveServer2Action implements RotationAction {
 
 	private static final long serialVersionUID = 2725320320183384402L;
 	
-	private static final Logger LOG = Logger.getLogger(HiveTablePartitionHiveServer2Action.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HiveTablePartitionHiveServer2Action.class);
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -125,7 +126,7 @@ public class HiveTablePartitionHiveServer2Action implements RotationAction {
 			.append(" '").append(path).append("' ")
 			.append(" into table ")
 			.append(tableName)
-			.append(" partition ").append(" (date='").append(partitionValue).append("')");
+			.append(" partition ").append(" (dateTruck='").append(partitionValue).append("')");
 
     	String hiveServer2ConnectionStringWithDB = hiveServer2ConnectionString + "/" + this.databaseName;
     	Connection hiveServer2Connection = null;
@@ -147,14 +148,15 @@ public class HiveTablePartitionHiveServer2Action implements RotationAction {
 					try {
 						sqlLoadStmt.close();
 					} catch (SQLException e) {
-						LOG.error(e);
+						LOG.error("Error executing Hive Statement", e);
+						
 					}
 			}
 			if(hiveServer2Connection != null) {
 				try {
 					hiveServer2Connection.close();
 				} catch (SQLException e) {
-					LOG.error(e);
+					LOG.error("Error executing Hive Statement", e);
 				}
 			}
 		}

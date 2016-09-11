@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import akka.actor.ActorRef;
 
 public class Truck extends AbstractEventEmitter{
 	
 	private static final long serialVersionUID = 9157180698115417087L;
-	private static final Logger LOG = Logger.getLogger(Truck.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Truck.class);
 	
 	private Driver driver;
 	private int truckId;

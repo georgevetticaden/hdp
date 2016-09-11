@@ -13,23 +13,22 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.log4j.Logger;
-
-
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
 public class TruckHBaseBolt implements IRichBolt {
 
 
 	private static final byte[] INCIDENT_RUNNING_TOTAL_COLUMN = Bytes.toBytes("incidentRunningTotal");
 	private static final long serialVersionUID = 2946379346389650318L;
-	private static final Logger LOG = Logger.getLogger(TruckHBaseBolt.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckHBaseBolt.class);
 	
 	private static final String DANGEROUS_EVENTS_TABLE_NAME = "driver_dangerous_events";
 	private static final String EVENTS_TABLE_COLUMN_FAMILY_NAME = "events";	

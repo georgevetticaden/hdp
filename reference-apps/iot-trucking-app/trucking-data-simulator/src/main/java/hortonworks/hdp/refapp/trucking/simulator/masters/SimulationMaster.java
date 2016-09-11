@@ -1,12 +1,12 @@
 package hortonworks.hdp.refapp.trucking.simulator.masters;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.EmitEvent;
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.StartSimulation;
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.StopSimulation;
 import hortonworks.hdp.refapp.trucking.simulator.results.SimulationResultsSummary;
-
-import org.apache.log4j.Logger;
-
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -21,7 +21,7 @@ public class SimulationMaster extends UntypedActor {
 	private ActorRef eventEmitterRouter;
 	private ActorRef listener;
 	private int eventCount = 0;
-	private Logger logger = Logger.getLogger(SimulationMaster.class);
+	private Logger logger = LoggerFactory.getLogger(SimulationMaster.class);
 	private long delay_between_trucks;
 	
 	@SuppressWarnings("unchecked")

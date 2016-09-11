@@ -35,7 +35,8 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +57,7 @@ public class TruckDemoService {
 	private static final String DRIVER_EVENTS_COUNT_TABLE = "driver_dangerous_events_count";
 	private static String DRIVER_EVENTS_COUNT_COLUMN_FAMILY_NAME = "counters";	
 	
-	private static final Logger LOG = Logger.getLogger(TruckDemoService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TruckDemoService.class);
 	
 	//Default Coordinates for Saint Louis
 	public static final double STL_LAT= 38.523884;

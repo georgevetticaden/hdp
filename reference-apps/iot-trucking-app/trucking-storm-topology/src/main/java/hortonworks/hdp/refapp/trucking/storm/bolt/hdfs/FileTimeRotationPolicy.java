@@ -3,10 +3,10 @@ package hortonworks.hdp.refapp.trucking.storm.bolt.hdfs;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.storm.hdfs.bolt.rotation.FileRotationPolicy;
-
-import backtype.storm.tuple.Tuple;
+import org.apache.storm.tuple.Tuple;
 
 /**
  * File rotation policy that will rotate files after a certain
@@ -26,7 +26,7 @@ public class FileTimeRotationPolicy implements FileRotationPolicy {
 	 */
 	private static final long serialVersionUID = 2511856964496167738L;
 	
-	private static final Logger LOG = Logger.getLogger(FileTimeRotationPolicy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FileTimeRotationPolicy.class);
 
     public static enum Units {
 

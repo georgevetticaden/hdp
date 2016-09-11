@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseTruckEventTopology {
 
 	
-	private static final Logger LOG = Logger.getLogger(BaseTruckEventTopology.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BaseTruckEventTopology.class);
 
 	protected Properties topologyConfig;
 	
@@ -20,7 +21,8 @@ public abstract class BaseTruckEventTopology {
 		try {
 			topologyConfig.load(new FileInputStream(configFileLocation));
 			System.out.println("Dumping out...... config file......");
-			LOG.info(topologyConfig);
+			LOG.info("Topology  Config:", topologyConfig);
+			
 		} catch (FileNotFoundException e) {
 			LOG.error("Encountered error while reading configuration properties: "
 					+ e.getMessage());

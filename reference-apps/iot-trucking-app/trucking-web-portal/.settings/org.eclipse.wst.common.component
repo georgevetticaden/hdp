@@ -4,10 +4,10 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="hdp-app-utils-2.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hdp-app-utils/hdp-app-utils">
+        <dependent-module archiveName="hdp-app-utils-2.5.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hdp-app-utils/hdp-app-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="trucking-storm-topology-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/trucking-storm-topology/trucking-storm-topology">
+        <dependent-module archiveName="trucking-storm-topology-5.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/trucking-storm-topology/trucking-storm-topology">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/spring-mvc-angular/target/classes"/>

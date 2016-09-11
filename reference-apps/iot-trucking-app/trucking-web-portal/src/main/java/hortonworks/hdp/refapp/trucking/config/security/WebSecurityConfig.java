@@ -16,7 +16,8 @@
 package hortonworks.hdp.refapp.trucking.config.security;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static Logger LOG = Logger.getLogger(WebSecurityConfig.class);
+	private static Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
 	
 	@Override

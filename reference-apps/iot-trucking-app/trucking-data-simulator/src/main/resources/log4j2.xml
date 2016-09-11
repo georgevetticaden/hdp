@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <File name="ROLLING" fileName="simulator.log" append="true">
+      <PatternLayout pattern="%t %-5p %c{2} - %m%n"/>
+    </File>
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="hortonworks.hdp.refapp.trucking.simulator.impl.collectors" level="debug">
+    	<AppenderRef ref="CONSOLE"/>
+      	<AppenderRef ref="ROLLING"/>
+    </Logger>
+    
+    <Root level="ERROR">
+      
+      <AppenderRef ref="ROLLING"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
