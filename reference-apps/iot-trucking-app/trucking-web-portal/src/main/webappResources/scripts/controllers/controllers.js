@@ -146,17 +146,17 @@ angular.module('mvcRestBaseApp')
 			$scope.initModel = function() {
 				$scope.registryParams = {};
 					
-				$scope.registryParams.ambariUrl = ''
-				$scope.registryParams.clusterName="";
+				$scope.registryParams.ambariUrl = "http://hdp0.field.hortonworks.com:8080"
+				$scope.registryParams.clusterName="HDP_2_5";
 				
 				$scope.registryParams.hbaseSliderPublisherUrl="";
-				$scope.registryParams.hbaseDeploymentMode="SLIDER";
+				$scope.registryParams.hbaseDeploymentMode="STANDALONE";
 				
 				$scope.registryParams.stormSliderPublisherUrl="";
-				$scope.registryParams.stormDeploymentMode="SLIDER";
+				$scope.registryParams.stormDeploymentMode="STANDALONE";
 				
-				$scope.registryParams.activeMQHost ="";
-				$scope.registryParams.solrServerUrl="";
+				$scope.registryParams.activeMQHost ="streamanalyticsweb0.field.hortonworks.com";
+				$scope.registryParams.solrServerUrl="http://george-search01.cloud.hortonworks.com:8983/solr";
 			};
 			
 			$scope.configureEndpoints = function(registryParams) {

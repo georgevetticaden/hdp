@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,6 +34,8 @@ public class InfractionRulesEngine implements Serializable {
 	private static final long serialVersionUID = -5526455911057368428L;
 	private static final Logger LOG = LoggerFactory.getLogger(InfractionRulesEngine.class);
 
+	private static final long ACTIVEMQ_MESSAGE_TTL = 10000;
+	
 	
 
 	private String email ;
@@ -46,6 +49,12 @@ public class InfractionRulesEngine implements Serializable {
 	private String activeMQConnectionString;
 	private String topicName;
 	
+	
+	private Session session = null;
+	private Connection connection = null;
+	private ActiveMQConnectionFactory connectionFactory = null;
+    private HashMap<String, MessageProducer> producers = new HashMap<String, MessageProducer>();	
+	
 
 	public InfractionRulesEngine(Properties config) {
 		
@@ -57,8 +66,6 @@ public class InfractionRulesEngine implements Serializable {
 			LOG.info("TruckEventRuleEngine configured to NOT send alerts");
 		}
 		
-	
-		
 		this.sendAlertToTopic = Boolean.valueOf(config.getProperty("trucking.notification.topic")).booleanValue();
 		
 		if(sendAlertToTopic) {
@@ -67,13 +74,16 @@ public class InfractionRulesEngine implements Serializable {
 			this.activeMQConnectionString = config.getProperty("trucking.notification.topic.connection.url");
 			this.topicName = config.getProperty("trucking.notification.topic.alerts.name");	
 			
+			initializeJMSConnection();
+			
 			
 		} else {
-			LOG.info("TruckEventRuleEngine configured to alerts to Topic");
+			LOG.info("TruckEventRuleEngine not configured to send alerts to Topic");
 		}
 	}
 
-	
+
+
 	public void processEvent(TruckDriverInfractionDetail infractionDetail) {
 		LOG.debug("Rule being executed for: " + infractionDetail);
 		executeRule_2InfractionsAcross2AlertTypes(infractionDetail);
@@ -115,10 +125,7 @@ public class InfractionRulesEngine implements Serializable {
 		} else {
 			LOG.debug("Rule didn't fire becuase the number of infractions for atleast 2 infrations was not greater than 2: " + infractionCounts );
 		}
-			
-		
 
-		
 	}
 
 
@@ -154,31 +161,22 @@ public class InfractionRulesEngine implements Serializable {
 			return;
 		}
 		
-		sendAlert(jsonAlert);
-				
+		sendAlert(jsonAlert);		
 		
 	}
 	
+
 	
 	
 	private void sendAlert(String event) {
-		Session session = null;
 		try {
-			session = createSession();
-			TextMessage message = session.createTextMessage(event);
-			getTopicProducer(session).send(message);
+            TextMessage message = session.createTextMessage(event);
+			//getTopicProducer(sessio   n, topic).send(message);
+			MessageProducer producer = producers.get(this.topicName);
+			producer.send(message, producer.getDeliveryMode(), producer.getPriority(), ACTIVEMQ_MESSAGE_TTL);
 		} catch (JMSException e) {
 			LOG.error("Error sending TruckDriverViolationEvent to topic", e);
 			return;
-		}finally{
-			if(session != null) {
-				try {
-					session.close();
-				} catch (JMSException e) {
-					LOG.error("Error cleaning up ActiveMQ resources", e);
-				}				
-			}
-
 		}
 	}	
 
@@ -189,9 +187,30 @@ public class InfractionRulesEngine implements Serializable {
 	}
 	
 	
-	private MessageProducer getTopicProducer(Session session) {
+	public void cleanUpResources() {
+
+	}
+
+	private void initializeJMSConnection() {
+		try{
+			connectionFactory = new ActiveMQConnectionFactory(user, password,activeMQConnectionString);
+			connection = connectionFactory.createConnection();
+			connection.start();
+			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+            producers.put(this.topicName, getTopicProducer(session, this.topicName));
+            
+            LOG.debug("JMS connection to topic["+topicName +"] successful");
+		}
+		catch (JMSException e) {
+			LOG.error("Error sending to topic["+this.topicName + "]", e);
+			return;
+		}
+	}
+	
+	private MessageProducer getTopicProducer(Session session, String topic) {
 		try {
-			Topic topicDestination = session.createTopic(topicName);
+			Topic topicDestination = session.createTopic(topic);
 			MessageProducer topicProducer = session.createProducer(topicDestination);
 			topicProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 			return topicProducer;
@@ -199,26 +218,7 @@ public class InfractionRulesEngine implements Serializable {
 			LOG.error("Error creating producer for topic", e);
 			throw new RuntimeException("Error creating producer for topic");
 		}
-	}	
-	
-	private Session createSession() {
-		
-		try {
-			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(user, password,activeMQConnectionString);
-			Connection connection = connectionFactory.createConnection();
-			connection.start();
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			return session;
-		} catch (JMSException e) {
-			LOG.error("Error configuring ActiveMQConnection and getting session", e);
-			throw new RuntimeException("Error configuring ActiveMQConnection");
-		}
-	}	
-	
-	public void cleanUpResources() {
-
-	}
-
+	}		
 
 
 }

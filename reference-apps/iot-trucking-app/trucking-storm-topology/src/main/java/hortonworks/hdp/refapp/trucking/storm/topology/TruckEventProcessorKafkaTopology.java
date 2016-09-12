@@ -166,7 +166,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	public void configureTumblingWindowInfractionCountBolt(TopologyBuilder builder) {
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
 		Duration windowLength = new Duration(3, TimeUnit.MINUTES);
-		builder.setBolt("Windowing-Infraction-Count", 
+		builder.setBolt("Tumble-Window-Infraction-Count", 
 						new TumblingWindowInfractionCountBolt().withWindow(windowLength), boltCount).
 						fieldsGrouping("Truck-Events-Kafka-Spout", new Fields("driverId"));
 	}
@@ -175,7 +175,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
 		builder.setBolt("Infractions-Rules-Engine", 
 				new InfractionRulesBolt(topologyConfig), boltCount)
-				.shuffleGrouping("Tumbling-Window-Infraction-Count");
+				.shuffleGrouping("Tumble-Window-Infraction-Count");
 	}	
 		
 

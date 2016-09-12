@@ -28,17 +28,19 @@ public class InfractionRulesBolt implements IRichBolt {
 	private static final long serialVersionUID = 6816706717943954742L;
 	private static final Logger LOG = LoggerFactory.getLogger(InfractionRulesBolt.class);
 	
+	private Properties config;	
 	private OutputCollector collector;
 	private InfractionRulesEngine infractionRulesEngine;
 
-	public InfractionRulesBolt(Properties kafkaConfig) {
-		this.infractionRulesEngine = new InfractionRulesEngine(kafkaConfig);
+	public InfractionRulesBolt(Properties config) {
+		this.config = config;
 	}
 
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
 		this.collector = collector;
+		this.infractionRulesEngine = new InfractionRulesEngine(config);
 	}
 
 	@Override
