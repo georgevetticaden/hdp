@@ -1,7 +1,8 @@
 package hortonworks.hdp.refapp.trucking.storm.util;
 
-import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckDriver;
-import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckDriverInfractionCount;
+
+import hortonworks.hdp.refapp.trucking.domain.TruckDriver;
+import hortonworks.hdp.refapp.trucking.domain.TruckDriverInfractionDetail;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
@@ -61,27 +62,27 @@ public class UtilTest {
 	
 	@Test
 	public void testDriverInfraction() {
-		TruckDriver truckDriver1 = createTruckDriver(1, 100);
-		TruckDriverInfractionCount infractionCount1 = new TruckDriverInfractionCount(truckDriver1);
+		TruckDriver truckDriver1 = createTruckDriver(1, "George", 100, "STL-Chicago");
+		TruckDriverInfractionDetail infractionCount1 = new TruckDriverInfractionDetail(truckDriver1);
 		infractionCount1.addInfraction("Overspeed");
 		infractionCount1.addInfraction("Unsafe following distance");
 		infractionCount1.addInfraction("Unsafe following distance");
 		System.out.println(infractionCount1.hashCode());
 		
-		TruckDriver truckDriver2 = createTruckDriver(2, 200);
-		TruckDriverInfractionCount infractionCount2 = new TruckDriverInfractionCount(truckDriver2);
+		TruckDriver truckDriver2 = createTruckDriver(2, "Darko",  200, "Chicgo-STL");
+		TruckDriverInfractionDetail infractionCount2 = new TruckDriverInfractionDetail(truckDriver2);
 		infractionCount2.addInfraction("Overspeed");
 		infractionCount2.addInfraction("Overspeed");
 		infractionCount2.addInfraction("Unsafe following distance");
 		
-		Map<TruckDriver, TruckDriverInfractionCount> map = new HashMap<TruckDriver, TruckDriverInfractionCount>();
+		Map<TruckDriver, TruckDriverInfractionDetail> map = new HashMap<TruckDriver, TruckDriverInfractionDetail>();
 		map.put(truckDriver1, infractionCount1);
 		map.put(truckDriver2, infractionCount2);
 		
-		TruckDriver truckDriverOne = createTruckDriver(1, 100);
+		TruckDriver truckDriverOne = createTruckDriver(1, "George", 100, "STL-Chicago");
 		System.out.println(map.get(truckDriverOne));
 		
-		TruckDriver truckDriverTwo = createTruckDriver(2, 200);
+		TruckDriver truckDriverTwo = createTruckDriver(2, "Darko", 200,"STL-Chicago" );
 		System.out.println(map.get(truckDriverTwo));		
 		
 		//System.out.println(infractionCount1);
@@ -94,8 +95,8 @@ public class UtilTest {
 	}
 
 
-	private TruckDriver createTruckDriver(int driverId, int truckId) {
-		return new TruckDriver(driverId, truckId);
+	private TruckDriver createTruckDriver(int driverId, String driverName, int truckId, String routeName ) {
+		return new TruckDriver(driverId, driverName, truckId, routeName);
 	}
 
 	@Test

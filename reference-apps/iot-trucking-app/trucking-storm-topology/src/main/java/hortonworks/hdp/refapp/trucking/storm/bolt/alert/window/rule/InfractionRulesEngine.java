@@ -1,0 +1,224 @@
+package hortonworks.hdp.refapp.trucking.storm.bolt.alert.window.rule;
+
+import hortonworks.hdp.refapp.trucking.domain.InfractionCount;
+import hortonworks.hdp.refapp.trucking.domain.TruckDriver;
+import hortonworks.hdp.refapp.trucking.domain.TruckDriverInfractionDetail;
+import hortonworks.hdp.refapp.trucking.domain.TruckDriverInfractionsNotification;
+import hortonworks.hdp.refapp.trucking.storm.util.EventMailer;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import javax.jms.Connection;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.jms.Topic;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+
+public class InfractionRulesEngine implements Serializable {
+	
+	private static final long serialVersionUID = -5526455911057368428L;
+	private static final Logger LOG = LoggerFactory.getLogger(InfractionRulesEngine.class);
+
+	
+
+	private String email ;
+	private String subject;
+	private EventMailer eventMailer;
+	private boolean sendAlertToEmail;
+	private boolean sendAlertToTopic;
+	
+	private String user;
+	private String password;
+	private String activeMQConnectionString;
+	private String topicName;
+	
+
+	public InfractionRulesEngine(Properties config) {
+		
+		this.sendAlertToEmail = Boolean.valueOf(config.getProperty("trucking.notification.email")).booleanValue();
+		if(sendAlertToEmail) {
+			LOG.info("TruckEventRuleEngine configured to send email on alert");
+			configureEmail(config);		
+		} else {
+			LOG.info("TruckEventRuleEngine configured to NOT send alerts");
+		}
+		
+	
+		
+		this.sendAlertToTopic = Boolean.valueOf(config.getProperty("trucking.notification.topic")).booleanValue();
+		
+		if(sendAlertToTopic) {
+			this.user = config.getProperty("trucking.notification.topic.user");
+			this.password = config.getProperty("trucking.notification.topic.password");
+			this.activeMQConnectionString = config.getProperty("trucking.notification.topic.connection.url");
+			this.topicName = config.getProperty("trucking.notification.topic.alerts.name");	
+			
+			
+		} else {
+			LOG.info("TruckEventRuleEngine configured to alerts to Topic");
+		}
+	}
+
+	
+	public void processEvent(TruckDriverInfractionDetail infractionDetail) {
+		LOG.debug("Rule being executed for: " + infractionDetail);
+		executeRule_2InfractionsAcross2AlertTypes(infractionDetail);
+		
+	}	
+
+	/**
+	 * If Driver has atleast 2 of the same infractions across 2 different event types, then trigger an alert
+	 * @param infractionCount
+	 */
+	private void executeRule_2InfractionsAcross2AlertTypes(TruckDriverInfractionDetail infractionDetail) {
+		
+		
+		List<InfractionCount> infractionCounts = infractionDetail.getInfractions();
+		
+		/* If there aren't atleast 2 different infraction events, then don't alert */
+		if(infractionCounts.size() < 2) {
+			LOG.debug("Rule didn't fire because the number of infrations["+infractionCounts.size()+"] was less than 2");
+			return;
+		}
+			
+		
+		List<InfractionCount> infractionCountsOfInterest = new ArrayList<InfractionCount>();
+			
+		for(InfractionCount infractionCount : infractionCounts) {
+			if(infractionCount.getCount() > 1) {
+				infractionCountsOfInterest.add(infractionCount);
+			}
+		}
+		
+		/* If there were atleast 2 infractions per infraction event across atleast 2 different events then alert */
+		if(infractionCountsOfInterest.size() > 1) {
+			
+			if(sendAlertToTopic) {
+				TruckDriverInfractionDetail alertObject = new TruckDriverInfractionDetail(infractionDetail.getTruckDriver());
+				alertObject.setInfractions(infractionCountsOfInterest);
+				sendAlertToTopic(alertObject);	
+			}	
+		} else {
+			LOG.debug("Rule didn't fire becuase the number of infractions for atleast 2 infrations was not greater than 2: " + infractionCounts );
+		}
+			
+		
+
+		
+	}
+
+
+	
+	private void configureEmail(Properties config) {
+		this.eventMailer = new EventMailer(config);			
+		this.email = config.getProperty("trucking.notification.email.address");
+		this.subject =  config.getProperty("trucking.notification.email.subject");
+		LOG.info("Initializing rule engine with email: " + email
+				+ " subject: " + subject);
+	}
+
+	
+	private void sendAlertToTopic(TruckDriverInfractionDetail infractionDetail) {
+		TruckDriver truckDriver = infractionDetail.getTruckDriver();
+		String truckDriverEventKey = truckDriver.getDriverId() + "|" + truckDriver.getTruckId();
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		String timeStampString = sdf.format(new Date().getTime());		
+
+		String alertMessage = "Driver["+truckDriver.getDriverName() + "] has alleast 2 infractions across atleast 2 different infraction types in the last 2 minutes";
+		
+		TruckDriverInfractionsNotification notification = new TruckDriverInfractionsNotification(timeStampString, alertMessage, infractionDetail.getInfractions());
+		
+		String jsonAlert;
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			jsonAlert = mapper.writeValueAsString(notification);
+			
+			LOG.debug("Rule fired. About to send the following to Alerts Notification Queue: " + jsonAlert);
+			
+		} catch (Exception e) {
+			LOG.error("Error converting TruckDriverInfractionsNotification to JSON", e);
+			return;
+		}
+		
+		sendAlert(jsonAlert);
+				
+		
+	}
+	
+	
+	
+	private void sendAlert(String event) {
+		Session session = null;
+		try {
+			session = createSession();
+			TextMessage message = session.createTextMessage(event);
+			getTopicProducer(session).send(message);
+		} catch (JMSException e) {
+			LOG.error("Error sending TruckDriverViolationEvent to topic", e);
+			return;
+		}finally{
+			if(session != null) {
+				try {
+					session.close();
+				} catch (JMSException e) {
+					LOG.error("Error cleaning up ActiveMQ resources", e);
+				}				
+			}
+
+		}
+	}	
+
+	private void sendAlertEmail(String driverName, int driverId, StringBuffer events) {
+		eventMailer.sendEmail(email, email, subject,
+				"We've identified 5 unsafe driving events for Driver " + driverName + " with Driver Identification Number: "
+						+ driverId + "\n\n" + events.toString());
+	}
+	
+	
+	private MessageProducer getTopicProducer(Session session) {
+		try {
+			Topic topicDestination = session.createTopic(topicName);
+			MessageProducer topicProducer = session.createProducer(topicDestination);
+			topicProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+			return topicProducer;
+		} catch (JMSException e) {
+			LOG.error("Error creating producer for topic", e);
+			throw new RuntimeException("Error creating producer for topic");
+		}
+	}	
+	
+	private Session createSession() {
+		
+		try {
+			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(user, password,activeMQConnectionString);
+			Connection connection = connectionFactory.createConnection();
+			connection.start();
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			return session;
+		} catch (JMSException e) {
+			LOG.error("Error configuring ActiveMQConnection and getting session", e);
+			throw new RuntimeException("Error configuring ActiveMQConnection");
+		}
+	}	
+	
+	public void cleanUpResources() {
+
+	}
+
+
+
+}

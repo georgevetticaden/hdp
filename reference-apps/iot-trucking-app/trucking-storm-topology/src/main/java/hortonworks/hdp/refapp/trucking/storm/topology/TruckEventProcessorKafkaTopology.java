@@ -1,7 +1,8 @@
 package hortonworks.hdp.refapp.trucking.storm.topology;
 
 import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TruckEventRuleBolt;
-import hortonworks.hdp.refapp.trucking.storm.bolt.alert.TumblingWindowInfractionCountBolt;
+import hortonworks.hdp.refapp.trucking.storm.bolt.alert.window.TumblingWindowInfractionCountBolt;
+import hortonworks.hdp.refapp.trucking.storm.bolt.alert.window.rule.InfractionRulesBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hbase.TruckHBaseBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hdfs.FileTimeRotationPolicy;
 import hortonworks.hdp.refapp.trucking.storm.bolt.hive.HiveTablePartitionHiveServer2Action;
@@ -29,7 +30,6 @@ import org.apache.storm.StormSubmitter;
 import org.apache.storm.generated.StormTopology;
 import org.apache.storm.spout.SchemeAsMultiScheme;
 import org.apache.storm.topology.TopologyBuilder;
-import org.apache.storm.topology.base.BaseWindowedBolt.Count;
 import org.apache.storm.topology.base.BaseWindowedBolt.Duration;
 import org.apache.storm.tuple.Fields;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	
 	public TruckEventProcessorKafkaTopology(Properties prop) throws Exception {
 		
-		this.topologyConfig = prop;		
+		this.topologyConfig = prop;	
 	}	
 	
 	public StormTopology buildTopology() {
@@ -64,8 +64,10 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		//configureSolrIndexingBolt(builder);
 		
 		/* Setup Monitoring Bolt to track number of alerts per truck driver */
-		configureMonitoringBolt(builder);
+		//configureMonitoringBolt(builder);
+		configureTumblingWindowInfractionCountBolt(builder);
 		
+		configureInfractionRulesBolt(builder);
 		
 		
 		/* Setup HBse Bolt for to persist violations and all events (if configured to do so)*/
@@ -79,6 +81,8 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		return builder.createTopology();
 	}
 	
+
+
 
 	private void configureRealTimeBolt(TopologyBuilder builder) {
 		boolean enablePhoenix = Boolean.valueOf(topologyConfig.getProperty("trucking.phoenix.enable")).booleanValue();
@@ -161,11 +165,18 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	
 	public void configureTumblingWindowInfractionCountBolt(TopologyBuilder builder) {
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
-		Duration windowLength = new Duration(1, TimeUnit.MINUTES);
-		builder.setBolt("Tumbling-Window-Infraction-Count", 
+		Duration windowLength = new Duration(3, TimeUnit.MINUTES);
+		builder.setBolt("Windowing-Infraction-Count", 
 						new TumblingWindowInfractionCountBolt().withWindow(windowLength), boltCount).
 						fieldsGrouping("Truck-Events-Kafka-Spout", new Fields("driverId"));
 	}
+	
+	private void configureInfractionRulesBolt(TopologyBuilder builder) {
+		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
+		builder.setBolt("Infractions-Rules-Engine", 
+				new InfractionRulesBolt(topologyConfig), boltCount)
+				.shuffleGrouping("Tumbling-Window-Infraction-Count");
+	}	
 		
 
 	public void configureHDFSBolt(TopologyBuilder builder) {

@@ -13,7 +13,7 @@
 	
 	<properties>
 		<active.mq.version>5.7.0</active.mq.version>
-		<trucking.domain.objects.version>3.0.0-SNAPSHOT</trucking.domain.objects.version>
+		<trucking.domain.objects.version>5.0.0-SNAPSHOT</trucking.domain.objects.version>
 		<mail.version>1.4.3</mail.version>
 		<org.springframework.version>4.0.7.RELEASE</org.springframework.version>
 	</properties>
@@ -44,7 +44,7 @@
 		</dependency>			
 		
 		
-		
+	
 	
             	
 	

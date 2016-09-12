@@ -41,7 +41,8 @@ public class StormService {
 		topologyParams.setTopologyName(registry.getCustomValue("trucking.topology.name"));
 		topologyParams.setNumberOfWorkers(Integer.valueOf(registry.getCustomValue("trucking.storm.trucker.topology.workers")));
 		topologyParams.setEventLogExecutors(Integer.valueOf(registry.getCustomValue("trucking.storm.topology.eventlogger.executors")));
-		
+		topologyParams.setTopologyMessageTimeoutSecs(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.message.timeout.secs")));
+
 		String stormTopologyJarLocation = registry.getCustomValue("trucking.storm.topology.jar");
 		LOG.info("Storm Topology Jar Location is: " + stormTopologyJarLocation);
 		topologyParams.setTopologyJarLocation(stormTopologyJarLocation);
