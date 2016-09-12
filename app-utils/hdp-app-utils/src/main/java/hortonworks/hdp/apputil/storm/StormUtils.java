@@ -44,6 +44,7 @@ public class StormUtils {
 		stormClientConfiguration.put(Config.TOPOLOGY_WORKERS, topologyParams.getNumberOfWorkers());		
 		//set numberOfExecutors
 		stormClientConfiguration.put(Config.TOPOLOGY_EVENTLOGGER_EXECUTORS, topologyParams.getEventLogExecutors());
+		stormClientConfiguration.put("topology.message.timeout.secs", topologyParams.getTopologyMessageTimeoutSecs());
 			
 		LOG.debug("The Storm Client Configuration to deploy the topology remotely is: " + stormClientConfiguration);
 		

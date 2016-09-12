@@ -11,7 +11,13 @@ public class StormTopologyParams {
 	private StormTopology topology;
 	private int numberOfWorkers;
 	private Integer eventLogExecutors;
+	private Integer topologyMessageTimeoutSecs;
 	
+
+	public Integer getTopologyMessageTimeoutSecs() {
+		return topologyMessageTimeoutSecs;
+	}
+
 
 	public Integer getEventLogExecutors() {
 		return eventLogExecutors;
@@ -89,6 +95,11 @@ public class StormTopologyParams {
 	public void setTopologyEventLogExecutors(Integer executors) {
 		this.eventLogExecutors = executors;
 		
+	}
+
+
+	public void setTopologyMessageTimeoutSecs(Integer timeout) {
+		this.topologyMessageTimeoutSecs = timeout;
 	}
 	
 	
