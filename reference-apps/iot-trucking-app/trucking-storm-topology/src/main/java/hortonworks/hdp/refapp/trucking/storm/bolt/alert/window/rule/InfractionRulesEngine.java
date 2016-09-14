@@ -154,7 +154,7 @@ public class InfractionRulesEngine implements Serializable {
 			ObjectMapper mapper = new ObjectMapper();
 			jsonAlert = mapper.writeValueAsString(notification);
 			
-			LOG.debug("Rule fired. About to send the following to Alerts Notification Queue: " + jsonAlert);
+			LOG.info("Rule fired. About to send the following to Alerts Notification Queue: " + jsonAlert);
 			
 		} catch (Exception e) {
 			LOG.error("Error converting TruckDriverInfractionsNotification to JSON", e);
@@ -200,7 +200,7 @@ public class InfractionRulesEngine implements Serializable {
 
             producers.put(this.topicName, getTopicProducer(session, this.topicName));
             
-            LOG.debug("JMS connection to topic["+topicName +"] successful");
+            LOG.info("JMS connection to topic["+topicName +"] successful");
 		}
 		catch (JMSException e) {
 			LOG.error("Error sending to topic["+this.topicName + "]", e);

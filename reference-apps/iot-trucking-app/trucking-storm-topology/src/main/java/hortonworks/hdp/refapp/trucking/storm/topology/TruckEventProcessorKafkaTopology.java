@@ -9,7 +9,8 @@ import hortonworks.hdp.refapp.trucking.storm.bolt.hive.HiveTablePartitionHiveSer
 import hortonworks.hdp.refapp.trucking.storm.bolt.phoenix.TruckPhoenixHBaseBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.solr.SolrIndexingBolt;
 import hortonworks.hdp.refapp.trucking.storm.bolt.websocket.WebSocketBolt;
-import hortonworks.hdp.refapp.trucking.storm.kafka.TruckScheme2;
+import hortonworks.hdp.refapp.trucking.storm.kafka.TruckEventSchema;
+import hortonworks.hdp.refapp.trucking.storm.kafka.TruckSpeedEventSchema;
 
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -55,7 +56,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		TopologyBuilder builder = new TopologyBuilder();
 		
 		/* Set up Kafka Spout to ingest from */
-		configureKafkaSpout(builder);
+		configureTruckEventsKafkaSpout(builder);
 
 		/* Set up HDFSBOlt to send every truck event to HDFS */
 		//configureHDFSBolt(builder);
@@ -81,7 +82,7 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		return builder.createTopology();
 	}
 	
-
+	
 
 
 	private void configureRealTimeBolt(TopologyBuilder builder) {
@@ -228,8 +229,8 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		builder.setBolt("hdfs_bolt", hdfsBolt, hdfsBoltCount).shuffleGrouping("Truck-Events-Kafka-Spout");
 	}
 
-	public int configureKafkaSpout(TopologyBuilder builder) {
-		KafkaSpout kafkaSpout = constructKafkaSpout();
+	public int configureTruckEventsKafkaSpout(TopologyBuilder builder) {
+		KafkaSpout kafkaSpout = constructTruckEventKafkaSpout();
 		
 		int spoutCount = Integer.valueOf(topologyConfig.getProperty("trucking.spout.thread.count"));
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));
@@ -239,21 +240,21 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 	}
 
 
-
 	/**
 	 * Construct the KafkaSpout which comes from the jar storm-kafka-0.8-plus
 	 * @return
 	 */
-	private KafkaSpout constructKafkaSpout() {
-		KafkaSpout kafkaSpout = new KafkaSpout(constructKafkaSpoutConf());
+	private KafkaSpout constructTruckEventKafkaSpout() {
+		KafkaSpout kafkaSpout = new KafkaSpout(constructTruckEventKafkaSpoutConf());
 		return kafkaSpout;
 	}
+
 
 	/**
 	 * Construct 
 	 * @return
 	 */
-	private SpoutConfig constructKafkaSpoutConf() {
+	private SpoutConfig constructTruckEventKafkaSpoutConf() {
 		BrokerHosts hosts = new ZkHosts(topologyConfig.getProperty("kafka.zookeeper.host"));
 		String topic = topologyConfig.getProperty("trucking.kafka.topic");
 		String zkRoot = topologyConfig.getProperty("kafka.zookeeper.znode.parent");
@@ -264,10 +265,12 @@ public class TruckEventProcessorKafkaTopology extends BaseTruckEventTopology {
 		/* Custom TruckScheme that will take Kafka message of single truckEvent 
 		 * and emit a 2-tuple consisting of truckId and truckEvent. This driverId
 		 * is required to do a fieldsSorting so that all driver events are sent to the set of bolts */
-		spoutConfig.scheme = new SchemeAsMultiScheme(new TruckScheme2());
+		spoutConfig.scheme = new SchemeAsMultiScheme(new TruckEventSchema());
 		
 		return spoutConfig;
 	}
+	
+
 	
 	public static void main(String[] args) throws Exception {
 		String configFileLocation = args[0];

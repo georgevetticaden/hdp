@@ -37,16 +37,23 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 
 	
 	@Test
-	public void testDeployTopology() throws Exception{
+	public void deployPhase1Topology() throws Exception{
 		
-		StormTopologyParams topologyParams = createTopologyParams();
+		StormTopologyParams topologyParams = createPhase1TopologyParams();
 		stormUtils.deployStormTopology(topologyParams);
 	}
+	
+	@Test
+	public void deployPhase2Topology() throws Exception{
+		
+		StormTopologyParams topologyParams = createPhase2TopologyParams();
+		stormUtils.deployStormTopology(topologyParams);
+	}	
 
 
-	private StormTopologyParams createTopologyParams() throws Exception {
+	private StormTopologyParams createPhase1TopologyParams() throws Exception {
 
-		StormTopology topology = createTopology(topologyConfig);
+		StormTopology topology = createPhase1Topology(topologyConfig);
 		
 		StormTopologyParams topologyParams = new StormTopologyParams();
 		topologyParams.setUpload(true);	
@@ -58,8 +65,33 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		topologyParams.setTopologyMessageTimeoutSecs(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.message.timeout.secs")));
 		
 		
+		Properties prop = new Properties();
+		prop.put("storm.zookeeper.connection.timeout", 30000);
+		topologyParams.setCustomStormProperties(prop);
+		
+		
 		return topologyParams;
 	}
+	
+	private StormTopologyParams createPhase2TopologyParams() throws Exception {
+
+		StormTopology topology = createPhase2Topology(topologyConfig);
+		
+		StormTopologyParams topologyParams = new StormTopologyParams();
+		topologyParams.setUpload(true);	
+		topologyParams.setTopology(topology);
+		topologyParams.setTopologyName("streaming-analytics-ref-app-phase2");
+		topologyParams.setTopologyJarLocation(topologyConfig.getProperty(STORM_TOPOLOGY_KEY));
+		topologyParams.setNumberOfWorkers(Integer.valueOf(topologyConfig.getProperty("trucking.storm.trucker.topology.workers")));
+		topologyParams.setTopologyEventLogExecutors(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.eventlogger.executors")));
+		topologyParams.setTopologyMessageTimeoutSecs(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.message.timeout.secs")));
+		
+		Properties prop = new Properties();
+		prop.put("storm.zookeeper.connection.timeout", 30000);
+		topologyParams.setCustomStormProperties(prop);		
+		
+		return topologyParams;
+	}	
 	
 	@Test
 	public void testGetStormTopology() throws Exception {
@@ -74,12 +106,21 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		stormUtils.killStormTopology(topologyConfig.getProperty("trucking.topology.name"));
 	}	
 
-	private StormTopology createTopology(Properties topologyConfig) throws Exception {
+	private StormTopology createPhase1Topology(Properties topologyConfig) throws Exception {
 		
 		/* Construct the Topology */
-		StormTopology topology = buildTopology(topologyConfig);
+		TruckEventProcessorKafkaTopology truckTopology = new TruckEventProcessorKafkaTopology(topologyConfig);
+		StormTopology topology = truckTopology.buildTopology();
 		return topology;
 	}
+	
+	private StormTopology createPhase2Topology(Properties topologyConfig) throws Exception {
+		
+		/* Construct the Topology */
+		TruckEventProcessorKafkaTopologyPhase2 truckTopology = new TruckEventProcessorKafkaTopologyPhase2(topologyConfig);
+		StormTopology topology = truckTopology.buildTopology();
+		return topology;
+	}	
 		
 	private static Properties constructStormTopologyConfig(HDPServiceRegistry registry)   {
 		Properties topologyConfig = new Properties();
@@ -96,11 +137,6 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		return topologyConfig;
 	}	
 	
-	private StormTopology buildTopology(Properties topologyConfig) throws Exception {
-		TruckEventProcessorKafkaTopology truckTopology = new TruckEventProcessorKafkaTopology(topologyConfig);
-		StormTopology topology = truckTopology.buildTopology();
-		return topology;
-	}	
 	
 
 

@@ -59,6 +59,10 @@ public class TumblingWindowInfractionCountBolt extends BaseWindowedBolt {
 			
 			if(isInfractionEvent(eventType)) {
 				
+				if(LOG.isInfoEnabled()) {
+					LOG.info("Infraction Event["+eventType+"] detected and will be counted");
+				}
+				
 				TruckDriver driver = new TruckDriver(driverId, driverName, truckId, routeName);
 				TruckDriverInfractionDetail infractionDetail = truckDriverInfractions.get(driver);
 				if(infractionDetail == null) {
@@ -67,16 +71,17 @@ public class TumblingWindowInfractionCountBolt extends BaseWindowedBolt {
 				}
 				infractionDetail.addInfraction(eventType);
 			}
+			collector.ack(tuple);
 		}
 		
 		
-		if(LOG.isDebugEnabled()) {
-			LOG.debug("About to output result from Infraction Count Tumbling Window");
-			LOG.debug("-----Total Number of Driver Infractions from Output Window is" + truckDriverInfractions.size());
+		if(LOG.isInfoEnabled()) {
+			LOG.info("About to output result from Infraction Count Tumbling Window");
+			LOG.info("-----Total Number of Driver Infractions from Output Window is" + truckDriverInfractions.size());
 			for(TruckDriver truckDriver: truckDriverInfractions.keySet()) {
-				LOG.debug(truckDriverInfractions.get(truckDriver).toString());
+				LOG.info(truckDriverInfractions.get(truckDriver).toString());
 			}
-			LOG.debug("-----End of Total Number of Driver Infractions from Output Window is" + truckDriverInfractions.size());
+			LOG.info("-----End of Total Number of Driver Infractions from Output Window is" + truckDriverInfractions.size());
 		}
 		
 		

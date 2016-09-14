@@ -1,11 +1,13 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport;
 
+import hortonworks.hdp.refapp.trucking.simulator.datagenerator.DataGeneratorUtils;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.AbstractEventEmitter;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.gps.Location;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.Route;
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.EmitEvent;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -57,14 +59,31 @@ public class Truck extends AbstractEventEmitter{
 		
 	
 		Location nextLocation = getDriver().getRoute().getNextLocation();
-		if (messageCount % driver.getRiskFactor() == 0)
-			return new MobileEyeEvent(demoId, nextLocation, getRandomUnsafeEvent(),
-					this);
-		else
+		int speed = getNormalTruckSpeed();
+		if (messageCount % driver.getRiskFactor() == 0) {
+			MobileEyeEventTypeEnum eventType = getRandomUnsafeEvent();
+			if(MobileEyeEventTypeEnum.OVERSPEED.equals(eventType)) {
+				speed = getHighTruckSpeed();
+			}
+			return new MobileEyeEvent(demoId, nextLocation, eventType,
+					this, speed);
+		} else {
 			return new MobileEyeEvent(demoId, nextLocation,
-					MobileEyeEventTypeEnum.NORMAL, this);
+					MobileEyeEventTypeEnum.NORMAL, this, speed);
+		}
 	}
 
+
+
+	private int getHighTruckSpeed() {
+		return DataGeneratorUtils.getRandomIntBetween(80, 105, new ArrayList<Integer>());
+	}
+
+
+	private int getNormalTruckSpeed() {
+		// TODO Auto-generated method stub
+		return DataGeneratorUtils.getRandomIntBetween(55, 75, new ArrayList<Integer>());
+	}
 
 
 	private void changeDriverRouteIfRequired() {

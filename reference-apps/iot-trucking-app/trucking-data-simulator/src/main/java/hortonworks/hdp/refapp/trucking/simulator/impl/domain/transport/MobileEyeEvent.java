@@ -9,15 +9,26 @@ public class MobileEyeEvent extends Event {
 	private Truck truck;
 	private Location location;
 	private long correlationId;
+	
+	private int truckSpeed;
 
 
+
+	public int getTruckSpeed() {
+		return truckSpeed;
+	}
+
+	public void setTruckSpeed(int truckSpeed) {
+		this.truckSpeed = truckSpeed;
+	}
 
 	public MobileEyeEvent(long correlationId, Location location, MobileEyeEventTypeEnum eventType,
-			Truck truck) {
+			Truck truck, int truckSpeed) {
 		this.location = location;
 		this.eventType = eventType;
 		this.truck = truck;
 		this.correlationId = correlationId;
+		this.truckSpeed= truckSpeed;
 	}
 
 	public MobileEyeEventTypeEnum getEventType() {

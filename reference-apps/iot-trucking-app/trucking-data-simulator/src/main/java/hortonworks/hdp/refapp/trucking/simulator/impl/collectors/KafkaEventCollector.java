@@ -16,7 +16,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 public class KafkaEventCollector extends AbstractEventCollector {
 
-	private static final String TOPIC = "truck_events";
+	private static final String TRUCK_EVENT_TOPIC = "truck_events";
+	private static final String TRUCK_SPEED_EVENT_TOPIC = "truck_speed_events";
 	
 	private KafkaProducer<String, String> kafkaProducer;
 
@@ -44,18 +45,38 @@ public class KafkaEventCollector extends AbstractEventCollector {
 	@Override
 	public void onReceive(Object event) throws Exception {
 		MobileEyeEvent mee = (MobileEyeEvent) event;
+		sendTruckEventToKafka(mee);	
+		sendTruckSpeedEventToKafka(mee);
+
+	}
+
+	private void sendTruckSpeedEventToKafka(MobileEyeEvent mee) {
+		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
+		
+		String eventToPass = "DIVIDER" + mee.getTruck().toString() + mee.getTruckSpeed() +"|";
+		logger.debug("Creating truck speed event["+eventToPass+"] for driver["+driverId + "] in truck [" + mee.getTruck() + "]");
+		
+		try {
+			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TRUCK_SPEED_EVENT_TOPIC, driverId, eventToPass);
+			kafkaProducer.send(data);			
+		} catch (Exception e) {
+			logger.error("Error sending event[" + eventToPass + "] to Kafka topic", e);
+		}		
+		
+	}
+
+	private void sendTruckEventToKafka(MobileEyeEvent mee) {
 		String eventToPass = "DIVIDER" + mee.toString();
 		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
 		
 		logger.debug("Creating event["+eventToPass+"] for driver["+driverId + "] in truck [" + mee.getTruck() + "]");
 		
 		try {
-			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TOPIC, driverId, eventToPass);
+			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TRUCK_EVENT_TOPIC, driverId, eventToPass);
 			kafkaProducer.send(data);			
 		} catch (Exception e) {
-			logger.error("Error sending event[" + eventToPass + "] to Kafka queue", e);
-		}		
-
+			logger.error("Error sending event[" + eventToPass + "] to Kafka topic", e);
+		}
 	}
 
 }

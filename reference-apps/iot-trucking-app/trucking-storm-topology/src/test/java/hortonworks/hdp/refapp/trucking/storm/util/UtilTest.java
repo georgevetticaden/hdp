@@ -27,6 +27,9 @@ public class UtilTest {
 		System.out.println(eventTime.getTime());
 	}
 	
+	
+	
+	
 	@Test
 	public void dateToString() throws Exception
 	{
@@ -122,6 +125,21 @@ public class UtilTest {
 //		hour =  calendar2.get(Calendar.HOUR_OF_DAY);
 //		System.out.print("hour in UTC is " + hour);
 		
+	}
+	
+	@Test
+	public void timeStampDifs() throws Exception{
+		Timestamp time1 = new Timestamp(new Date().getTime());
+		System.out.println(time1);
+		Thread.sleep(5000);
+		Timestamp time2 = new Timestamp(new Date().getTime());
+		
+		System.out.println(time2);
+		System.out.println(Math.abs(time1.getTime() - time2.getTime()));
+		
+		Thread.sleep(10000);
+		Timestamp time3 = new Timestamp(new Date().getTime());
+		System.out.println(Math.abs(time2.getTime() - time3.getTime()));
 	}
 	
 	@Test
