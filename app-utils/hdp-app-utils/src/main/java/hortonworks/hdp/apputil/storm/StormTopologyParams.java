@@ -1,5 +1,7 @@
 package hortonworks.hdp.apputil.storm;
 
+import java.util.Properties;
+
 import org.apache.storm.generated.StormTopology;
 
 public class StormTopologyParams {
@@ -12,6 +14,8 @@ public class StormTopologyParams {
 	private int numberOfWorkers;
 	private Integer eventLogExecutors;
 	private Integer topologyMessageTimeoutSecs;
+	
+	private Properties customStormProperties;
 	
 
 	public Integer getTopologyMessageTimeoutSecs() {
@@ -100,6 +104,16 @@ public class StormTopologyParams {
 
 	public void setTopologyMessageTimeoutSecs(Integer timeout) {
 		this.topologyMessageTimeoutSecs = timeout;
+	}
+
+
+	public Properties getCustomStormProperties() {
+		return customStormProperties;
+	}
+
+
+	public void setCustomStormProperties(Properties customStormProperties) {
+		this.customStormProperties = customStormProperties;
 	}
 	
 	
