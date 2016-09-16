@@ -30,6 +30,9 @@ This project is meant to be a reference application for the Hortonworks Data Flo
 
 ![Architecture Diagram](readme-design-artifacts/stream-processing-logical-architecture.png)
 
+## Streaming Analtyics App Powered by HDF 2.0
+![IOT Trucking Web Portal](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams-Alerts.png)
+
 ## Installing and Running the IOT Trucking App on HDP 2.5 / HDF 2.0
 
 9/16/2016 - THIS WILL BE UPDATED SOON - THE BELOW IS OUT OF DATE!!
