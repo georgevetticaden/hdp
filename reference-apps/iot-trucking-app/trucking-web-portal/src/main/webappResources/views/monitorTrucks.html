@@ -11,13 +11,11 @@
 
 
 
-
-
 <div >
 	<div class="panel-heading">
-		<h3 class="panel-title">
-			Real-Time Truck Driver Monitoring Application
-			<button ng-disabled="false" ng-click="generateTruckStreams()">Generate Truck Events</button>
+		<h3 >
+			Real-Time Truck Driver Monitoring Application Powered by HDF 2.0
+			<!-- <button ng-disabled="false" ng-click="generateTruckStreams()">Generate Truck Events</button>  -->
 		</h3> 
 		
 	</div>
@@ -26,7 +24,19 @@
 
 
 	  
-<div ng-show="results.alerts.rows.length > 0 ">
+
+
+<div class="box non-collapsible">	
+
+	<h4>
+		Real-Time Alerts and Notifications
+	</h4>
+				
+	<div id="gaugeContainer1" class="gauge-container"></div>
+	<div id="gaugeContainer2" class="gauge-container"></div>
+	<div id="gaugeContainer3" class="gauge-container"></div>
+	
+	<div  class="alert-container">
 		
 		<table class="table table-striped table-bordered table-hover">
 	          <thead>
@@ -45,12 +55,18 @@
 				
 			</tr>
 		</table>
-</div>								
-	
-<div id="container" style="min-width: 50px; max-width: 100px; height: 100px; margin: 0 auto"></div>
-	
+		
+		
+</div>		
+</div>
+
 
 <div class="box non-collapsible" ng-controller="TruckMonitorCtrl">
+
+	<h4>
+		Real-time Geo Location and Events
+	</h4>
+	
  	<leaflet defaults="defaults" center="center" id="map"  height="600px" style="position:relative"></leaflet>				
 
 	<div ng-show="results.driverMontior.rows.length > 0 ">

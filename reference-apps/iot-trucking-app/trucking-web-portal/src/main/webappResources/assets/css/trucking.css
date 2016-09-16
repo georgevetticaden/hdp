@@ -49,4 +49,19 @@ background: #972F2C
 
 }
 
+.gauge-container {
+    display: inline-block; 
+    width: 200px; 
+    height: 300px;
+}
+
+.alert-container {
+    display: inline-block; 
+    width: 800px; 
+    height: 300px;
+    margin-left: 50px;
+}
+
+  
+
 #map { height: 700px; }

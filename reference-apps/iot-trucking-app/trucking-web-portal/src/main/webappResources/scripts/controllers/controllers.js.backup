@@ -229,9 +229,7 @@ function ApplicationModel(stompClient, events, leafletDataContianer, gaugeDiv) {
 	  
 	  
 	  self.gaugeContainerDiv = gaugeDiv;
-	  self.chart1;
-	  self.chart2;
-	  self.chart3;
+	  console.log("Gauge Container is in AppModel.." + self.gaugeContainerDiv);
 	  
 	  
 	  self.connect = function() {
@@ -261,8 +259,6 @@ function ApplicationModel(stompClient, events, leafletDataContianer, gaugeDiv) {
 	      stompClient.subscribe("/topic/driver_alert_notifications", function(message) {
 	    	  console.log(message);
 	          self.alerts.processAlert(JSON.parse(message.body));
-	          self.updateSpeedGauges(JSON.parse(message.body));
-	          
 	        });	      
 	      
 	    }, function(error) {
@@ -403,60 +399,29 @@ function ApplicationModel(stompClient, events, leafletDataContianer, gaugeDiv) {
 			
 			var chart1_options = options;
 			chart1_options.chart.renderTo = 'gaugeContainer1';
-			self.chart1 = new Highcharts.Chart(chart1_options);
-			self.chart1.setTitle({text: "Suresh Srinivas"}, {text: "High Speed driver - 5 min average"});
-			console.log("JJJJJJJJJJJJJJJJJJJJ");
-			var chart1Point = self.chart1.series[0].points[0];
-			chart1Point.update(100);;			
+			var chart1 = new Highcharts.Chart(chart1_options);
+			chart1.setTitle({text: "Jamie Engesser"}, {text: "High Speed Driver"});
+			
+			var point = chart1.series[0].points[0];
+			point.update(85);;			
 			
 			
 			var chart2_options = options;
 			chart2_options.chart.renderTo = 'gaugeContainer2';		
-			self.chart2 = new Highcharts.Chart(chart2_options);
-			self.chart2.setTitle({text: "Joe Witt"}, {text: "High Speed driver - 5 min average"});	
-			var chart2Point = self.chart2.series[0].points[0];
-			chart2Point.update(95);
+			var chart2 = new Highcharts.Chart(chart2_options);
+			chart2.setTitle({text: "Suresh Srinivas"}, {text: "High Speed Driver"});	
+			point.update(100);
 			
 			var chart3_options = options;
 			chart3_options.chart.renderTo = 'gaugeContainer3';		
-			self.chart3 = new Highcharts.Chart(chart3_options);
-			self.chart3.setTitle({text: "Jamie Engesser"}, {text: "High Speed driver - 5 min average"});	
-			var chart3Point = self.chart3.series[0].points[0];
-			chart3Point.update(81);
+			var chart3 = new Highcharts.Chart(chart3_options);
+			chart3.setTitle({text: "Joe Witt"}, {text: "High Speed Driver"});	
+			point.update(95);
 			
 			
 			
 			
 		}	  
-		
-		self.updateSpeedGauges = function(infraction) {
-			console.log("inside updateSpeedGaugest " + infraction);
-			console.log(self.chart1.title);
-			if(infraction.alertName == 'High Speed Driving for Sustained Period') {
-				console.log("It is a high speed alert..updating speed and name on guage");
-				var driverName = infraction.infractionDetail.truckDriver.driverName;
-				var averageSpeed = infraction.infractionDetail.averageSpeed;
-				console.log("updating gauge for driver: " + driverName + " with speed[" + averageSpeed);
-				
-				var chartToUpdate;
-				if(driverName == "Suresh Srinivas") {
-					chartToUpdate = self.chart1;
-				} else if(driverName == "Joe Witt") {
-					chartToUpdate = self.chart2;
-				} else {
-					chartToUpdate = self.chart3;
-				}
-				
-				console.log("chart to update is: ");
-				console.log(chartToUpdate);
-				
-				chartToUpdate.setTitle({text: driverName}, {text: "High Speed driver - 5 min average"});
-				var chart1Point = chartToUpdate.series[0].points[0];
-				chart1Point.update(averageSpeed)
-				
-				
-			}
-		}
 	  
 	  self.loadEvents(self.driverEvents);
 	  self.setUpGaugePanels();

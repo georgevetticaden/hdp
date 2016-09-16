@@ -59,7 +59,7 @@ public class JoinTruckSpeedAndDriverInfractionBolt extends BaseWindowedBolt {
 				truckDriversInfractionDetails.put(truckDriver, truckDriverInfraction);
 				
 				
-			} else if("Min-Sliding-Avg-Speed".equals(sourceComponent)) {
+			} else if("5-Min-Sliding-Avg-Speed".equals(sourceComponent)) {
 				
 				Integer averageSpeed = (Integer) tuple.getValueByField("averageSpeed");
 				truckDriversAverageSpeed.put(truckDriver, averageSpeed);		
