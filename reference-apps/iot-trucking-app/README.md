@@ -1,5 +1,5 @@
-# IOT Trucking Reference Application
-This project is meant to be a reference application/assembly for an IOT use case. The project consists of 5 projects:
+# HDF 2.0 Streaming Analytics Reference Application
+This project is meant to be a reference application for the Hortonworks Data Flow Platform (HDF) The project consists of 5 projects:
 
 1. **trucking-data-simulator** - Data simulator that allows you spin N number of Trucks emitting X number of events
 2. **trucking-domain-objects** - Common trucking domain objects used across projects
@@ -14,37 +14,28 @@ This project is meant to be a reference application/assembly for an IOT use case
 * The Business Requirement is to stream these events in, filter on violations and do real-time alerting when “lots” of erratic behavior is detected for a given driver over a short period of time.
 
 ## What does this Reference Application Demonstrate
-* Stream Processing
-* Search/Indexing
-* Interactive Query
-* Real-time CRUD
-* Data Science
-* Platform Capabilities including Multi-Tenancy, Security, Data Pipelines, and LIneage/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/hdp/reference-apps/iot-trucking-app/README.md
+* Stream Processing (HDF - Stream Processing)
+* Aggregrations over Windows via Tumbling and Sliding (HDF - Stream Processing)
+* Joining and Forking Streams (HDF - Stream Processing)
+* Pattern Matching (HDF - Stream Processing)
+* Collecting data from the Edge - First Mile Problem (HDF - Flow Management) - Coming Soon
+* Data Acquisition, parsing, enrichment and intelligent routing (HDF - Flow Management) - Coming Soon
+* Running the Reference Application on HDF 2.0 / HDP 2.5
 
-## IOT Trucking App Storm Architecture 
+## IOT Trucking App Reference Architecture 
 
-![Architecture Diagram](readme-design-artifacts/iot-trucking-architecture.png)
+![Architecture Diagram](readme-design-artifacts/iot-trucking-architecture-hdf_2_0.png)
 
+## Stream Processing Logical Architecture
 
-## Installing and Running the IOT Trucking App (Sliderized Apps)
+![Architecture Diagram](readme-design-artifacts/stream-processing-logical-architecture.png)
+
+## Installing and Running the IOT Trucking App on HDP 2.5 / HDF 2.0
+
+9/16/2016 - THIS WILL BE UPDATED SOON - THE BELOW IS OUT OF DATE!!
 
 ### Cluster Setup
-Ideally, to showcase all of the capabilities of the Platform, it is recommended that you have at least a 10 nodes with at atleast 7GB of memory and 2 virtual cores. 
-
-There are two primary ways to spin up a cluster using Ambari:
-
-1. Using [SequenceIQ Cloudbreak](http://sequenceiq.com/cloudbreak/)  to provision a cluster on Azure, AWS or Google Compute in a matter of minutes. To provision a cluster using Cloudbreak, see [CloudBreak Github](https://github.com/sequenceiq/cloudbreak)
-2. Using [Ambari 2.X automated installer](http://docs.hortonworks.com/HDPDocuments/Ambari-2.0.0.0/bk_Installing_HDP_AMB/content/ch_Getting_Ready.html) 
-   
-
-Regardless of whatever approach is chosen to provision a cluster, ensure the following during cluster setup and post install:
-
-1. Via Ambari, install all Services except for HBase and Storm. We will be provisioning HBase and Storm via Slider so it is managed via Yarn/Slider
-2. Install all the clients on at least one of the nodes.
-
-A common out of the box approach to assign masters and slaves to a 8 node cluster is the following
-
-![Assign Masters](readme-design-artifacts/iot-trucking-cluster-Assign Masters.png)
+Install HDP 2.5 cluster using instructions here: http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.0.1/bk_ambari-installation/content/index.html
 
 ### Set up the Maven Projects and setup scripts
 
@@ -83,132 +74,6 @@ A common out of the box approach to assign masters and slaves to a 8 node cluste
 
 
 
-### Node Label Assignment
-Node Labels provides the ability to run certain workloads on certain set of nodes on the cluster. This might be useful when you want to carve out certain nodes for certain workloads that require certain set of resources. In this reference application, we are going create node labels for storm and hbase so that these long running services are scheduled on only certain set of nodes.  
-
-We will be creating 2 node labels called "hbase" and "storm" and then assign them each to 2 seperate nodes in our 8 node cluster. It will look somethign like the following:
-
-![Cluster Setup with Node Labels](readme-design-artifacts/iot-trucking-cluster-Node Labels.png)
-
-The following walks you through how to do this:
-
-
-1. Read through the following documentation [Configuring Nodel Labels](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/bk_yarn_resource_mgt/content/ref-7302fe4c-1e7c-4d32-9c62-18b9809d6fd1.1.html)
-2. Setup Node Labels Directories (Execute teh following as root)
-	* cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/labels
-	* [./nodeLabelsSetup.sh](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/labels/nodeLabelsSetup.sh)
-3. In Ambari, make the following Yarn config changes (under 'Advanced yarn-site' tab) and restart the YARN service:
-	* yarn.node-labels.manager-class=org.apache.hadoop.yarn.server.resourcemanager.nodelabels.RMNodeLabelsManager
-	* yarn.node-labels.fs-store.root-dir=hdfs://YOUR_FQDN_NN_HOST:8020/yarn/node-labels
-4. Create Node Labels and assign each of the 2 node labels to 2 seperate hosts on your cluster
-	* cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/labels
-	* Edit file [nodeLabelCreationAndAssignment.sh](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/labels/nodeLabelCreationAndAssignment.sh) and modify the host names to the relative ones in your cluster.
-	* [./nodeLabelCreationAndAssignment.sh](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/labels/nodeLabelCreationAndAssignment.sh)
-
-5. Verify Node Lables were assigned to the nodes
-	* yarn node -list
-    * yarn node -status <Node_ID>
-
-
-
-### Configure Capacity Scheduler Queues
-The default scheduler within HDP Yarn is the Capacity Scheduler. Capacity Scheduler has the notion of queues that allows you to carve up the resources of the clusters to different applications or business units. Two powerful capabilities of the capacity scheduler that we will use are teh following:
-
-1. [Hierarchal Queues](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/bk_yarn_resource_mgt/content/ref-4e3db754-a63c-42ff-b3d4-d808b4381fd2.1.html)
-	* Ensure resources are shared among the sub-queues of an organization before other queues are allowed to use free resources, there-by providing affinity for sharing free resources among applications of a given organization
-2. [Assign Node Labels to Queues](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/bk_yarn_resource_mgt/content/ref-7302fe4c-1e7c-4d32-9c62-18b9809d6fd1.1.html) 
- 	* By assigning node labels to a certain queue, then any job that gets submitted to that queue will only be scheduled on the nodes with that label.
-
-The below pic describes how we will configure the queues. Note that only leaf queues will have jobs submitted to it. All Data science jobs will the submitted to teh Data Science queue which will have 10% of the cluster. 90% of the cluster will be given to parent queue called Prod. Under Prod, there are 4 Queues:
-
-1. HBase
-	* Has label called hbase which is allocated 100%. This means that when a job gets submitted to this queue with label hbase, then it has access to 100% of the resources on the nodes with label hbase. So in our case 100% of resoruces of Node 4 and Node 5. As we will see when create an HBase slider App, Hbase components like the regions servers will be submitted to this queue with label HBase. 
-	* Has label called nolabel which is allocated 20% of 75% of the cluster. This means that when a job gets submitted to this queue with no label assignment, then it will be allocated 15% of resources across all nodes with no label. So in our case, it will have access to 15% of the resources across Nodes 1,2,3 and 8. As we will see when create an HBase slider App, Hbase components like the Hbase Master will be submitted to this queue with no label
-2. Storm
-	* Configured Similar to HBase
-3. Reporting
-	* Any reporting/hive queries will use this queue which has 10% of 75% of the cluster resources with no label
-4. ETL
-	* Any falcon/oozie etl jobs will be submitted to this queue which has 50% of the 75% of the cluster resources with no label
-
-![Hierachal Queues](readme-design-artifacts/iot-trucking-cluster--Assign Labels To Queues.png)
-
-
-The following are the steps to configure the CS Queues as described above.
-
-
-1. Read  through [Configuring Capacity Scheduler](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/bk_yarn_resource_mgt/content/ch_capacity_scheduler.html).
-2. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup
-3. modify the [config.properties](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/config.properties) to configure the ambari host and credentials. We will be use the rest API to update the capacity scheduler config
-4. cd workspace/hdp/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/queue
-5. edit [main_updateCSQueue.py](https://github.com/georgevetticaden/hdp/tree/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/queue) and make sure sys.path.insert 2 arg is pointing to the right path
-6. Call the python script that configure the capacity scheduler queue via Ambari APIs:
-	* python3 main_updateCSQueue.py 
-7. Update the the following yarn config property (in scheduler stab)and restart the Yarn service
-	* yarn.scheduler.minimum-allocation-mb = 682
-8. Verify the queue configuration by doing the following:
-	* Ambari --> Yarn --> ResourceManager UI --> Scheduler
-	* The Queue configuration shoudl look like something like this:
-
-![Queue Configuration](readme-design-artifacts/iot-trucking-cluster-Capacity Scheduler.png)	
-
-
-### Slider Setup
-
-##### 1. Install the Slider View
-
-1. Click on Admin Tab --> Manage Ambari
-2. Click Deploy View --> Click Slider --> Create Instance
-3. Configure the View With your cluster details
-
-![Create Sider View](readme-design-artifacts/iot-trucking-cluster-Create Slider View.png)
-
-##### 2. Install the HBase and Storm Slider Libraries into Ambari
-1. Login to the Ambari Host as ro2. . 
-2. Execute the commands in the script [Setup Slider](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/slider/main_setupSlider.sh) 
-
-
-### Create an Instance of the HBase Slider App
-Now That we have configured node labels and carved up the resources of our clsuter using the Capacity Scheduler, it is now to create an instance of the HBase app managed by Yarn. 
-
-Go the Slider View --> Create App
-##### 1.  Select Type
-Select HBASE App type, provide name, configure the queue name as "hbase" and configure yarn labels as any host
-
-![Select HBase Type](readme-design-artifacts/iot-trucking-cluster-slider-hbase-Select Type.png)
-
-##### 2.  Select Allocate Resources
-
-![Allocate HBase Resources](readme-design-artifacts/iot-trucking-cluster-slider-hbase-Allocate Resources.png)
-##### 3.  Configuration
-
-Leave the Defaults
-##### 4.  Deploy
-
-Clikc Deploy
-
-
-
-
-
-#### Create an Instance of the Storm Slider App
-
-Go the Slider View --> Create App
-##### 1.  Select Type
-Select HBASE App type, provide name, configure the queue name as "hbase" and configure yarn labels as any host
-
-![Select Storm Type](readme-design-artifacts/iot-trucking-cluster-slider-storm-Select Type.png)
-
-##### 2.  Select Allocate Resources
-
-![Allocate HBase Resources](readme-design-artifacts/iot-trucking-cluster-slider-storm-Allocate Resources.png)
-##### 3.  Configuration
-
-Leave the Defaults
-##### 4.  Deploy
-
-Clikc Deploy
-
 
 
 
@@ -231,25 +96,8 @@ Do the following on the edge Node
 
 
 ### Configure HBase
-We will now create all the necessary HBase tables required by the application. 
-We need to to find a a node where slider has spun up an hbase component so we can use the hbase client to create the necessary HBase Tables for the application
 
-1. Go the the Application Master of the HBase Slider App 
-	* Go the Slider View --> Click the Hbase App --> Quick Links --> Yarn Application --> HBase Application Master
-2. On the AppMaster Page, find the details of the HBaseMaster Host and container which look somethign like the following:
-	* HBASE_MASTER Host(s)/Container(s): [iot09.cloud.hortonworks.com/container_e02_1432858569861_0003_01_000002] 
-3. SSH as root into the HBase master host (e.g: iot09.cloud.hortonworks.com )
-4. cd into the direcotry where you have have cofigured the yarn property yarn.nodemanager.local-dirs (e.g: /mnt/hadoop/yarn/local)
-5. From there: cd usercache/yarn/appcache/[container_info_you_found_in_step_2]/[container_info_you_found_in_step_2]/app/install/hbase-0.98.4.2.2.0.0-2041-hadoop2/bin
-6. ./hbase shell
-7. Execute the hbase table creation commands found here: 
-	* [createHBaseTables](https://github.com/georgevetticaden/hdp/blob/master/reference-apps/iot-trucking-app/trucking-env-setup/environment/prod/setup/hbase/createHBaseTables)
-8. This should have created 3 tables in Hbase
-	1. driver_dangerous_events --> stores every violation event
-	2. driver_dangerous_events_count --> running count of violations per driver
-	3. driver_events --> all events generated by trucks and drivers
-9. Verify these tables were creating by running the following in hbase shell:
-	* list tables 
+Coming Soon
 
 
 ### Configure Kafka
@@ -434,28 +282,10 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 ##### Configure the Endpoints for the App, Generate Truck Events and View Real-time Alerts
 
 1. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
-![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page.png)
+![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page-hdf2_0.png)
 2. Click the link "Configure HDP Service Endpoints" to Configure the Application with HDP Service Endpoints:
-	* Set the Following properties:
-		* Ambari Server URL = the ambari server url with port
-		* Cluster Name = the name you gave to the ambari cluster
-		* Set HBase Deployment Option to defaulted as "Slider"
-		* Slider HBase Publisher URL = Find this value by doing the following:
-			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider App
-			* Quick Links --> Yarn Application --> Application Master
-			* Search for the publisher URL. 
-				* e.g:  http://iot08.cloud.hortonworks.com:58654/ws/v1/slider/publisher
-		* Slider Storm Publisher URL = Find this value by doing the following:
-			* Log into Ambari --> Views --> Slider Views --> Select HBase Slider App
-			* Quick Links --> Yarn Application --> Application Master
-			* Search for the publisher URL. 
-				* e.g:  http://iot08.cloud.hortonworks.com:44070/ws/v1/slider/publisher
-		* ActiveMq host = the FQDN of the host where activemq running
-			* e.g: iot10.cloud.hortonworks.com
-		* Solr Server URL = the url to where solr is running
-			* e.g: http://iot10.cloud.hortonworks.com:8983/solr
-	* See the below for example configuration:
-![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint.png)
+
+![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint-hdf2_0.png)
 3. Deploy the Storm Topology
 	* Click the Home Button
 	* Click the "Deploy the Storm Toplogy" link. This will take a few minutes but it will deploy the storm Topology to the storm framework on the cluster
@@ -466,7 +296,7 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 	* You should now start to see the real-time trucking data and alerts on the map.
 	* See pic below for an example:
 
-![IOT Trucking Web Portal - Generate Streams ](readme-design-artifacts/iot-trucking-poratl-Generate Truck Streams-Alerts.png)
+![IOT Trucking Web Portal](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams-Alerts.png)
 
 
 
