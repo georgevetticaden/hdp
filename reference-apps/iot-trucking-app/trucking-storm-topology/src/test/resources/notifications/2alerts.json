@@ -1,0 +1,29 @@
+{
+	"notificationTimestamp":"9/15/16 2:14 AM",
+	"notificationMessage":"Driver[driver[11], truck[90]] has alleast 2 infractions across atleast 2 different infraction types in the last 2 minutes",
+	"infractionDetail":{
+		"truckDriver":{
+			"driverId":11,
+			"truckId":90,
+			"driverName":"Jamie Engesser",
+			"routeName":"Springfield to KC Via Hanibal"
+		},
+		"infractions":[
+			{
+				"count":2,
+				"infractionEvent":"Unsafe tail distance"
+			},
+			{
+				"count":2,
+				"infractionEvent":"Unsafe following distance"
+			},
+			{
+				"count":2,
+				"infractionEvent":"Lane Departure"
+			}
+		],
+		"averageSpeed":0,
+		"driverSpeeding":false
+	},
+	"alertName":"2InfractionsAcross2AlertTypes"
+}

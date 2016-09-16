@@ -1,0 +1,99 @@
+<html class="no-js">
+	<head>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+
+	</head>
+		
+<body>
+
+
+<div ng-controller="TruckMonitorCtrl">
+
+
+
+
+
+<div >
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			Real-Time Truck Driver Monitoring Application
+			<button ng-disabled="false" ng-click="generateTruckStreams()">Generate Truck Events</button>
+		</h3> 
+		
+	</div>
+
+</div>
+
+<div  ng-controller="TruckMonitorCtrl">
+<hc-pie-chart title="Browser usage" data="{{result.speedGaugeModel.data}}" >Placeholder for pie chart</hc-pie-chart>
+</div>
+
+	  
+<div ng-show="results.alerts.rows.length > 0 ">
+		
+		<table class="table table-striped table-bordered table-hover">
+	          <thead>
+	            <tr>
+	              <th>Alert Time</th>
+	              <th>Alert Type</th>
+	               <th>Alert Message</th>
+	              <th>Driver Name</th>
+	            </tr>
+	          </thead>
+			<tr class="{{result.rowClass}}" ng-repeat="result in results.alerts.rows">
+				<td class{}="text">{{result.notificationTimestamp}}</td>
+				<td class{}="text">{{result.alertType}}</td>
+				<td class{}="text">{{result.notificationMessage}}</td>
+				<td class{}="text">{{result.driverName}}</td>
+				
+			</tr>
+		</table>
+</div>								
+	
+<div id="container" style="min-width: 50px; max-width: 100px; height: 100px; margin: 0 auto"></div>
+	
+
+<div class="box non-collapsible" ng-controller="TruckMonitorCtrl">
+ 	<leaflet defaults="defaults" center="center" id="map"  height="600px" style="position:relative"></leaflet>				
+
+	<div ng-show="results.driverMontior.rows.length > 0 ">
+		
+		<table class="table table-striped table-bordered table-hover">
+	          <thead>
+	            <tr>
+	              <th>Driver Name</th>
+	               <th>Route Name</th>
+	              <th>TruckId</th>               
+	              <th>DriverId</th>
+				  <th>RouteId</th>
+	              <th class="number">Timestamp</th>
+	              <th class="number">Longitude</th>
+	              <th class="number">Latitude</th>
+	              <th class="number">Last Infraction</th>
+	              <th>Total Infractions</th>
+	            </tr>
+	          </thead>
+			<tr class="{{result.rowClass}}" ng-repeat="result in results.driverMontior.rows">
+				<td class{}="text">{{result.driverName}}</td>
+				<td class="text">{{result.routeName}}</td>
+				<td class="text">{{result.truckId}}</td>
+				<td class="text">{{result.driverId}}</td>
+				<td class="text">{{result.routeId}}</td>
+				<td class="text">{{result.timeStampString}}</td>
+				<td class="text">{{result.longitude}}</td>
+				<td class="text">{{result.latitude}}</td>
+				<td class="text">{{result.infractionEvent}}</td>
+				<td class="text">{{result.numberOfInfractions}}</td>
+
+			</tr>
+		</table>
+	</div>								
+
+</div>
+
+</div>
+
+
+
+</body>
+</html>

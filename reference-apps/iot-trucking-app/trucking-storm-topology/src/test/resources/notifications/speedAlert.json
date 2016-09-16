@@ -1,0 +1,33 @@
+{
+	"notificationTimestamp":"9/15/16 3:07 AM",
+	"notificationMessage":"Driver[driver[13], truck[26]] has alleast 2 infractions across atleast 2 different infraction types in the last 3 minutes",
+	"infractionDetail":{
+		"truckDriver":{
+			"driverId":13,
+			"truckId":26,
+			"driverName":"Suresh Srinivas",
+			"routeName":" Saint Louis to Chicago Route2"
+		},
+		"infractions":[
+			{
+				"count":8,
+				"infractionEvent":"Overspeed"
+			},
+			{
+				"count":3,
+				"infractionEvent":"Unsafe tail distance"
+			},
+			{
+				"count":8,
+				"infractionEvent":"Unsafe following distance"
+			},
+			{
+				"count":7,
+				"infractionEvent":"Lane Departure"
+			}
+		],
+		"averageSpeed":0,
+		"driverSpeeding":false
+	},
+	"alertName":"Multiple Infractions"
+}
