@@ -5,6 +5,7 @@ function ApplicationModel(stompClient, events, L) {
   self.username = ko.observable();
   self.driverMontior = ko.observable(new DriverMonitorModel());
   self.notifications = ko.observableArray();
+  self.alerts = ko.observable(new AlertModel());
   self.leaf = L;
   self.truckSymbolSize;
   
@@ -14,7 +15,7 @@ function ApplicationModel(stompClient, events, L) {
   self.connect = function() {
     stompClient.connect('', '', function(frame) {
 
-      console.log('Connected XXXX' + frame);
+      //console.log('Connected XXXX' + frame);
       self.username(frame.headers['user-name']);
 
       //Update page with any new dangerous event that came in
@@ -30,9 +31,18 @@ function ApplicationModel(stompClient, events, L) {
       });      
       
       //Update page with any new alerts
+      
+      /*
       stompClient.subscribe("/topic/driver_alert_notifications", function(message) {
           self.pushNotification(JSON.parse(message.body).alertNotification);
         });
+        */
+      
+      stompClient.subscribe("/topic/driver_alert_notifications", function(message) {
+    	  console.log(message);
+          self.alerts.processAlert(JSON.parse(message.body).alertNotification);
+        });
+            
       
     }, function(error) {
       console.log("STOMP protocol error " + error);
@@ -66,6 +76,29 @@ function ApplicationModel(stompClient, events, L) {
   
   self.loadEvents(self.driverEvents);
   
+}
+
+function AlertModel() {
+	var self = this;
+	self.rows = ko.observableArray();	
+	var rowLookup = {};
+	
+	  self.processAlert = function(alertEvent) {
+		  console.log("ProcessAlert - alert Event is" + alertEvent)
+		 	if (rowLookup.hasOwnProperty(alertEvent.driverId)) {
+		 		rowLookup[alertEvent.driverId].highlight();
+		 		rowLookup[alertEvent.driverId].updateEvent(driverEvent);	 		
+		 		
+		    } else {
+		    	self.loadAlert(driverEvent);
+		    }
+		  }; 	
+		  
+		  self.loadAlert = function (position) {
+			  	var row = new AlertRow(position);
+				self.rows.push(row);
+				rowLookup[row.driverId] = row;	  
+			  }		  
 }
 
 function DriverMonitorModel() {
@@ -264,4 +297,21 @@ function DriverRow(data) {
 };
 
 
+function AlertRow(data) {
+	  var self = this;
 
+	  self.notificationTimestamp = ko.observable(data.notificationTimestamp);
+	  self.notificationMessage = ko.observable(data.notificationMessage);
+	  self.alertType = ko.observable(data.alertName);
+	  self.driverName = data.infractionDetail.truckDriver.driverName;
+	  self.driverId = data.infractionDetail.truckDriver.driverId;
+	  
+	  self.updateEvent = function(driverEvent) {
+		  	
+		   self.notificationTimestamp(driverEvent.notificationTimestamp);
+		   self.notificationMessage(driverEvent.notificationMessage);
+		   self.alertType(driverEvent.alertName);
+
+	  };  
+	
+	};

@@ -83,12 +83,34 @@ public class InfractionRulesEngine implements Serializable {
 	}
 
 
-
 	public void processEvent(TruckDriverInfractionDetail infractionDetail) {
 		LOG.debug("Rule being executed for: " + infractionDetail);
 		executeRule_2InfractionsAcross2AlertTypes(infractionDetail);
+		executeRule_sustainedHighSpeedDrivining(infractionDetail);
 		
 	}	
+	
+
+	private void executeRule_sustainedHighSpeedDrivining(
+			TruckDriverInfractionDetail infractionDetail) {
+		
+		List<InfractionCount> infractionCounts = infractionDetail.getInfractions();
+		
+		/* If there aren't atleast 2 different infraction events, then don't alert */
+		
+		if(infractionDetail.isDriverSpeeding()) {
+			if(sendAlertToTopic) {
+				String alertMessage = "Driver["+infractionDetail.getTruckDriver() + "] has been speeeding at "+infractionDetail.getAverageSpeed()+" for the last 5 minutes";
+				sendAlertToTopic("High Speed Driving for Sustained Period",alertMessage, infractionDetail);	
+			}				
+		} else {
+			LOG.info("Rule didn't fire because Driver["+infractionDetail.getTruckDriver() + "] is not speeding["+ infractionDetail.getAverageSpeed() +"]");
+
+		}
+		
+	}
+
+
 
 	/**
 	 * If Driver has atleast 2 of the same infractions across 2 different event types, then trigger an alert
@@ -101,7 +123,7 @@ public class InfractionRulesEngine implements Serializable {
 		
 		/* If there aren't atleast 2 different infraction events, then don't alert */
 		if(infractionCounts.size() < 2) {
-			LOG.debug("Rule didn't fire because the number of infrations["+infractionCounts.size()+"] was less than 2");
+			LOG.debug("Rule[2InfractionsAcross2AlertTypes] didn't fire because the number of infrations["+infractionCounts.size()+"] was less than 2");
 			return;
 		}
 			
@@ -120,10 +142,14 @@ public class InfractionRulesEngine implements Serializable {
 			if(sendAlertToTopic) {
 				TruckDriverInfractionDetail alertObject = new TruckDriverInfractionDetail(infractionDetail.getTruckDriver());
 				alertObject.setInfractions(infractionCountsOfInterest);
-				sendAlertToTopic(alertObject);	
+
+				String alertMessage = "Driver["+infractionDetail.getTruckDriver() + "] has alleast 2 infractions across atleast 2 different infraction types in the last 3 minutes";
+				
+
+				sendAlertToTopic("Multiple Infractions",alertMessage, alertObject);	
 			}	
 		} else {
-			LOG.debug("Rule didn't fire becuase the number of infractions for atleast 2 infrations was not greater than 2: " + infractionCounts );
+			LOG.debug("Rule[2InfractionsAcross2AlertTypes] didn't fire becuase the number of infractions for atleast 2 infrations was not greater than 2: " + infractionCounts );
 		}
 
 	}
@@ -139,22 +165,20 @@ public class InfractionRulesEngine implements Serializable {
 	}
 
 	
-	private void sendAlertToTopic(TruckDriverInfractionDetail infractionDetail) {
+	private void sendAlertToTopic(String alertName, String alertMessage, TruckDriverInfractionDetail infractionDetail) {
 		TruckDriver truckDriver = infractionDetail.getTruckDriver();
 		String truckDriverEventKey = truckDriver.getDriverId() + "|" + truckDriver.getTruckId();
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		String timeStampString = sdf.format(new Date().getTime());		
-
-		String alertMessage = "Driver["+truckDriver.getDriverName() + "] has alleast 2 infractions across atleast 2 different infraction types in the last 2 minutes";
 		
-		TruckDriverInfractionsNotification notification = new TruckDriverInfractionsNotification(timeStampString, alertMessage, infractionDetail.getInfractions());
+		TruckDriverInfractionsNotification notification = new TruckDriverInfractionsNotification(alertName, timeStampString, alertMessage, infractionDetail);
 		
 		String jsonAlert;
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			jsonAlert = mapper.writeValueAsString(notification);
 			
-			LOG.info("Rule fired. About to send the following to Alerts Notification Queue: " + jsonAlert);
+			LOG.info("Rule["+ alertName +"] fired. About to send the following to Alerts Notification Queue: " + jsonAlert);
 			
 		} catch (Exception e) {
 			LOG.error("Error converting TruckDriverInfractionsNotification to JSON", e);

@@ -10,9 +10,11 @@ public class TruckDriverInfractionDetail implements Serializable {
 	
 	
 	private static final long serialVersionUID = 314833351299038521L;
+	private static final int HIGH_SPEED = 80;
 
 	private TruckDriver truckDriver;
 	private List<InfractionCount> infractions = new ArrayList<InfractionCount>();
+	private int averageSpeed = 0;
 	
 	public List<InfractionCount> getInfractions() {
 		return infractions;
@@ -63,6 +65,18 @@ public class TruckDriverInfractionDetail implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public int getAverageSpeed() {
+		return averageSpeed;
+	}
+
+	public void setAverageSpeed(int averageSpeed) {
+		this.averageSpeed = averageSpeed;
+	}
+	
+	public boolean isDriverSpeeding() {
+		return averageSpeed > HIGH_SPEED;
 	}
 	
 }

@@ -11,8 +11,31 @@ public class TruckDriverInfractionsNotification implements Serializable {
 	
 	private String notificationTimestamp;
 	private String notificationMessage;
-	private List<InfractionCount> infractions;
+	private TruckDriverInfractionDetail infractionDetail;
 	
+
+
+	public TruckDriverInfractionsNotification(String alertName, String notificationTimestamp,
+			String notificationMessage, TruckDriverInfractionDetail infractionDetail) {
+		super();
+		this.alertName = alertName;
+		this.notificationTimestamp = notificationTimestamp;
+		this.notificationMessage = notificationMessage;
+		this.infractionDetail = infractionDetail;
+	}
+	
+		
+
+	private String alertName;
+	
+	public String getAlertName() {
+		return alertName;
+	}
+
+	public void setAlertName(String alertName) {
+		this.alertName = alertName;
+	}
+
 	public String getNotificationTimestamp() {
 		return notificationTimestamp;
 	}
@@ -28,25 +51,14 @@ public class TruckDriverInfractionsNotification implements Serializable {
 	public void setNotificationMessage(String notificationMessage) {
 		this.notificationMessage = notificationMessage;
 	}
-
-	public List<InfractionCount> getInfractions() {
-		return infractions;
+	
+	public TruckDriverInfractionDetail getInfractionDetail() {
+		return infractionDetail;
 	}
 
-	public void setInfractions(List<InfractionCount> infractions) {
-		this.infractions = infractions;
-	}
-
-	public TruckDriverInfractionsNotification(String notificationTimestamp,
-			String notificationMessage, List<InfractionCount> infractions) {
-		super();
-		this.notificationTimestamp = notificationTimestamp;
-		this.notificationMessage = notificationMessage;
-		this.infractions = infractions;
-	}
-	
-	
-	
+	public void setInfractionDetail(TruckDriverInfractionDetail infractionDetail) {
+		this.infractionDetail = infractionDetail;
+	}	
 	
 
 }

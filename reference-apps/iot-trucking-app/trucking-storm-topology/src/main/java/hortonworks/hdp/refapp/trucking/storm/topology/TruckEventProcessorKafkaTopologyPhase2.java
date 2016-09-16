@@ -70,6 +70,9 @@ public class TruckEventProcessorKafkaTopologyPhase2 extends BaseTruckEventTopolo
 		/* Configuring Windowing to count infractions every 3 minutes */
 		configureTumblingWindowInfractionCountBolt(builder);	
 		
+		
+		
+		
 		/* Configure Pattern Matching rule for nujmber of infractions */
 		configureInfractionRulesBolt(builder);
 
@@ -78,11 +81,7 @@ public class TruckEventProcessorKafkaTopologyPhase2 extends BaseTruckEventTopolo
 		
 		/* configure Solr indexing bolt */
 		//configureSolrIndexingBolt(builder);
-		
 
-		
-		
-		
 		
 		/* Setup HBse Bolt for to persist violations and all events (if configured to do so)*/
 		//configureHBaseBolt(builder);
@@ -183,6 +182,8 @@ public class TruckEventProcessorKafkaTopologyPhase2 extends BaseTruckEventTopolo
 						new TumblingWindowInfractionCountBolt().withTumblingWindow(windowLength), boltCount).
 						fieldsGrouping("Join-Truck-Streams", new Fields("driverId"));
 	}
+	
+	
 	
 	public void configureJoinTruckStreamsBolt(TopologyBuilder builder) {
 		int boltCount = Integer.valueOf(topologyConfig.getProperty("trucking.bolt.thread.count"));

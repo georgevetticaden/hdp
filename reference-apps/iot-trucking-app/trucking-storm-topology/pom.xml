@@ -18,7 +18,6 @@
 		<org.springframework.version>4.0.7.RELEASE</org.springframework.version>
 	</properties>
 	
-
 	<dependencies>
 	
 		<!-- Logging Dependencies -->

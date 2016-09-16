@@ -49,6 +49,13 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		StormTopologyParams topologyParams = createPhase2TopologyParams();
 		stormUtils.deployStormTopology(topologyParams);
 	}	
+	
+	@Test
+	public void deployPhase3Topology() throws Exception{
+		
+		StormTopologyParams topologyParams = createPhase3TopologyParams();
+		stormUtils.deployStormTopology(topologyParams);
+	}		
 
 
 	private StormTopologyParams createPhase1TopologyParams() throws Exception {
@@ -91,7 +98,27 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		topologyParams.setCustomStormProperties(prop);		
 		
 		return topologyParams;
-	}	
+	}
+	
+	private StormTopologyParams createPhase3TopologyParams() throws Exception {
+
+		StormTopology topology = createPhase3Topology(topologyConfig);
+		
+		StormTopologyParams topologyParams = new StormTopologyParams();
+		topologyParams.setUpload(true);	
+		topologyParams.setTopology(topology);
+		topologyParams.setTopologyName("streaming-analytics-ref-app-phase3");
+		topologyParams.setTopologyJarLocation(topologyConfig.getProperty(STORM_TOPOLOGY_KEY));
+		topologyParams.setNumberOfWorkers(Integer.valueOf(topologyConfig.getProperty("trucking.storm.trucker.topology.workers")));
+		topologyParams.setTopologyEventLogExecutors(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.eventlogger.executors")));
+		topologyParams.setTopologyMessageTimeoutSecs(Integer.valueOf(topologyConfig.getProperty("trucking.storm.topology.message.timeout.secs")));
+		
+		Properties prop = new Properties();
+		prop.put("storm.zookeeper.connection.timeout", 30000);
+		topologyParams.setCustomStormProperties(prop);		
+		
+		return topologyParams;
+	}		
 	
 	@Test
 	public void testGetStormTopology() throws Exception {
@@ -121,7 +148,14 @@ public class TruckEventProcessorKafkaTopologyTest extends BaseTopologyTest {
 		StormTopology topology = truckTopology.buildTopology();
 		return topology;
 	}	
+	private StormTopology createPhase3Topology(Properties topologyConfig) throws Exception {
 		
+		/* Construct the Topology */
+		TruckEventProcessorKafkaTopologyPhase3 truckTopology = new TruckEventProcessorKafkaTopologyPhase3(topologyConfig);
+		StormTopology topology = truckTopology.buildTopology();
+		return topology;
+	}	
+	
 	private static Properties constructStormTopologyConfig(HDPServiceRegistry registry)   {
 		Properties topologyConfig = new Properties();
 		

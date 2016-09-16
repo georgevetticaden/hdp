@@ -15,12 +15,22 @@ public class Driver implements DomainObject {
 
 	private String driverName;
 
+	private boolean speedyDriver;
+
+
 	public Driver(int driverId, String driverName, int riskFactor) {
 		this.driverId = driverId;
 		this.riskFactor = riskFactor;
 		this.setDriverName(driverName);
 
 	}
+	
+	public Driver(int driverId, String driverName, int riskFactor, boolean speedyDriver) {
+		this.driverId = driverId;
+		this.riskFactor = riskFactor;
+		this.setDriverName(driverName);
+		this.speedyDriver = speedyDriver;
+	}	
 
 	public void provideRoute(Route route) {
 		this.route = route;
@@ -67,5 +77,14 @@ public class Driver implements DomainObject {
 	public int getRouteTraversalCount() {
 		return this.routeTraversalCount;
 	}
+	
+	public boolean isSpeedyDriver() {
+		return speedyDriver;
+	}
+
+	public void setSpeedyDriver(boolean speedyDriver) {
+		this.speedyDriver = speedyDriver;
+	}
+	
 
 }

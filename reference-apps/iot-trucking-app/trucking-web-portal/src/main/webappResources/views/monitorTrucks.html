@@ -7,19 +7,48 @@
 <body>
 
 
-<div ng-controller="TruckMonitorCtrl"
+<div ng-controller="TruckMonitorCtrl">
+
+
+
+
 
 <div >
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			Real-Time Truck Driver Monitoring Application
-			<button ng-disabled="isEventsFlowing()" ng-click="generateTruckStreams()">Generate Truck Events</button>
+			<button ng-disabled="false" ng-click="generateTruckStreams()">Generate Truck Events</button>
 		</h3> 
 		
 	</div>
 
 </div>
 
+
+	  
+<div ng-show="results.alerts.rows.length > 0 ">
+		
+		<table class="table table-striped table-bordered table-hover">
+	          <thead>
+	            <tr>
+	              <th>Alert Time</th>
+	              <th>Alert Type</th>
+	               <th>Alert Message</th>
+	              <th>Driver Name</th>
+	            </tr>
+	          </thead>
+			<tr class="{{result.rowClass}}" ng-repeat="result in results.alerts.rows">
+				<td class{}="text">{{result.notificationTimestamp}}</td>
+				<td class{}="text">{{result.alertType}}</td>
+				<td class{}="text">{{result.notificationMessage}}</td>
+				<td class{}="text">{{result.driverName}}</td>
+				
+			</tr>
+		</table>
+</div>								
+	
+<div id="container" style="min-width: 50px; max-width: 100px; height: 100px; margin: 0 auto"></div>
+	
 
 <div class="box non-collapsible" ng-controller="TruckMonitorCtrl">
  	<leaflet defaults="defaults" center="center" id="map"  height="600px" style="position:relative"></leaflet>				
@@ -60,6 +89,8 @@
 </div>
 
 </div>
+
+
 
 </body>
 </html>

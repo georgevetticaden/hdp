@@ -59,8 +59,15 @@ public class Truck extends AbstractEventEmitter{
 		
 	
 		Location nextLocation = getDriver().getRoute().getNextLocation();
-		int speed = getNormalTruckSpeed();
-		if (messageCount % driver.getRiskFactor() == 0) {
+		
+		int speed = 0;
+		if(driver.isSpeedyDriver()) {
+			speed = getHighTruckSpeed();
+		} else {
+			speed = getNormalTruckSpeed();
+		}
+		
+		if (messageCount % driver.getRiskFactor() == 0 || driver.isSpeedyDriver()) {
 			MobileEyeEventTypeEnum eventType = getRandomUnsafeEvent();
 			if(MobileEyeEventTypeEnum.OVERSPEED.equals(eventType)) {
 				speed = getHighTruckSpeed();

@@ -53,8 +53,15 @@ public class SlidingWindowAverageSpeedBolt extends BaseWindowedBolt {
 			String eventType = tuple.getStringByField("eventType");
 			double longitude = tuple.getDoubleByField("longitude");
 			double latitude = tuple.getDoubleByField("latitude");
-			long correlationId = tuple.getLongByField("correlationId");		
-			int speed = tuple.getIntegerByField("truckSpeed");
+			long correlationId = tuple.getLongByField("correlationId");	
+			Object speedObject = tuple.getValueByField("truckSpeed");
+			int speed = 0;
+			if(speedObject != null) {
+				speed = ((Integer)speedObject).intValue();
+			} else {
+				LOG.info("Tuple["+ tuple +"] has no speed" );
+			}
+			 
 			
 			TruckDriver driver = new TruckDriver(driverId, driverName, truckId, routeName);
 			TruckDriverSpeeds truckDriverSpeeds = truckDriversSpeeds.get(driver);
@@ -70,7 +77,7 @@ public class SlidingWindowAverageSpeedBolt extends BaseWindowedBolt {
 			TruckDriverSpeeds truckSpeeds = truckDriversSpeeds.get(truckDriver);
 			int avergeSpeed = truckSpeeds.calculateAverageSpeed();
 			LOG.info("TruckDriver["+ truckDriver +"] average speed is: " + avergeSpeed);
-			collector.emit(new Values(truckDriver, avergeSpeed));
+			collector.emit(new Values(truckDriver.getDriverId(), truckDriver, avergeSpeed));
 		}
 
 	}
@@ -78,7 +85,7 @@ public class SlidingWindowAverageSpeedBolt extends BaseWindowedBolt {
 	 @Override
 	 public void declareOutputFields(OutputFieldsDeclarer declarer) {
 	        
-		 declarer.declare(new Fields("truckDriver", "averageSpeed"));
+		 declarer.declare(new Fields("driverId", "truckDriver", "averageSpeed"));
 	    
 	 }	
 

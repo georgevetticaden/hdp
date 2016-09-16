@@ -23,6 +23,7 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 
+
 public class TruckHBaseBolt implements IRichBolt {
 
 
@@ -79,6 +80,7 @@ public class TruckHBaseBolt implements IRichBolt {
 	public void execute(Tuple input) {
 		
 		LOG.info("About to insert tuple["+input +"] into HBase...");
+		
 		
 		
 		int driverId = input.getIntegerByField("driverId");

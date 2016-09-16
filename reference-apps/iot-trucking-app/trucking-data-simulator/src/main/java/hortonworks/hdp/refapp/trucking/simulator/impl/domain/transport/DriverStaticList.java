@@ -22,6 +22,10 @@ public class DriverStaticList {
 		/* Everyone else is not risky */
 		
 		DRIVERS_LIST_ITERATOR = DRIVER_LIST.iterator();
+		/* Two speedy drivers */
+		DRIVER_LIST.add(new Driver(lastDriverId++, "Joe Witt", 30, true));
+		DRIVER_LIST.add(new Driver(lastDriverId++, "Suresh Srinivas", 20, true));
+		/* End of speedy drivers */
 		DRIVER_LIST.add(new Driver(lastDriverId++, "Paul Codding", 100));
 		DRIVER_LIST.add(new Driver(lastDriverId++, "Joe Niemiec", 100));
 		DRIVER_LIST.add(new Driver(lastDriverId++, "Adis Cesir", 100));

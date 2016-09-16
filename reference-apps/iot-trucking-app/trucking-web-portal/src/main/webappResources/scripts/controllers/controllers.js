@@ -208,6 +208,7 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  self.username;
 	  self.driverMontior = new DriverMonitorModel(leafletDataContianer);
 	  self.notifications = [];
+	  self.alerts = new AlertModel();
 	  
 	  self.truckSymbolSize;
 	  
@@ -234,9 +235,16 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	      });      
 	      
 	      //Update page with any new alerts
+	      /* 
 	      stompClient.subscribe("/topic/driver_alert_notifications", function(message) {
 	          self.pushNotification(JSON.parse(message.body).alertNotification);
 	        });
+	        */
+	      
+	      stompClient.subscribe("/topic/driver_alert_notifications", function(message) {
+	    	  console.log(message);
+	          self.alerts.processAlert(JSON.parse(message.body));
+	        });	      
 	      
 	    }, function(error) {
 	      console.log("STOMP protocol error " + error);
@@ -429,6 +437,30 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 		};
 
 	};
+	
+	
+	
+	function AlertModel() {
+		var self = this;
+		self.rows = [];
+		var rowLookup = {};
+		
+		  self.processAlert = function(alertEvent) {
+			  console.log(alertEvent)
+			 	if (rowLookup.hasOwnProperty(alertEvent.infractionDetail.truckDriver.driverId)) {
+			 		rowLookup[alertEvent.infractionDetail.truckDriver.driverId].updateEvent(driverEvent);	 		
+			 		
+			    } else {
+			    	self.loadAlert(alertEvent);
+			    }
+			  }; 	
+			  
+			  self.loadAlert = function (position) {
+				  	var row = new AlertRow(position);
+					self.rows.push(row);
+					rowLookup[row.driverId] = row;	  
+				  }		  
+	}	
 
 
 	function DriverRow(data) {
@@ -471,3 +503,23 @@ function ApplicationModel(stompClient, events, leafletDataContianer) {
 	  };  
 
 	};
+	
+	function AlertRow(data) {
+		  var self = this;
+
+		  self.notificationTimestamp = data.notificationTimestamp;
+		  self.notificationMessage = data.notificationMessage;
+		  self.alertType = data.alertName;
+		  self.driverName = data.infractionDetail.truckDriver.driverName;
+		  self.driverId = data.infractionDetail.truckDriver.driverId;
+		  
+		  self.updateEvent = function(driverEvent) {
+			  	
+			   self.notificationTimestamp(driverEvent.notificationTimestamp);
+			   self.notificationMessage(driverEvent.notificationMessage);
+			   self.alertType(driverEvent.alertName);
+
+		  };  
+		
+		};
+	
