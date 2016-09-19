@@ -148,6 +148,9 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 5. Edit properites file for the app:
 	* cd /mnt/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry
 	* Open file called ref-app-hdp-service-config.properties and configure the following properties:
+		* ambari.cluster.name --> the name of your HDF cluster
+		* ambari.server.url --> Ambari server url (e.g: http://hdf-ref-app0.field.hortonworks.com:8080/)
+		* hbase.zookeeper.host --> the zookeeper host that hbase uses.
 		* trucking.activemq.host --> set this to the host where you installed and running activemq
 		* trucking.notification.topic.connection.url --> replace the host with the host for your activemq instance
 		* trucking.storm.topology.jar --> change this ot the location of the local maven repo where you installed the storm topology 			* (e.g: /root/.m2/repository/hortonworks/hdp/refapp/trucking/trucking-storm-topology/3.0.0-SNAPSHOT/trucking-storm-topology-3.0.0-SNAPSHOT-shaded.jar)
@@ -165,20 +168,23 @@ Log into the node where you installed the Maven Projects in the earlier step as 
 	* nohup mvn jetty:run -X -Dservice.registry.config.location=[REPLACE_WITH_DIR_YOU_CLONED_TO]/workspace/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/config/dev/registry -Dtrucking.activemq.host=[REPLACE_WITH_THE_FQDN_OF_ACTIVEMQ_HOST] &
 
 
+
+
+
 ##### Configure the Endpoints for the App, Generate Truck Events and View Real-time Alerts
 
 1. Hit the portal URL: http://[edge_node_hostname]:8080/iot-trucking-app/ You should See this:
 ![IOT Trucking Web Portal - Welcome Page ](readme-design-artifacts/iot-trucking-portal-Welcome Page-hdf2_0.png)
-2. Click the link "Configure HDP Service Endpoints" to Configure the Application with HDP Service Endpoints:
 
-![IOT Trucking Web Portal - Configure Endpoints ](readme-design-artifacts/iot-trucking-portal-Configure Endpoint-hdf2_0.png)
-3. Deploy the Storm Topology
+2. Deploy the Storm Topology
 	* Click the Home Button
 	* Click the "Deploy the Storm Toplogy" link. This will take a few minutes but it will deploy the storm Topology to the storm framework on the cluster
-4. Generate The Truck Event Streams
+	
+3. Generate The Truck Event Streams
 	* Click the "Truck Monitoring Application" Link
 	* After the page renders and initializes (about 15 seconds), the "Generate Truck Events" button will be enabled and then click it
-5. View Real-time trucking data
+
+4. View Real-time trucking data
 	* You should now start to see the real-time trucking data and alerts on the map.
 	* See pic below for an example:
 
