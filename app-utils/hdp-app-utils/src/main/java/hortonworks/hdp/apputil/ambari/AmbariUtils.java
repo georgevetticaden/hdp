@@ -127,20 +127,6 @@ public class AmbariUtils {
 		return getLatestConfigurationValueFor("hive-site", "hive.server2.thrift.port");
 	}
 	
-	/* Falcon Infomration */
-	public String getFalconHost() throws Exception {
-		String falconHost = null;
-		List<String> hosts = getHostNameForServiceAndComponent("FALCON", "FALCON_SERVER");
-		if(!hosts.isEmpty()) {
-			falconHost = hosts.get(0);
-		}
-		return falconHost ;		
-	}
-	
-	public String getFalconBrokerUrl() throws Exception {
-		return getLatestConfigurationValueFor("falcon-startup.properties", "*.broker.url");
-	}
-	
 	
 	/* Yarn Information */
 	public String getResourceManagerUrl() throws Exception {

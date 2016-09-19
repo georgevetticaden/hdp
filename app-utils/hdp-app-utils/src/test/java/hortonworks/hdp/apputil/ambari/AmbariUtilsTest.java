@@ -84,15 +84,7 @@ public class AmbariUtilsTest {
 		assertThat(ambariService.getHiveServer2ThriftPort(), is("10000"));
 	}		
 	
-	//@Test
-	public void getFalconHost() throws Exception{
-		assertThat(ambariService.getFalconHost(), is("centralregion03.cloud.hortonworks.com"));
-	}		
 	
-	//@Test
-	public void getFalconBrokerUrl() throws Exception {
-		assertThat(ambariService.getFalconBrokerUrl(), is("tcp://centralregion03.cloud.hortonworks.com:61616"));
-	}
 	
 	@Test
 	public void getResourceManagerURL() throws Exception {

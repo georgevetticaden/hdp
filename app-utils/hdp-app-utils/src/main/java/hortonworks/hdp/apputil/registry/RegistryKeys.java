@@ -33,10 +33,7 @@ public class RegistryKeys {
 	
 	public static final String HIVE_METASTORE_URL = "hive.metastore.url";
 	public static final String HIVE_SERVER2_CONNECT_URL = "hiveserver2.connect.string";
-	
-	public static final String FALCON_SERVER_URL = "falcon.server.url";
-	public static final String FALCON_BROKER_URL = "falcon.broker.url";
-	public static final String FALCON_SERVER_PORT = "falcon.server.default.port";
+
 	
 	public static final String AMBARI_SERVER_URL = "ambari.server.url";
 	public static final String AMBARI_CLUSTER_NAME = "ambari.cluster.name";

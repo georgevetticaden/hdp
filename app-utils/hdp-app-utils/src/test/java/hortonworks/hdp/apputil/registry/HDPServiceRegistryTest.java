@@ -114,6 +114,16 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 	}
 	
 	@Test
+	public void testPopulateForHDFStack() throws Exception{
+
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariForHDFSTack(DEFAULT_CONFIG_FILE_NAME, false);
+		//do asserts
+		testHDFRegistry(registry);
+	}
+		
+	
+	
+	@Test
 	public void testWritingRegistryToFile() throws Exception {
 
 		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/hdp/app-utils/hdp-app-utils/src/test/resources/registry");
@@ -211,6 +221,38 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 		
 		assertThat(serviceRegistry.getOozieUrl() , is("http://hdp2.field.hortonworks.com:11000/oozie"));	
 	}
+	
+	public void testHDFRegistry(HDPServiceRegistry serviceRegistry) {
+		
+	
+		assertThat(serviceRegistry.getClusterName(),  is("HDF_2_0_REF_APP"));
+		
+		assertThat(serviceRegistry.getAmbariServerUrl(),  is("http://hdf-ref-app0.field.hortonworks.com:8080/"));		
+		assertThat(serviceRegistry.getKafkaBrokerList()  , is("hdf-ref-app6.field.hortonworks.com:6667,hdf-ref-app7.field.hortonworks.com:6667,hdf-ref-app8.field.hortonworks.com:6667"));
+		assertThat(serviceRegistry.getKafkaZookeeperClientPort(), is("2181"));
+		assertThat(serviceRegistry.getKafkaZookeeperHost(), is("hdf-ref-app2.field.hortonworks.com"));
+		assertThat(serviceRegistry.getKafkaZookeeperZNodeParent(), is(""));
+		
+		assertThat(serviceRegistry.getStormNimbusHost(), is("hdf-ref-app2.field.hortonworks.com"));
+		assertThat(serviceRegistry.getStormNimbusPort(), is("6627"));
+		assertThat(serviceRegistry.getStormZookeeperQuorum(), is("hdf-ref-app0.field.hortonworks.com,hdf-ref-app1.field.hortonworks.com,hdf-ref-app2.field.hortonworks.com"));
+		assertThat(serviceRegistry.getStormUIUrl() , is("http://hdf-ref-app2.field.hortonworks.com:8744"));
+
+		
+		List<String> zookeepers = serviceRegistry.getStormZookeeperQuorumAsList();
+		assertThat(zookeepers.size(), is(3));
+		for(String zookeeper: zookeepers) {
+			System.out.println(zookeeper);
+		}		
+
+		
+
+
+		assertThat(serviceRegistry.getHBaseZookeeperClientPort() ,  is("2181"));
+		assertThat(serviceRegistry.getHBaseZookeeperHost(), is("hdp0.field.hortonworks.com"));
+		assertThat(serviceRegistry.getHBaseZookeeperZNodeParent(), is("/hbase-unsecure"));
+	
+	}	
 	
 	@Test
 	public void testHDPServiceRegistryWithEmptyConstructorAndThenPopulate() throws Exception {

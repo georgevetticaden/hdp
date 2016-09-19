@@ -171,35 +171,6 @@ public interface HDPServiceRegistry {
 	 */	
 	String getHiveServer2ConnectionURL() ;
 	
-	/**
-	 * Returns the
-	 * Source: Config, Ambari or Slider
-	 * Prop Key: 
-	 * E.g: 
-	 * 
-	 * @return
-	 */	
-	String getFalconServerUrl() ;
-	
-	/**
-	 * Returns the
-	 * Source: Config, Ambari or Slider
-	 * Prop Key: 
-	 * E.g: 
-	 * 
-	 * @return
-	 */	
-	String getFalconBrokerUrl() ;
-	
-	/**
-	 * Returns the
-	 * Source: Config, Ambari or Slider
-	 * Prop Key: 
-	 * E.g: 
-	 * 
-	 * @return
-	 */	
-	String getFalconServerPort() ;
 	
 	/**
 	 * Returns the
@@ -283,6 +254,13 @@ public interface HDPServiceRegistry {
 	void populate(ServiceRegistryParams params, Map<String, String> customParams, String configFileName) throws Exception;
 	
 	/**
+	 * Populate the Registry based on the params passed in and any custom params
+	 * @param params
+	 * @throws Exception
+	 */
+	void populateForHDFStack(ServiceRegistryParams params, Map<String, String> customParams, String configFileName) throws Exception;	
+	
+	/**
 	 * Populate the Registry based on the params passed in
 	 * @param params
 	 * @throws Exception
@@ -295,6 +273,8 @@ public interface HDPServiceRegistry {
 	 * @throws Exception
 	 */
 	void populate() throws Exception;
+	
+	void populateForHDF() throws Exception;	
 	
 	/**
 	 * Writes teh registry to a properties config file passed in initially

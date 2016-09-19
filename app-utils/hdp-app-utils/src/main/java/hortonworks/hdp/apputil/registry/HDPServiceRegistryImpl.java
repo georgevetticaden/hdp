@@ -83,6 +83,7 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 	 * 	1. Load further endpoints from Ambari REST
 	 *  2. Load endpoints from Slider
 	 */
+	@Override
 	public void populate(ServiceRegistryParams params, Map<String, String> customParams, String newConfigFileName) throws Exception {
 		
 		if(params != null) {
@@ -121,6 +122,49 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 				
 	}	
 	
+	 /* Populates the registry further based on the Service Registry Params which can:
+	 * 	1. Load further endpoints from Ambari REST
+	 *  2. Load endpoints from Slider
+	 */
+	@Override
+	public void populateForHDFStack(ServiceRegistryParams params, Map<String, String> customParams, String newConfigFileName) throws Exception {
+		
+		if(params != null) {
+			
+			if(StringUtils.isNotEmpty(params.getAmbariUrl()) || StringUtils.isNotEmpty(params.getClusterName())) {
+				saveToRegistry(RegistryKeys.AMBARI_SERVER_URL, params.getAmbariUrl());
+				saveToRegistry(RegistryKeys.AMBARI_CLUSTER_NAME, params.getClusterName());
+				
+				String ambariRestUrl = constructAmbariRestURL(params.getAmbariUrl(), params.getClusterName());
+				
+				AmbariUtils ambariService = new AmbariUtils(ambariRestUrl);
+		
+				//kafka
+				populateRegistryEndpointsForKafka(ambariService);
+				//Zookeeper
+				populateRegistryEndpointsForZookeeper(ambariService);
+				//storm
+				populateRegistryEndpointsForStorm(ambariService, params);
+			}
+								
+		} else {
+			LOG.info("Service Registry Params is null. So skippign populating from Ambari and Slider");
+		}
+		
+		if(customParams!= null) {
+			LOG.info("Populating Custom Params");
+			for(String key: customParams.keySet()) {
+				saveToRegistry(key, customParams.get(key));
+			}
+		}
+		
+		if(StringUtils.isNotEmpty(newConfigFileName)) {
+			this.configFileName = newConfigFileName;
+		}
+				
+	}
+	
+	
 	@Override
 	public void populate(ServiceRegistryParams params) throws Exception {
 		populate(params, null, null);
@@ -135,6 +179,17 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 		ServiceRegistryParams serviceRegistryParams = constructServiceRegistryParamsFromConfigFile();
 		populate(serviceRegistryParams);
 	}
+	
+	/**
+	 * Populate the registry by constructing the registry params based on initial config file
+	 * @throws Exception
+	 */
+	@Override
+	public void populateForHDF() throws Exception {
+		ServiceRegistryParams serviceRegistryParams = constructServiceRegistryParamsFromConfigFile();
+		populateForHDFStack(serviceRegistryParams, null, null);
+	}
+		
 	
 
 	/**
@@ -205,10 +260,6 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 	private void populateRegistryEndpointsFromAmbari(AmbariUtils ambariService) throws Exception {
 		LOG.info("Starting to populate Service Registry from Ambari");
 		
-		//falcon configuration
-		String falconSeverUrl = "http://"+ambariService.getFalconHost() + ":" + getValueForKey(RegistryKeys.FALCON_SERVER_PORT);
-		saveToRegistry(RegistryKeys.FALCON_SERVER_URL , falconSeverUrl);
-		saveToRegistry(RegistryKeys.FALCON_BROKER_URL , ambariService.getFalconBrokerUrl());
 		
 		//HDFS configuration
 		saveToRegistry(RegistryKeys.HDFS_URL , ambariService.getHDFSUrl());
@@ -229,22 +280,16 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 		
 
 		//Kafka Configuration
-		
-		List<String> kafkaBrokerHosts = ambariService.getKafkaBrokerList();
-		String kafkaBrokerPort = ambariService.getKafkaBrokerPort();
-		StringBuffer kafkaBrokerListBuffer = new StringBuffer();
-		boolean isFirst = true;
-		for(String kafkaBrokerHost: kafkaBrokerHosts) {
-			if(!isFirst) {
-				kafkaBrokerListBuffer.append(",");
-			}
-			kafkaBrokerListBuffer.append(kafkaBrokerHost).append(":").append(kafkaBrokerPort);
-			isFirst = false;
-		}
-		
-		saveToRegistry(RegistryKeys.KAFKA_BROKER_LIST, kafkaBrokerListBuffer.toString());
+		populateRegistryEndpointsForKafka(ambariService);
 		
 			
+		//Zookeeper
+		populateRegistryEndpointsForZookeeper(ambariService);
+		
+		LOG.info("Finished Populating Service Registry from Ambari");
+	}
+
+	private void populateRegistryEndpointsForZookeeper(AmbariUtils ambariService) throws Exception {
 		String zookeeperConnectString = ambariService.getKafkaZookeeperConnect();
 		String[] zookeepers = zookeeperConnectString.split(",");
 		if(zookeepers.length > 0) {
@@ -263,8 +308,22 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 		
 		//TODO: Not sure where to get this value. Can't find it in Ambari
 		saveToRegistry(RegistryKeys.KAFKA_ZOOKEEPER_ZNODE_PARENT, "");
+	}
+
+	private void populateRegistryEndpointsForKafka(AmbariUtils ambariService) throws Exception {
+		List<String> kafkaBrokerHosts = ambariService.getKafkaBrokerList();
+		String kafkaBrokerPort = ambariService.getKafkaBrokerPort();
+		StringBuffer kafkaBrokerListBuffer = new StringBuffer();
+		boolean isFirst = true;
+		for(String kafkaBrokerHost: kafkaBrokerHosts) {
+			if(!isFirst) {
+				kafkaBrokerListBuffer.append(",");
+			}
+			kafkaBrokerListBuffer.append(kafkaBrokerHost).append(":").append(kafkaBrokerPort);
+			isFirst = false;
+		}
 		
-		LOG.info("Finished Populating Service Registry from Ambari");
+		saveToRegistry(RegistryKeys.KAFKA_BROKER_LIST, kafkaBrokerListBuffer.toString());
 	}	
 	
 	/**
@@ -521,21 +580,7 @@ public class HDPServiceRegistryImpl implements HDPServiceRegistry{
 	
 	public String getHiveServer2ConnectionURL() {
 		return getValueForKey(RegistryKeys.HIVE_SERVER2_CONNECT_URL);
-	}	
-	
-
-
-	public String getFalconServerUrl() {
-		return getValueForKey(RegistryKeys.FALCON_SERVER_URL);
-	}	
-	
-	public String getFalconBrokerUrl() {
-		return getValueForKey(RegistryKeys.FALCON_BROKER_URL);
-	}
-	
-	public String getFalconServerPort() {
-		return getValueForKey(RegistryKeys.FALCON_SERVER_PORT);
-	}		
+	}			
 	
 	public String getAmbariServerUrl() {
 		return getValueForKey(RegistryKeys.AMBARI_SERVER_URL);
