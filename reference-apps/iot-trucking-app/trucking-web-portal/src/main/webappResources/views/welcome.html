@@ -1,13 +1,14 @@
 <div class="jumbotron">
   <h2>Welcome to the HDP 2.5 Streaming Analytics Reference Application</h2>
   <p>The specific components in this architecture are the following:</p>
-  <p> For the Use Details, see the following XXX </p>
+  <p> For the Use Details, check out the <a href="https://github.com/georgevetticaden/hdp/tree/master/reference-apps/iot-trucking-app"> HDF Streaming Anlaytics Reference Application</a> </p>
   		<div style="padding-left: 30px" >
   		<u1>
-  			<li> <b>Storm</b>Streaming analytics engine used to build a stream application demonstrating joining streams, windoweed aggreation, fast real-tile model scoring, serving requests to Dashboard  </li>
-  			<li> <b>HBase</b> Store the Time-Series Trucking Events for Fast Access</li>
-  			<li> <b> HDFS </b> Store All Trucking Events in HDFS for Analytics </li>
-  			<li> <b> Solr </b> Index trucking events for Discovery and Analysis </li>
+  			<li><b>Minifi - </b> Collect Events from the Edge. The edge here represents collecting events from the different sensors on the truck</li>
+  			<li><b>Nifi - </b> Performs site to site data movement,  intelligent data routing, transformations, enrichment, and delivers the streams to the stream processing engine. 
+  			<li><b>Kafka - </b> Scalable Event Broker that acts as the distributed storage Substrate for the Stream Processing engine </li>
+  			<li> <b>Storm - </b>Streaming analytics engine used to build a stream application demonstrating joining streams, windoweed aggreation, fast real-tile model scoring, serving requests to Dashboard  </li>
+  			<li> <b>HBase - </b> Store the Time-Series Trucking Events for Fast Access</li>
   		</u1>
   		
   		</div>
@@ -24,19 +25,20 @@
 	            </tr>
 	          </thead>
 	          <tr>
-	          	<td> <a ng-href="#/configureHDPServiceEndpoints"> Configure HDP Service Endpoints </a> </td>
-	          	<td>Configures The HDP Service Endpoints Used By The App</td>
-	          </tr>
-	          <tr>
 	          	<td> <a href="" ng-controller="ServiceRegistryCtrl" ng-click="deployStormTopology()"> Deploy the Storm Topology </a> </td>
 	          	<td>Deploys the Storm Topology to the Cluster</td>
 	          </tr>	  
 	          <tr>
 	          	<td> <a ng-href="#/monitorTrucks"> Truck Monitoring Application </a> </td>
 	          	<td>Truck Monitoring Application</td>
-	          </tr>		                  
+	          </tr>	
+	         	                  
+  	    </table>
   	    
+  	    <p>The below is end to end architecture of the reference application  </p>
+  	    <img  src="assets/horton/images/ref_append_to_end_architecture.png"
+  	   
 
     
-    </p>
+   	
 </div>

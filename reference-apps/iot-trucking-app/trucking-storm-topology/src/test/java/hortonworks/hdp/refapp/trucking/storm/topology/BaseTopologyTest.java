@@ -37,7 +37,7 @@ public class BaseTopologyTest {
 		}
 		
 		HDPServiceRegistry serviceRegistry = new HDPServiceRegistryImpl(serviceConfigDir, CONFIG_FILE_NAME, isAbsolute);
-		serviceRegistry.populate();
+		serviceRegistry.populateForHDF();
 		return serviceRegistry;
 	}		
 }

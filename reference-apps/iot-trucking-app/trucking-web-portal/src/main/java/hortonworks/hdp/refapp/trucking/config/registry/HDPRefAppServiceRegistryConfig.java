@@ -31,7 +31,7 @@ public class HDPRefAppServiceRegistryConfig {
 			absDir = Boolean.valueOf(absDirString);
 		}
 		HDPServiceRegistry serviceRegistry = new HDPServiceRegistryImpl(serviceConfigDir, CONFIG_FILE_NAME, absDir);
-		serviceRegistry.populate();
+		serviceRegistry.populateForHDF();;
 		return serviceRegistry;
 	}	
 
