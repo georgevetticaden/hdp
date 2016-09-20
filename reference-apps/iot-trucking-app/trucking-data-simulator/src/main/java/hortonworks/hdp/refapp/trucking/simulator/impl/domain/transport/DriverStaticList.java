@@ -92,5 +92,18 @@ public class DriverStaticList {
 		return DRIVER_LIST.get(1);
 		
 	}	
+	
+	
+	public static Driver getDriver(int driverID) {
+		
+		while(DRIVERS_LIST_ITERATOR.hasNext()) {
+			Driver driver = DRIVERS_LIST_ITERATOR.next();
+			if(driver.getDriverId() ==  driverID ) {
+				return driver;
+			}
+		}
+		return null;
+	}
+	
 
 }

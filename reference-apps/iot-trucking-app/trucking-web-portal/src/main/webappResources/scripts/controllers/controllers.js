@@ -36,6 +36,7 @@ angular.module('mvcRestBaseApp')
 			/* Load the Truck Events on Page load */
 			$scope.load = function() {	
 				
+				console.log("inside load function.");
 				console.log($scope);
 				
 				// INitialize the map with the defaults and center definitions below. This configures how the map looks like

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns='http://www.opengis.net/kml/2.2'>
 	<Document>
-		<name>Des Moines to Chicago.kml</name>
+		<name>Des Moines to Chicago</name>
 		<Placemark>
 			<styleUrl>#icon-503-DB4436</styleUrl>
 			<name>Point 1</name>

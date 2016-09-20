@@ -53,7 +53,7 @@ public class TruckRoutesParser {
 				String longitude = numberFormat.format(Double.valueOf(coord[1]));
 				locations.add(new Location(Double.valueOf(latitude), Double.valueOf(longitude), 0));
 			}
-			LOG.info("Route File["+routeFile +"] has " + locations.size() + " coordinates in the route "); 
+			LOG.info("Route File["+routeFile +"] has " + locations.size() + " coordinates in the route ");
 			route = new RouteProvided(routeName, locations);
 		} catch (FileNotFoundException e) {
 			String errorMessage = "Error Opening routeFile["+routeFile+"]";

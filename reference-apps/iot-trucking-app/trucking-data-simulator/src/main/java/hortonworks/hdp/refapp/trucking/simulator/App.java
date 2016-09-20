@@ -16,7 +16,7 @@ public class App {
 				
 				String routesDirectory = args[5];
 				final int delayBetweenEvents = Integer.valueOf(args[6]);
-				String brokerList = args[7];
+				String argForCollector = args[7];
 				
 				
 				final Class eventEmitterClass = Class.forName(args[2]);
@@ -39,7 +39,7 @@ public class App {
 				final ActorRef listener = system.actorOf(
 						Props.create(SimulatorListener.class), "listener");
 				final ActorRef eventCollector = system.actorOf(
-						Props.create(eventCollectorClass, brokerList), "eventCollector");
+						Props.create(eventCollectorClass, argForCollector), "eventCollector");
 				System.out.println(eventCollector.path());
 				
 				

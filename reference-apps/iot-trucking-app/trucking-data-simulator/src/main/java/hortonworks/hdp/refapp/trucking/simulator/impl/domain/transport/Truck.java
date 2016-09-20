@@ -47,6 +47,18 @@ public class Truck extends AbstractEventEmitter{
 		
 		LOG.info("New Truck Instance["+truckId + "] with Driver["+driver.getDriverName()+ "] has started  new Route["+driver.getRoute().getRouteName() + "], RouteId["+ driver.getRoute().getRouteId()+"]");
 	}
+	
+	public Truck(int numberOfEvents, long demoId, int messageDelay, int driverId, String routeName ) {
+		this.messageDelay = messageDelay;
+		driver = TruckConfiguration.getDriverAndRoute(driverId, routeName);
+		truckId = TruckConfiguration.getNextTruckId();
+		eventTypes = Arrays.asList(MobileEyeEventTypeEnum.values());
+		
+		this.numberOfEventsToGenerate = numberOfEvents;
+		this.demoId = demoId;
+		
+		LOG.info("New Truck Instance["+truckId + "] with Driver["+driver.getDriverName()+ "] has started  new Route["+driver.getRoute().getRouteName() + "], RouteId["+ driver.getRoute().getRouteId()+"]");
+	}	
 
 
 	public MobileEyeEvent generateEvent() {

@@ -41,6 +41,24 @@ public class SimulationMaster extends UntypedActor {
 				"eventEmitterRouter");
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public SimulationMaster(int numberOfEventEmitters, Class eventEmitterClass,
+			ActorRef listener, int numberOfEvents, long demoId, int messageDelay, int driverId, String routeName) {
+		logger.info("Starting simulation with " + numberOfEventEmitters
+				+ " of " + eventEmitterClass + " Event Emitters -- "
+				+ eventEmitterClass.toString());
+		this.listener = listener;
+		this.numberOfEventEmitters = numberOfEventEmitters;
+		this.eventEmitterClass = eventEmitterClass;
+		this.delay_between_trucks = messageDelay;
+		this.numberOfEvents = numberOfEvents;
+		eventEmitterRouter = this.getContext().actorOf(
+				Props.create(eventEmitterClass, numberOfEvents, demoId, messageDelay, driverId, routeName).withRouter(
+						new RoundRobinRouter(numberOfEventEmitters)),
+				"eventEmitterRouter");
+		
+	}	
 
 	@Override
 	public void onReceive(Object message) throws Exception {

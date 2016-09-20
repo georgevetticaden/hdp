@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns='http://www.opengis.net/kml/2.2'>
 	<Document>
-		<name> Saint Louis to Chicago</name>
+		<name>Saint Louis to Chicago</name>
 
 			<Placemark>
 				<styleUrl>#icon-503-DB4436</styleUrl>

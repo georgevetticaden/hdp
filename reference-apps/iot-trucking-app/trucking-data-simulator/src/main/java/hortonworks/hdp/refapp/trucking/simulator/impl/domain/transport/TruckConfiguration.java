@@ -6,6 +6,7 @@ import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.Tru
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -69,6 +70,18 @@ public class TruckConfiguration {
 		return freeRoutePool.poll();
 	}
 	
+	private synchronized static Route getRoute(String  routeName) {
+		Iterator<Route> iterator = freeRoutePool.iterator();
+		while(iterator.hasNext()) {
+			Route route = iterator.next();
+			
+			if(route.getRouteName().equals(routeName)) {
+				return route;
+			}
+		}
+		throw new RuntimeException("Route["+routeName + "] doesn't exist");
+	}	
+	
 	public synchronized static int getNextTruckId() {
 		int nextTruckId = DataGeneratorUtils.getRandomIntBetween(TRUCK_ID_START, TRUCK_ID_START + TRUCK_FLEET_SIZE, trucksOnRoad);
 		trucksOnRoad.add(nextTruckId);
@@ -94,6 +107,20 @@ public class TruckConfiguration {
 		LOGGER.info("For " + freeRoutePool.size() + ", the optimal Number of Truck Instances  are: " + value );
 		return value;
 		
+	}
+
+	public static Driver getDriverAndRoute(int driverId, String routeName) {
+		Driver driver =  DriverStaticList.getDriver(driverId);
+		
+		//if driver has route, then it must be the risky drivers, so don't provide new route..
+		if(driver.getRoute() == null) {
+			Route route = getRoute(routeName);
+			driver.provideRoute(route);				
+		}
+		
+		drivers.put(driver.getDriverId(), driver);
+		LOGGER.debug("Next Driver: " + driver.toString());
+		return driver;		
 	}
 
 

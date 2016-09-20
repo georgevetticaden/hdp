@@ -4,7 +4,9 @@ package hortonworks.hdp.refapp.trucking.storm.util;
 import hortonworks.hdp.refapp.trucking.domain.TruckDriver;
 import hortonworks.hdp.refapp.trucking.domain.TruckDriverInfractionDetail;
 
+import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,12 +15,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.fs.Path;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.Test;
 
 public class UtilTest {
+	
+	@Test
+	public void writeToFile() throws Exception {
+		File file = new File ("/Users/gvetticaden/Downloads/truck-sensor-data/truck-events.txt");
+		
+		String truckEvent = "2016-09-12 09:51:19.836|13|13|Joe Niemiec|927636994|Des Moines to Chicago.kml|Normal|41.62|-93.58|1|\n";
+		FileUtils.writeStringToFile(file, truckEvent, Charset.defaultCharset(), true);
+	}
 	
 	@Test
 	public void createTimeStamp() {
