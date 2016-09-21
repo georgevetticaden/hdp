@@ -10,27 +10,28 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.storm.spout.Scheme;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
+import org.apache.storm.utils.Utils;
 
 
-public class TruckSpeedEventSchema implements Scheme{
+public class TruckSpeedEventSchema extends BaseTruckEventSchema {
 
 	private static final long serialVersionUID = -2990121166902741545L;
-
 	private static final Logger LOG = LoggerFactory.getLogger(TruckSpeedEventSchema.class);
 	
 
 	@Override
 	public List<Object> deserialize(ByteBuffer buffer) {
 		try {
-			String[] pieces = convertRawEvent(buffer.array());
+			String[] pieces = deserializeRawString(buffer);
 			
 			Timestamp eventTime = Timestamp.valueOf(pieces[0]);
-			int truckId = Integer.valueOf(pieces[1]);
-			int driverId = Integer.valueOf(pieces[2]);
-			String driverName = pieces[3];
-			int routeId = Integer.valueOf(pieces[4]);
-			String routeName = pieces[5];
-			int speed = Integer.valueOf(pieces[6]);
+			String streamSource = pieces[1];
+			int truckId = Integer.valueOf(pieces[2]);
+			int driverId = Integer.valueOf(pieces[3]);
+			String driverName = pieces[4];
+			int routeId = Integer.valueOf(pieces[5]);
+			String routeName = pieces[6];
+			int speed = Integer.valueOf(pieces[7]);
 			
 			if(LOG.isTraceEnabled()) {
 				LOG.trace("Creating a Truck Scheme with driverId["+driverId + "], driverName["+driverName+"], routeId["+routeId+"], routeName["+ routeName +"], "
@@ -47,19 +48,7 @@ public class TruckSpeedEventSchema implements Scheme{
 		
 	}
 
-
-	private String[] convertRawEvent(byte[] bytes) throws Exception {
-		String truckEvent = new String(bytes, "UTF-8");
-		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("Raw Truck Event is: " + truckEvent);
-		}
 	
-		String initialPieces[] = truckEvent.split("DIVIDER") ;
-		String[] pieces = initialPieces[1].split("\\|");
-		return pieces;
-	}
-
 
 
 	@Override

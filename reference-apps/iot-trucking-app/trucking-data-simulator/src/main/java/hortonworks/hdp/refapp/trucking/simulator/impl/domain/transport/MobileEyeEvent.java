@@ -11,6 +11,7 @@ public class MobileEyeEvent extends Event {
 	private long correlationId;
 	
 	private int truckSpeed;
+	
 
 
 
@@ -49,7 +50,7 @@ public class MobileEyeEvent extends Event {
 
 	@Override
 	public String toString() {
-		return truck.toString() + eventType.toString() + "|"
-				+ location.getLatitude() + "|" + location.getLongitude() + "|" + correlationId + "|";
+		return truck.toString() + "|" + eventType.toString() + "|"
+				+ location.getLatitude() + "|" + location.getLongitude() + "|" + correlationId ;
 	}
 }

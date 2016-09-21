@@ -1,6 +1,8 @@
 package hortonworks.hdp.refapp.trucking.storm.kafka;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -10,30 +12,31 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.storm.spout.Scheme;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
+import org.apache.storm.utils.Utils;
 
 
-public class TruckEventSchema implements Scheme{
+public class TruckEventSchema extends BaseTruckEventSchema{
 
 	private static final long serialVersionUID = -2990121166902741545L;
-
 	private static final Logger LOG = LoggerFactory.getLogger(TruckEventSchema.class);
 	
 
 	@Override
 	public List<Object> deserialize(ByteBuffer buffer) {
 		try {
-			String[] pieces = convertRawEvent(buffer.array());
+			String[] pieces = deserializeRawString(buffer);
 			
 			Timestamp eventTime = Timestamp.valueOf(pieces[0]);
-			int truckId = Integer.valueOf(pieces[1]);
-			int driverId = Integer.valueOf(pieces[2]);
-			String driverName = pieces[3];
-			int routeId = Integer.valueOf(pieces[4]);
-			String routeName = pieces[5];
-			String eventType = pieces[6];
-			double latitude= Double.valueOf(pieces[7]);
-			double longitude  = Double.valueOf(pieces[8]);	
-			long correlationId = Long.valueOf(pieces[9]);
+			String streamSource = pieces[1];
+			int truckId = Integer.valueOf(pieces[2]);
+			int driverId = Integer.valueOf(pieces[3]);
+			String driverName = pieces[4];
+			int routeId = Integer.valueOf(pieces[5]);
+			String routeName = pieces[6];
+			String eventType = pieces[7];
+			double latitude= Double.valueOf(pieces[8]);
+			double longitude  = Double.valueOf(pieces[9]);	
+			long correlationId = Long.valueOf(pieces[10]);
 			String eventKey = consructKey(driverId, truckId, eventTime);
 			
 			if(LOG.isTraceEnabled()) {
@@ -50,20 +53,6 @@ public class TruckEventSchema implements Scheme{
 		}
 		
 	}
-
-
-	private String[] convertRawEvent(byte[] bytes) throws Exception {
-		
-		String truckEvent = new String(bytes, "UTF-8");
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("Raw Truck Event is: " + truckEvent);
-		}
-		
-		String initialPieces[] = truckEvent.split("DIVIDER") ;
-		String[] pieces = initialPieces[1].split("\\|");
-		return pieces;
-	}
-
 
 
 	@Override

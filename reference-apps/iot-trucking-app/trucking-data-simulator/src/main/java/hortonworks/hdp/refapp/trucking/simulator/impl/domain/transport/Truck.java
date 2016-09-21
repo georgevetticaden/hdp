@@ -159,8 +159,8 @@ public class Truck extends AbstractEventEmitter{
 
 	@Override
 	public String toString() {
-		return new Timestamp(new Date().getTime()) + "|" + truckId + "|"
-				+ driver.getDriverId() + "|" + driver.getDriverName() + "|" + driver.getRoute().getRouteId() + "|" + driver.getRoute().getRouteName() + "|";
+		return  truckId + "|"
+				+ driver.getDriverId() + "|" + driver.getDriverName() + "|" + driver.getRoute().getRouteId() + "|" + driver.getRoute().getRouteName();
 	}
 
 	@Override

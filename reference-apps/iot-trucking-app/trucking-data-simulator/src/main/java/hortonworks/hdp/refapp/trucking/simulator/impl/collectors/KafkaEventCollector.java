@@ -1,20 +1,16 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.collectors;
 
-import hortonworks.hdp.refapp.trucking.simulator.impl.domain.AbstractEventCollector;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEyeEvent;
 
 import java.util.Properties;
 
-import kafka.producer.KeyedMessage;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 
 
 
-public class KafkaEventCollector extends AbstractEventCollector {
+public class KafkaEventCollector extends BaseTruckEventCollector {
 
 	private static final String TRUCK_EVENT_TOPIC = "truck_events";
 	private static final String TRUCK_SPEED_EVENT_TOPIC = "truck_speed_events";
@@ -51,10 +47,8 @@ public class KafkaEventCollector extends AbstractEventCollector {
 	}
 
 	private void sendTruckSpeedEventToKafka(MobileEyeEvent mee) {
-		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
-		
-		String eventToPass = "DIVIDER" + mee.getTruck().toString() + mee.getTruckSpeed() +"|";
-		logger.debug("Creating truck speed event["+eventToPass+"] for driver["+driverId + "] in truck [" + mee.getTruck() + "]");
+		String eventToPass = createTruckSpeedEvent(mee);
+		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());		
 		
 		try {
 			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TRUCK_SPEED_EVENT_TOPIC, driverId, eventToPass);
@@ -64,12 +58,12 @@ public class KafkaEventCollector extends AbstractEventCollector {
 		}		
 		
 	}
+	
 
 	private void sendTruckEventToKafka(MobileEyeEvent mee) {
-		String eventToPass = "DIVIDER" + mee.toString();
-		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
+		String eventToPass = createTruckGeoEvent(mee);
 		
-		logger.debug("Creating event["+eventToPass+"] for driver["+driverId + "] in truck [" + mee.getTruck() + "]");
+		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());
 		
 		try {
 			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TRUCK_EVENT_TOPIC, driverId, eventToPass);
@@ -78,5 +72,7 @@ public class KafkaEventCollector extends AbstractEventCollector {
 			logger.error("Error sending event[" + eventToPass + "] to Kafka topic", e);
 		}
 	}
+
+
 
 }
