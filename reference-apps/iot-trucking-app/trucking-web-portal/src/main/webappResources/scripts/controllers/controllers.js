@@ -380,14 +380,14 @@ function ApplicationModel(stompClient, events, leafletDataContianer, gaugeDiv) {
 			            },
 			            plotBands: [{
 			                from: 0,
-			                to: 120,
+			                to: 70,
 			                color: '#55BF3B' // green
 			            }, {
-			                from: 120,
-			                to: 160,
+			                from: 70,
+			                to: 80,
 			                color: '#DDDF0D' // yellow
 			            }, {
-			                from: 160,
+			                from: 80,
 			                to: 200,
 			                color: '#DF5353' // red
 			            }]
