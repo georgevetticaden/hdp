@@ -1,21 +1,8 @@
 <div class="jumbotron">
-  <h2>Welcome to the HDF 2.0 Data In Motion Reference Application</h2>
+  <h2>HDF 2.0 Product Management Demo Environment - Data In Motion Reference App</h2>
    <p> For the use case details, check out the <a href="https://github.com/georgevetticaden/hdp/tree/master/reference-apps/iot-trucking-app"> HDF 2.0 Data in Motion Reference App</a> </p>
-  
-  <p>The specific components in this architecture are the following:</p>
-   		<div style="padding-left: 30px" >
-  		<u1>
-  			<li><b>Minifi - </b> Collect Events from the Edge. The edge here represents collecting events from the different sensors on the truck</li>
-  			<li><b>Nifi - </b> Performs site to site data movement,  intelligent data routing, transformations, enrichment, and delivers the streams to the stream processing engine. 
-  			<li><b>Kafka - </b> Scalable Event Broker that acts as the distributed storage Substrate for the Stream Processing engine </li>
-  			<li> <b>Storm - </b>Streaming analytics engine used to build a stream application demonstrating joining streams, windoweed aggreation, fast real-tile model scoring, serving requests to Dashboard  </li>
-  			<li> <b>HBase - </b> Store the Time-Series Trucking Events for Fast Access</li>
-  		</u1>
-  		
-  		</div>
-  	    </br>
-  	    
-  	    <p>The below links show case the capabilities of the HDF 2.0 Platform </p>
+ 
+   <p>The below links show case the capabilities of the HDF 2.0 Platform </p>
   	    
 		<table style="width: 1200px"  class="table table-striped table-bordered table-hover">
 	          <thead>
@@ -49,6 +36,21 @@
 	          </tr>	
 	         	                  
   	    </table>
+  	    
+  <p>The specific components in this architecture are the following:</p>
+   		<div style="padding-left: 30px" >
+  		<u1>
+  			<li><b>Minifi - </b> Collect Events from the Edge. The edge here represents collecting events from the different sensors on the truck</li>
+  			<li><b>Nifi - </b> Performs site to site data movement,  intelligent data routing, transformations, enrichment, and delivers the streams to the stream processing engine. 
+  			<li><b>Kafka - </b> Scalable Event Broker that acts as the distributed storage Substrate for the Stream Processing engine </li>
+  			<li> <b>Storm - </b>Streaming analytics engine used to build a stream application demonstrating joining streams, windoweed aggreation, fast real-tile model scoring, serving requests to Dashboard  </li>
+  			<li> <b>HBase - </b> Store the Time-Series Trucking Events for Fast Access</li>
+  		</u1>
+  		
+  		</div>
+  	    </br>
+  	    
+  	   
   	    
   	    <p>The below is end to end architecture of the reference application  </p>
   	    <img  src="assets/horton/images/ref_append_to_end_architecture.png"
