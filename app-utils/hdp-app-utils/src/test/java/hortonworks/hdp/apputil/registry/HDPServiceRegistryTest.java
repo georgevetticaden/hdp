@@ -129,7 +129,7 @@ public class HDPServiceRegistryTest extends BaseUtilsTest {
 		System.setProperty(RegistryKeys.SERVICE_REGISTRY_CONFIG_LOCATION_SYSTEM_PROP_KEY, "/Users/gvetticaden/Dropbox/Hortonworks/Development/Git/hdp/app-utils/hdp-app-utils/src/test/resources/registry");
 		
 		//Right now write is only supported with absolute Path
-		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbari("george-hdp-service-config.properties", true);
+		HDPServiceRegistry registry = createHDPServiceRegistryWithAmbariForHDFSTack("george-hdp-service-config.properties", true);
 		registry.writeToPropertiesFile();
 	}
 	
