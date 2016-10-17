@@ -10,11 +10,10 @@
       	
   	<artifactId>trucking-data-simulator</artifactId>
 
-  
+
 	<properties>
-		
+		<schema.registry.version>0.1.0-SNAPSHOT</schema.registry.version>
 	</properties>
-	
 	
 	<dependencies>
 	
@@ -147,6 +146,40 @@
   			<version>2.5</version>    	    	
   			<artifactId>commons-io</artifactId>
     	</dependency>
+    	
+    	<!-- Libraries for Schema Registry -->
+    	
+    	<!-- 
+		<dependency>
+			<groupId>org.apache.nifi</groupId>
+			<artifactId>nifi-kite-processors</artifactId>
+			 <version>1.1.0-SNAPSHOT</version>
+		</dependency>
+
+ -->
+
+        <dependency>
+            <groupId>com.hortonworks.registries</groupId>
+            <artifactId>schema-registry-avro</artifactId>
+            <version>${schema.registry.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.slf4j</groupId>
+		    		<artifactId>log4j-over-slf4j</artifactId>
+		    	</exclusion>
+		    	<exclusion>
+		    	 <groupId>ch.qos.logback</groupId>
+ 				<artifactId>logback-classic</artifactId>
+		    	</exclusion>
+		    </exclusions>            
+        </dependency>
+        
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>      	
 
 	</dependencies>
 	

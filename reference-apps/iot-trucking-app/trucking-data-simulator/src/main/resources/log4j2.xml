@@ -14,6 +14,13 @@
       	<AppenderRef ref="ROLLING"/>
     </Logger>
     
+    <Logger name="hortonworks.hdp.refapp.trucking.simulator.schemaregistry" level="debug">
+                  
+    
+    	<AppenderRef ref="CONSOLE"/>
+      	<AppenderRef ref="ROLLING"/>
+    </Logger>
+        
     <Root level="ERROR">
      
       <AppenderRef ref="ROLLING"/>

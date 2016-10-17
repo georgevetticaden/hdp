@@ -24,11 +24,7 @@ public class FileEventWithSchemaInfoCollector extends BaseTruckEventCollector {
 	private static final String SCHEMA_GROUP_DELIMITER = "<schema-group>";
 	private static final String SCHEMA_NAME_DELIMITER = "<schema-name>";
 	private static final String SCHEMA_VERSION_DELIMITER = "<schema-version>";
-	
-	
 
-	
-	
 	
 	private File truckEventsFile;
 
