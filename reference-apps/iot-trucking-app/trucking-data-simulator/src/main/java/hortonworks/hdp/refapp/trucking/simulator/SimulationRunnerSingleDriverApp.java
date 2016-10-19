@@ -10,31 +10,38 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
 
-public class App {
+public class SimulationRunnerSingleDriverApp {
 	public static void main(String[] args) {
 			try {
 				
-				String routesDirectory = args[5];
-				final int delayBetweenEvents = Integer.valueOf(args[6]);
-				String argForCollector = args[7];
 				
 				
-				final Class eventEmitterClass = Class.forName(args[2]);
-				final Class eventCollectorClass = Class.forName(args[3]);
 				
 				
-				final long demoId = Long.parseLong(args[4]);
+				
+				
+				
+				
+				
+				
+				
+				
+								
+				final int numberOfEvents = Integer.parseInt(args[0]);	
+				final Class eventEmitterClass = Class.forName(args[1]);
+				final Class eventCollectorClass = Class.forName(args[2]);
+				final long demoId = Long.parseLong(args[3]);
+				String routesDirectory = args[4];
+				final int delayBetweenEvents = Integer.valueOf(args[5]);
+				String argForCollector = args[6];
+				final int driverId = Integer.parseInt(args[7]);
+				final String routeName = args[8];
 				
 				TruckConfiguration.initialize(routesDirectory);
-				final int numberOfEventEmitters=TruckConfiguration.freeRoutePool.size();
-				
-				System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& heck yeah..." + numberOfEventEmitters);
-				
-				final int numberOfEvents = Integer.parseInt(args[1]);	
 
 				ActorSystem system = ActorSystem.create("EventSimulator");
 				
-				
+				final int numberOfEventEmitters=1;
 				
 				final ActorRef listener = system.actorOf(
 						Props.create(SimulatorListener.class), "listener");
@@ -48,7 +55,7 @@ public class App {
 							public UntypedActor create() {
 								return new SimulationMaster(
 										numberOfEventEmitters,
-										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents);
+										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents, driverId, routeName);
 							}
 						}), "master");
 				
