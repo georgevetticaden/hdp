@@ -53,4 +53,10 @@ public class MobileEyeEvent extends Event {
 		return truck.toString() + "|" + eventType.toString() + "|"
 				+ location.getLatitude() + "|" + location.getLongitude() + "|" + correlationId ;
 	}
+
+	public long getCorrelationId() {
+		return correlationId;
+	}
+	
+	
 }

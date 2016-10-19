@@ -204,4 +204,10 @@ public class Truck extends AbstractEventEmitter{
 	public void setDriver(Driver driver) {
 		this.driver = driver;
 	}
+
+	public int getTruckId() {
+		return truckId;
+	}
+	
+	
 }
