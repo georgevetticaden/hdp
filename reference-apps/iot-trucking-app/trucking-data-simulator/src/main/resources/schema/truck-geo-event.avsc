@@ -13,6 +13,6 @@
       { "name" : "eventType" , "type" : "string"},
       { "name" : "longitude" , "type" : "double"},
       { "name" : "latitude" , "type" : "double"},
-      { "name" : "correlationId" , "type" : "int"}
+      { "name" : "correlationId" , "type" : "long"}
    ]
 }
