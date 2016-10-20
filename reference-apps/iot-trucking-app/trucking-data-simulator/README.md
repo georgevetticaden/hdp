@@ -69,6 +69,10 @@ The different args pssed to  the hortonworks.hdp.refapp.trucking.simulator.Simul
 	* a delay (in millisconds) between every event that a given truck generates events (e.g: 500)
 * arg 6
     * output location of the event (kafka broker url for kafka, file name if outputing to file)
+* arg 7
+	* driverId (optional, if not provider, then all drivers will be spun up)
+* arg 8
+	* route Name (the route for the driver in arg 7)
     
     
 #### Build the Simulator
@@ -90,29 +94,84 @@ cd ../hdp-app-utils/../../reference-apps/iot-trucking-app/
 mvn clean install -DskipTests=true
 cd trucking-data-simulator
 mvn clean compile assembly:single
-
+cd target
 
 ``` 
 
  
    
-#### Example 1: Generate CSV Event to Kafka Topic
 
 
+#### Example 1: Generate CSV Event for 1 Driver with SChema Metadata to File
 
-
-#### Example 2: Generate CSV Event to File
-
-#### Example 3: Generate CSV Event with SChema Metadata to File
 * Command:
 
 
 ``` 
-cd trucking-data-simulator/target
+nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 
+100 
+hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 
+1 
+[ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-data-simulator/src/main/resources/routes/midwest/
+500 
+/tmp/truck-sensor-data/telemetry-device-1.txt 
+10 
+'Saint Louis to Tulsa' 
+> nohup-telemetry-device-1.out  &
 
-nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 100 hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 1 [ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/routes/midwest 500 /tmp/truck-sensor-data/telemetry-device-1.txt 10 'Saint Louis to Tulsa' > nohup-telemetry-device-1.out  &
 
 ``` 
+
+* Details
+	* Generates 100 elements per truck (arg 0) 
+	* Generates elements in CSV format and outputs to file (arg 2)
+	* outputs the events to a file called /tmp/truck-sensor-data/telemetry-device-1.txt (arg 6)
+	* Generates Data for 1 Driver on 1 Route (arg 7  and 8)
+
+
+* Sample Output
+
+``` 
+<schema-group>truck-sensors<schema-group><schema-name>truck_speed_events_avro<schema-name><schema-version>1<schema-version>|2016-10-20 06:45:22.677|truck_speed_event|16|10|George Vetticaden|1390372503|Saint Louis to Tulsa|71|
+
+``` 
+
+#### Example 2: Generate CSV Event for 1 Driver with SchemaMetadata to Kafka Topic
+
+* Command:
+
+
+``` 
+nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 
+100 
+hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 
+1 
+[ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-data-simulator/src/main/resources/routes/midwest/ 
+500 
+hdf-ref-app6.field.hortonworks.com:6667 
+10 
+'Saint Louis to Tulsa' 
+> nohup-telemetry-device-1.out &
+
+
+``` 
+
+* Details
+	* Generates 100 elements per truck (arg 0) 
+	* Generates elements in CSV format and outputs to kafka (arg 2)
+	* outputs the events to a kafka cluster whose broker is on  hdf-ref-app6.field.hortonworks.com on port 6667 (arg 6)
+	* Generates Data for Driver with id 10 on with Route 'Saint Lousi to Tulsa' (arg 7  and 8)
+
+
+* Sample Output
+
+``` 
+<schema-group>truck-sensors<schema-group><schema-name>truck_speed_events_avro<schema-name><schema-version>1<schema-version>|2016-10-20 06:45:22.677|truck_speed_event|16|10|George Vetticaden|1390372503|Saint Louis to Tulsa|71|
+
+``` 
+
+
+#### Example 3: Generate CSV Event to File
 
 #### Example 4: Generate JSON Event to Kafka Topic
 
