@@ -1,25 +1,26 @@
 package hortonworks.hdp.refapp.trucking.simulator.schemaregistry;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.logging.Logger;
+
 import junit.framework.Assert;
 
 import org.apache.avro.Schema;
-import org.apache.avro.file.CodecFactory;
 import org.apache.avro.file.DataFileStream;
-import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericData;
-import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.kitesdk.data.DatasetRecordException;
-import org.kitesdk.data.spi.filesystem.CSVFileReader;
-import org.kitesdk.data.spi.filesystem.CSVProperties;
 
 import com.hortonworks.registries.schemaregistry.SchemaMetadata;
 import com.hortonworks.registries.schemaregistry.SchemaMetadataInfo;
@@ -29,16 +30,6 @@ import com.hortonworks.registries.schemaregistry.SchemaVersionKey;
 import com.hortonworks.registries.schemaregistry.SerDesInfo;
 import com.hortonworks.registries.schemaregistry.serde.SnapshotDeserializer;
 import com.hortonworks.registries.schemaregistry.serde.SnapshotSerializer;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.logging.Logger;
 
 public class TruckSchemaRegistryLoaderTest {
 
@@ -195,46 +186,46 @@ public class TruckSchemaRegistryLoaderTest {
 		
 	}
 	
-	  	@Test
-	    public void convertCSVtoAvro() throws Exception{
-
-			String schemaFileName = "/schema/truck-geo-event.avsc";
-	        final Schema schema = createAvroSchema(schemaFileName);
-	        Assert.assertNotNull(schema);
-	        
-	        String csvPayLoadFile = "/schema/samples/truck-geo-event-payload.csv";
-	        InputStream truckGeoEventCSVInputStream = TruckSchemaRegistryLoaderTest.class.getResourceAsStream(csvPayLoadFile);
-	        Assert.assertNotNull(truckGeoEventCSVInputStream);
-
-	        
-	        //private CSVProperties(String charset, String delimiter, String quote,String escape, String header, boolean useHeader,int linesToSkip
-	        
-	        CSVProperties csvProperties = createCSVProperties();
-	        
-	        final DataFileWriter<Record> writer = new DataFileWriter<>(AvroUtil.newDatumWriter(schema, Record.class));
-	        writer.setCodec(CodecFactory.snappyCodec());
-	        
-			CSVFileReader<Record> reader = new CSVFileReader<>(truckGeoEventCSVInputStream, csvProperties, schema, Record.class);
-	        reader.initialize();        
-	        
-	        File file = new File("truck-geo-event-payload.avro");
-	        OutputStream avroOutPutStream = new FileOutputStream(file);
-	        Assert.assertNotNull(avroOutPutStream);
-	        DataFileWriter<Record> w = writer.create(schema, avroOutPutStream);
-	        
-	        while (reader.hasNext()) {
-	            try {
-	                Record record = reader.next();
-	                w.append(record);
-	            } catch (DatasetRecordException e) {
-	                throw e;
-	            }
-	        }
-	        writer.close();
-	        avroOutPutStream.close();
-	               
-	                
-	    }	
+//	  	@Test
+//	    public void convertCSVtoAvro() throws Exception{
+//
+//			String schemaFileName = "/schema/truck-geo-event.avsc";
+//	        final Schema schema = createAvroSchema(schemaFileName);
+//	        Assert.assertNotNull(schema);
+//	        
+//	        String csvPayLoadFile = "/schema/samples/truck-geo-event-payload.csv";
+//	        InputStream truckGeoEventCSVInputStream = TruckSchemaRegistryLoaderTest.class.getResourceAsStream(csvPayLoadFile);
+//	        Assert.assertNotNull(truckGeoEventCSVInputStream);
+//
+//	        
+//	        //private CSVProperties(String charset, String delimiter, String quote,String escape, String header, boolean useHeader,int linesToSkip
+//	        
+//	        CSVProperties csvProperties = createCSVProperties();
+//	        
+//	        final DataFileWriter<Record> writer = new DataFileWriter<>(AvroUtil.newDatumWriter(schema, Record.class));
+//	        writer.setCodec(CodecFactory.snappyCodec());
+//	        
+//			CSVFileReader<Record> reader = new CSVFileReader<>(truckGeoEventCSVInputStream, csvProperties, schema, Record.class);
+//	        reader.initialize();        
+//	        
+//	        File file = new File("truck-geo-event-payload.avro");
+//	        OutputStream avroOutPutStream = new FileOutputStream(file);
+//	        Assert.assertNotNull(avroOutPutStream);
+//	        DataFileWriter<Record> w = writer.create(schema, avroOutPutStream);
+//	        
+//	        while (reader.hasNext()) {
+//	            try {
+//	                Record record = reader.next();
+//	                w.append(record);
+//	            } catch (DatasetRecordException e) {
+//	                throw e;
+//	            }
+//	        }
+//	        writer.close();
+//	        avroOutPutStream.close();
+//	               
+//	                
+//	    }	
 
 
 	private GenericRecord convertAvroDataFileToAVroGenericRecord(
@@ -305,19 +296,19 @@ public class TruckSchemaRegistryLoaderTest {
 		return serializerInfo;
 	}  
 	
-	 private CSVProperties createCSVProperties() {
-	    	
-	    	CSVProperties DEFAULTS = new CSVProperties.Builder().build();
-	    	
-	    	return new CSVProperties.Builder()
-	        .charset(DEFAULTS.charset)
-	        .delimiter("|")
-	        .quote(DEFAULTS.quote)
-	        .escape(DEFAULTS.escape)
-	        .hasHeader(DEFAULTS.useHeader)
-	        .linesToSkip(DEFAULTS.linesToSkip)
-	        .build();
-		}
+//	 private CSVProperties createCSVProperties() {
+//	    	
+//	    	CSVProperties DEFAULTS = new CSVProperties.Builder().build();
+//	    	
+//	    	return new CSVProperties.Builder()
+//	        .charset(DEFAULTS.charset)
+//	        .delimiter("|")
+//	        .quote(DEFAULTS.quote)
+//	        .escape(DEFAULTS.escape)
+//	        .hasHeader(DEFAULTS.useHeader)
+//	        .linesToSkip(DEFAULTS.linesToSkip)
+//	        .build();
+//		}
 
 
 		private Schema createAvroSchema(String schemaFileName) throws Exception{

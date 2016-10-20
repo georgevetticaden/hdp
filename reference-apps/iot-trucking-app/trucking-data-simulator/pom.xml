@@ -160,14 +160,15 @@
             <version>${kite.version}</version>
         </dependency>
 
-        -->
+       
 
          <dependency>
          	<groupId>org.apache.nifi</groupId>
             	<artifactId>nifi-kite-processors</artifactId>
                 <version>1.0.0</version>
          
-         </dependency>    	
+         </dependency>   
+          --> 	
     	
     	<!-- Libraries for Schema Registry -->
 		<dependency>

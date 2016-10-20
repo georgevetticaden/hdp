@@ -159,6 +159,12 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>				
 				</exclusion>
+				<!-- commenting out the following because whents it including when starting jetty, it goes into infitinite loop scanning for annotations
+				<exclusion>
+					<groupId>com.hortonworks.registries</groupId>
+					<artifactId>schema-registry-core</artifactId>
+				</exclusion>
+				 -->
 			</exclusions>
 		</dependency>	
 		

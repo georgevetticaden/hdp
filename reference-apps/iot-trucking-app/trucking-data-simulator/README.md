@@ -50,7 +50,7 @@ Out of the box, it supports two event types representing 2 different sesnsors th
 
 
 #### Build the Simulator
-1.  Build schema registry which is a dependency
+* Build schema registry which is a dependency
 
 ``` 
 git clone https://github.com/hortonworks/registry.git
@@ -58,7 +58,7 @@ cd registry
 mvn clean install -DskipTests=true
 ``` 
 
-2. Clone the repo and the build the libraries
+* Clone the repo and the build the libraries
 	
 ``` 
 git clone https://github.com/georgevetticaden/hdp.git
@@ -66,8 +66,12 @@ cd hdp/app-utils/hdp-app-utils/
 mvn clean install -DskipTests=true
 cd ../hdp-app-utils/../../reference-apps/iot-trucking-app/
 mvn clean install -DskipTests=true
+cd trucking-data-simulator
+mvn clean compile assembly:single
+
+
 ``` 
-3. s
+* 
 
 
 ### Run the Simulator
@@ -91,6 +95,20 @@ The different args pssed to  the hortonworks.hdp.refapp.trucking.simulator.Simul
     * output location of the event (kafka broker url for kafka, file name if outputing to file)
     
     
-#### Example 1: Generate Event to Kafka Topic
+#### Example 1: Generate CSV Event to Kafka Topic
+
+
+#### Example 2: Generate CSV Event to File
+
+#### Example 3: Generate CSV Event with SChema Metadata to File
+
+#### Example 4: Generate JSON Event to Kafka Topic
+
+
+
+
+
+
+
 
 
