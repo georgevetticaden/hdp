@@ -21,3 +21,4 @@ node_modules
 /target/
 /trucking.log.1
 /trucking.log.2
+/nohup.out
