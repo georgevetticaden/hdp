@@ -4,18 +4,6 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="common-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/common/common">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="storage-core-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/storage-core/storage-core">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cache-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cache/cache">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="schema-registry-client-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/schema-registry-client/schema-registry-client">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="hdp-app-utils-2.5.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hdp-app-utils/hdp-app-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
