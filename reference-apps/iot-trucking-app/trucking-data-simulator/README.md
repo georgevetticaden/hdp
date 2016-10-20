@@ -49,6 +49,28 @@ Out of the box, it supports two event types representing 2 different sesnsors th
 4. Git
 
 
+
+### Simulator Args Description
+
+By default each simulator will spin up about 11 Trucks and assign a driver and route to it. 
+The different args pssed to  the hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerApp allow different ways to generate the event and where to store the event. The following describes the different args to pass in:
+
+* arg 0
+	* the number of events you want each truck to emit (-1 means emit infinite number of events)
+* arg 1
+	* Domain Object (class of the domain object. set it to: "hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck")
+* arg 2
+	* Event Collector (class of the event collector which outputs the event in different formats (csv, json) and different locations (file, kafka) ). E.g: hortonworks.hdp.refapp.trucking.simulator.impl.collectors.KafkaEventCollector
+* arg 3 
+	* demoId (always set to 1)
+* arg 4	
+	* the directory where the the different routes are located (e.g: [root_dir_of_ref_app]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/routes/midwest)
+* arg 5
+	* a delay (in millisconds) between every event that a given truck generates events (e.g: 500)
+* arg 6
+    * output location of the event (kafka broker url for kafka, file name if outputing to file)
+    
+    
 #### Build the Simulator
 * Build schema registry which is a dependency
 
@@ -71,36 +93,26 @@ mvn clean compile assembly:single
 
 
 ``` 
-* 
 
-
-### Run the Simulator
-
-By default each simulator will spin up about 11 Trucks and assign a driver and route to it. 
-The different args pssed to  the hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerApp allow different ways to generate the event and where to store the event. The following describes the different args to pass in:
-
-* arg 0
-	* the number of events you want each truck to emit (-1 means emit infinite number of events)
-* arg 1
-	* Domain Object (class of the domain object. set it to: "hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck")
-* arg 2
-	* Event Collector (class of the event collector which outputs the event in different formats (csv, json) and different locations (file, kafka) ). E.g: hortonworks.hdp.refapp.trucking.simulator.impl.collectors.KafkaEventCollector
-* arg 3 
-	* demoId (always set to 1)
-* arg 4	
-	* the directory where the the different routes are located (e.g: [root_dir_of_ref_app]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/routes/midwest)
-* arg 5
-	* a delay (in millisconds) between every event that a given truck generates events (e.g: 500)
-* arg 6
-    * output location of the event (kafka broker url for kafka, file name if outputing to file)
-    
-    
+ 
+   
 #### Example 1: Generate CSV Event to Kafka Topic
+
+
 
 
 #### Example 2: Generate CSV Event to File
 
 #### Example 3: Generate CSV Event with SChema Metadata to File
+* Command:
+
+
+``` 
+cd trucking-data-simulator/target
+
+nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 100 hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 1 [ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/routes/midwest 500 /tmp/truck-sensor-data/telemetry-device-1.txt 10 'Saint Louis to Tulsa' > nohup-telemetry-device-1.out  &
+
+``` 
 
 #### Example 4: Generate JSON Event to Kafka Topic
 

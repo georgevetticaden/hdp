@@ -14,18 +14,6 @@ public class SimulationRunnerSingleDriverApp {
 	public static void main(String[] args) {
 			try {
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 								
 				final int numberOfEvents = Integer.parseInt(args[0]);	
 				final Class eventEmitterClass = Class.forName(args[1]);
