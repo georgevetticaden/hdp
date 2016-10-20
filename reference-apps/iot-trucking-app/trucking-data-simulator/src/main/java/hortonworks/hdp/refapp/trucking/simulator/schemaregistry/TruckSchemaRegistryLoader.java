@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -67,10 +66,6 @@ public class TruckSchemaRegistryLoader {
 		 String avroserdesJarName = "/schema/schema-registry-serdes-0.1.0-SNAPSHOT.jar";
 	        
 		 InputStream serdesJarInputStream = TruckSchemaRegistryLoader.class.getResourceAsStream(avroserdesJarName);
-	        
-		 if (serdesJarInputStream == null) {       
-			 Assert.fail("Jar " + avroserdesJarName + " could not be loaded");
-	     }
 	        
 		 //upload
 		 String fileId = schemaRegistryClient.uploadFile(serdesJarInputStream);
