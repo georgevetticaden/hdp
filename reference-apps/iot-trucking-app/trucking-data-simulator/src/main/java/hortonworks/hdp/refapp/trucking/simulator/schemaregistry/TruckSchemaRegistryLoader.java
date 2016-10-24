@@ -166,7 +166,7 @@ public class TruckSchemaRegistryLoader {
     }	
     
     private Long registerAvroSerializer(String fileId) {
-        String avroSerializerClassName = "com.hortonworks.registries.schemaregistry.avro.AvroSnapshotSerializer";
+        String avroSerializerClassName = "com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer";
         SerDesInfo serializerInfo = new SerDesInfo.Builder()
                 .name(AVRO_SERIALIZER_NAME)
                 .description("The Default Avro Serializer")
@@ -177,7 +177,7 @@ public class TruckSchemaRegistryLoader {
     }
 
     private Long registerAvroDeserializer(String fileId) {
-        String avroDeserializerClassName = "com.hortonworks.registries.schemaregistry.avro.AvroSnapshotDeserializer";
+        String avroDeserializerClassName = "com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotDeserializer";
         SerDesInfo deserializerInfo = new SerDesInfo.Builder()
                 .name("avro-deserializer")
                 .description("The Default Avro Deserializer")
