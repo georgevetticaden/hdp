@@ -78,7 +78,9 @@ public class TruckSchemaRegistryLoaderTest {
 		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(schemaMetadata.getName(), version);
 		Assert.assertNotNull(schemaVersion);
 		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(schemaVersion));
-	}		
+	}	
+	
+	
 	
 	@Test
 	public void getSchemaForTruckSpeedEvent() throws Exception {
@@ -89,6 +91,14 @@ public class TruckSchemaRegistryLoaderTest {
 		LOG.info(ReflectionToStringBuilder.toString(schemaVersion));
 	}		
 	
+	
+	@Test
+	public void getLatestSchemaForTruckSpeedEvent() throws Exception {
+		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckSpeedEvent();
+		SchemaVersionInfo schemaVersion = getLatestSchema(schemaMetadata.getName());	
+		Assert.assertNotNull(schemaVersion);
+		LOG.info(ReflectionToStringBuilder.toString(schemaVersion));		
+	}
 	
 	@Test
 	public void getSeDeserializersForTruckGeoEvent() throws Exception {
@@ -123,8 +133,8 @@ public class TruckSchemaRegistryLoaderTest {
 		String schemaName = schemaMetadata.getName();
 		
 		//get serializer info from registry
-		SerDesInfo serializerInfo = getSerializerFromRegistry(schemaName, TruckSchemaRegistryLoader.AVRO_SERIALIZER_NAME);
-		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaRegistryLoader.AVRO_SERIALIZER_NAME+"]", serializerInfo);
+		SerDesInfo serializerInfo = getSerializerFromRegistry(schemaName, TruckSchemaConfig.AVRO_SERIALIZER_NAME);
+		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_SERIALIZER_NAME+"]", serializerInfo);
 		
 		//create and initialize serializer object
 		SnapshotSerializer<Object, byte[], SchemaMetadata> avroSerializer = registryLoader.schemaRegistryClient.createSerializerInstance(serializerInfo);
@@ -161,8 +171,8 @@ public class TruckSchemaRegistryLoaderTest {
 		String schemaName = schemaMetadata.getName();
 		
 		//get deserailizer from registry
-		SerDesInfo deserializerInfo = getDeserializerFromRegistry(schemaName, TruckSchemaRegistryLoader.AVRO_DESERIALIZER_NAME);
-		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaRegistryLoader.AVRO_DESERIALIZER_NAME+"]", deserializerInfo);
+		SerDesInfo deserializerInfo = getDeserializerFromRegistry(schemaName, TruckSchemaConfig.AVRO_DESERIALIZER_NAME);
+		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_DESERIALIZER_NAME+"]", deserializerInfo);
 		LOG.info("The derializer info is: " + ReflectionToStringBuilder.toString(deserializerInfo));
 		
 		//create and initialize deserializer object
@@ -243,6 +253,7 @@ public class TruckSchemaRegistryLoaderTest {
 	private SchemaMetadataInfo getSchemaMetaData(
 			SchemaMetadata schemaMetadata) {
 		SchemaMetadataInfo metaInfo= registryLoader.schemaRegistryClient.getSchemaMetadataInfo(schemaMetadata.getName());
+		
 		return metaInfo;
 	}
 	
@@ -252,6 +263,14 @@ public class TruckSchemaRegistryLoaderTest {
 		SchemaVersionInfo schemaVersion = registryLoader.schemaRegistryClient.getSchemaVersionInfo(schemaVersionKey);
 		return schemaVersion;
 	}	
+	
+	private SchemaVersionInfo getLatestSchema(String schemaName)
+			throws SchemaNotFoundException {
+		SchemaVersionInfo schemaVersion  = registryLoader.schemaRegistryClient.getLatestSchemaVersionInfo(schemaName);
+		return schemaVersion;
+	}	
+	
+
 	
 	private Collection<SerDesInfo> getSerializers(String schemaName) {
 		Collection<SerDesInfo> serdes = registryLoader.schemaRegistryClient.getSerializers(schemaName);

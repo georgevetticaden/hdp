@@ -20,12 +20,7 @@ import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
 
 public class TruckSchemaRegistryLoader {
 	
-	
-	static final String TRUCK_SPEED_EVENTS_SCHEMA_NAME = "truck_speed_events_avro";
-	static final String TRUCK_EVENTS_SCHEMA_NAME = "truck_events_avro";
-	static final String SCHEMA_GROUP_NAME = "truck-sensors";
-	static final String AVRO_SERIALIZER_NAME = "avro-serializer";
-	static final String AVRO_DESERIALIZER_NAME = "avro-deserializer";
+
 	
 	protected Logger LOG = LoggerFactory.getLogger(TruckSchemaRegistryLoader.class);
 	
@@ -133,8 +128,8 @@ public class TruckSchemaRegistryLoader {
 	}	
 	
 	SchemaMetadata createSchemaMetaForTruckGeoEvent() {
-		String schemaGroup = SCHEMA_GROUP_NAME;
-		String schemaName = TRUCK_EVENTS_SCHEMA_NAME;
+		String schemaGroup = TruckSchemaConfig.SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.TRUCK_EVENTS_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
 		String description = "Geo events from trucks";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
@@ -144,8 +139,8 @@ public class TruckSchemaRegistryLoader {
 	}
 	
 	SchemaMetadata createSchemaMetaForTruckSpeedEvent() {
-		String schemaGroup = SCHEMA_GROUP_NAME;
-		String schemaName = TRUCK_SPEED_EVENTS_SCHEMA_NAME;
+		String schemaGroup = TruckSchemaConfig.SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.TRUCK_SPEED_EVENTS_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
 		String description = "Speed Events from trucks";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
@@ -168,7 +163,7 @@ public class TruckSchemaRegistryLoader {
     private Long registerAvroSerializer(String fileId) {
         String avroSerializerClassName = "com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer";
         SerDesInfo serializerInfo = new SerDesInfo.Builder()
-                .name(AVRO_SERIALIZER_NAME)
+                .name(TruckSchemaConfig.AVRO_SERIALIZER_NAME)
                 .description("The Default Avro Serializer")
                 .fileId(fileId)
                 .className(avroSerializerClassName)
@@ -206,5 +201,7 @@ public class TruckSchemaRegistryLoader {
         return config;
     }		
 		
+    
+    
 
 }
