@@ -162,7 +162,6 @@ public class TruckSchemaRegistryLoaderTest {
 	}
 
 
-
 	
 	@Test
 	public void deSerializeTruckGeoEvent() throws Exception {
@@ -181,18 +180,15 @@ public class TruckSchemaRegistryLoaderTest {
 		avroDeserializer.init(registryLoader.createConfig(SCHEMA_REGISTRY_URL));	
 		
 		//Load the serialized file 
-		File file = new File("truck-geo-event-payload.serialized");
-		Assert.assertTrue(file.exists());
-		FileInputStream serializedTruckEventStream = new FileInputStream(file);
+		
+		InputStream serializedTruckEventStream = this.getClass().getResourceAsStream("/schema/samples/truck-geo-event-payload.serialized");
 		Assert.assertNotNull(serializedTruckEventStream);
 		
 		Object avroTruckGeoEventRecord = avroDeserializer.deserialize(serializedTruckEventStream, schemaMetadata, null);
 		Assert.assertNotNull(avroTruckGeoEventRecord);
-		LOG.info(ReflectionToStringBuilder.toString(avroTruckGeoEventRecord));
 		
 		GenericRecord record = (GenericRecord)avroTruckGeoEventRecord;
-		Object dataInRecord = record.get("data");
-		LOG.info("data in record: " + ReflectionToStringBuilder.toString(dataInRecord));
+		LOG.info("Record is: " + record);
 		
 	}
 	
