@@ -12,6 +12,7 @@
         <module>trucking-data-simulator</module>
         <module>trucking-env-setup</module>
         <module>trucking-web-portal</module>
+        <module>trucking-flow-management</module>
    </modules>
     
     <properties>

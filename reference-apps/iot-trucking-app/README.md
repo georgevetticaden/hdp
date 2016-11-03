@@ -14,17 +14,21 @@ This project is meant to be a reference application for the Hortonworks Data Flo
 * The Business Requirement is to stream these events in, filter on violations and do real-time alerting when “lots” of erratic behavior is detected for a given driver over a short period of time.
 
 ## What does this Reference Application Demonstrate
+
 * Stream Processing (HDF - Stream Processing)
 * Aggregrations over Windows via Tumbling and Sliding (HDF - Stream Processing)
 * Joining and Forking Streams (HDF - Stream Processing)
 * Pattern Matching (HDF - Stream Processing)
-* Collecting data from the Edge - First Mile Problem (HDF - Flow Management) - Coming Soon
-* Data Acquisition, parsing, enrichment and intelligent routing (HDF - Flow Management) - Coming Soon
+* Collecting data from the Edge - First Mile Problem (HDF - Flow Management)
+* Data Acquisition, parsing, enrichment and intelligent routing (HDF - Flow Management)
 * Running the Reference Application on HDF 2.0 / HDP 2.5
 
 ## IOT Trucking App Reference Architecture 
 
 ![Architecture Diagram](readme-design-artifacts/iot-trucking-architecture-hdf_2_0.png)
+
+## Flow Management Logical Architecture
+![Architecture Diagram](readme-design-artifacts/nifi-flow-management.png)
 
 ## Stream Processing Logical Architecture
 
@@ -33,12 +37,26 @@ This project is meant to be a reference application for the Hortonworks Data Flo
 ## Streaming Analtyics App Powered by HDF 2.0
 ![IOT Trucking Web Portal](readme-design-artifacts/iot-trucking-portal-Generate Truck Streams-Alerts.png)
 
+## Full End to End IOT App Built by HDF
+
+![Architecture Diagram](readme-design-artifacts/end-to-end-architecture.png)
+
 ## Installing and Running the IOT Trucking App on HDP 2.5 / HDF 2.0
 
-9/16/2016 - THIS WILL BE UPDATED SOON - THE BELOW IS OUT OF DATE!!
 
 ### Cluster Setup
-Install HDP 2.5 cluster using instructions here: http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.0.1/bk_ambari-installation/content/index.html
+Install HDF 2.0.X  cluster using instructions here: http://docs.hortonworks.com/HDPDocuments/HDF2/HDF-2.0.1/bk_ambari-installation/content/index.html.
+Install all the components that come with the HDF 2.0 cluster:
+
+* Nifi
+* Storm
+* Kafka
+* Zookeeper
+* Ranger
+
+![HDF Managed by Ambari ](readme-design-artifacts/ambari-hdf.png)
+
+
 
 ### Set up the Maven Projects and setup scripts
 
@@ -77,8 +95,15 @@ Install HDP 2.5 cluster using instructions here: http://docs.hortonworks.com/HDP
 
 
 
+### Configure Nifi - Flow Management
+When you spin up an HDF 2.0.X cluster using Ambari, you have the option to install a Nifi cluser. Install 1 Node Nifi Cluster.
 
+The following are instructions to import the flow management template into Nifi that allows you ingest, route, transform and deliver the truckign events to the Kafka Cluster
 
+1. From Ambari QuickLinks on the Nifi Service, click on the QuickLinks for the Nifi UI
+2. On the Operate Window of the canvas, select upload template and uplaod the template called Trucking_Nifi_Flow_Management_Template_.xml located in iot-trucking-app/trucking-flow-management/nifi-trucking-flow-management-template
+3. Select the Template icon from teh top menu item and drag to canvas and select the template you just uploaded.
+4. Configure each of the processors on the template with your cluster settings (e.g: kafka cluster settings, etc..)
 
 
 ### Configure Kafka
