@@ -64,7 +64,20 @@
 			<id>hortonworks-public</id>
 			<name>Hortonworks Public</name>
 			<url>http://repo.hortonworks.com/content/groups/public/</url>
-		</repository>         	
+		</repository>      
+		
+		<repository>
+            <id>hortonworks.repo</id>
+            <url>http://nexus-private.hortonworks.com/nexus/content/groups/public/</url>
+            <name>Hortonworks Repo</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>		
+           	
 	</repositories>
 
 

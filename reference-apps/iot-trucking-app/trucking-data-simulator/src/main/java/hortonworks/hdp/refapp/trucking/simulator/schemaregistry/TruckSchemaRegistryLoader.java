@@ -5,18 +5,17 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.hortonworks.registries.schemaregistry.SchemaCompatibility;
-import com.hortonworks.registries.schemaregistry.SchemaMetadata;
-import com.hortonworks.registries.schemaregistry.SchemaVersion;
-import com.hortonworks.registries.schemaregistry.SerDesInfo;
-import com.hortonworks.registries.schemaregistry.avro.AvroSchemaProvider;
-import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
+import org.apache.registries.schemaregistry.SchemaCompatibility;
+import org.apache.registries.schemaregistry.SchemaIdVersion;
+import org.apache.registries.schemaregistry.SchemaMetadata;
+import org.apache.registries.schemaregistry.SchemaVersion;
+import org.apache.registries.schemaregistry.SerDesInfo;
+import org.apache.registries.schemaregistry.avro.AvroSchemaProvider;
+import org.apache.registries.schemaregistry.client.SchemaRegistryClient;
 
 public class TruckSchemaRegistryLoader {
 	
@@ -58,7 +57,7 @@ public class TruckSchemaRegistryLoader {
 	
 	
 	public void uploadAndRegisterAndMapSeDeserializers() throws Exception {
-		 String avroserdesJarName = "/schema/schema-registry-serdes-0.1.0-SNAPSHOT.jar";
+		 String avroserdesJarName = "/schema/schema-registry-serdes-0.1.0.jar";
 	        
 		 InputStream serdesJarInputStream = TruckSchemaRegistryLoader.class.getResourceAsStream(avroserdesJarName);
 	        
@@ -90,7 +89,7 @@ public class TruckSchemaRegistryLoader {
 		LOG.info("Truck Geo Event Schema is: " + schema);
 		
 		SchemaVersion schemaVersion = new SchemaVersion(schema, "Initial Schema for Truck Geo Event");
-		int version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckGeoEvent().getName(), schemaVersion);
+		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckGeoEvent().getName(), schemaVersion);
 		LOG.info("Version Id of new schema is: " + version);
 		
 		
@@ -103,7 +102,7 @@ public class TruckSchemaRegistryLoader {
 		LOG.info("Truck Speed Schema is: " + schema);
 		
 		SchemaVersion schemaVersion = new SchemaVersion(schema, "Initial Schema for Truck Speed Event");
-		int version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckSpeedEvent().getName(), schemaVersion);
+		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckSpeedEvent().getName(), schemaVersion);
 		LOG.info("Version Id of new schema is: " + version);
 		
 		
@@ -115,7 +114,7 @@ public class TruckSchemaRegistryLoader {
 		  
 		SchemaMetadata schemaMetadata = createSchemaMetaForTruckGeoEvent();
 		// register the schemaGroup
-	    boolean status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
+	    long status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
 	    LOG.info("Status of registering schema is: " + status);
 	}
 	
@@ -123,7 +122,7 @@ public class TruckSchemaRegistryLoader {
 		  
 		SchemaMetadata schemaMetadata = createSchemaMetaForTruckSpeedEvent();
 		// register the schemaGroup
-	    boolean status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
+	    long status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
 	    LOG.info("Status of registering schema is: " + status);
 	}	
 	
@@ -161,7 +160,7 @@ public class TruckSchemaRegistryLoader {
     }	
     
     private Long registerAvroSerializer(String fileId) {
-        String avroSerializerClassName = "com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer";
+        String avroSerializerClassName = "org.apache.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer";
         SerDesInfo serializerInfo = new SerDesInfo.Builder()
                 .name(TruckSchemaConfig.AVRO_SERIALIZER_NAME)
                 .description("The Default Avro Serializer")
@@ -172,7 +171,7 @@ public class TruckSchemaRegistryLoader {
     }
 
     private Long registerAvroDeserializer(String fileId) {
-        String avroDeserializerClassName = "com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotDeserializer";
+        String avroDeserializerClassName = "org.apache.registries.schemaregistry.serdes.avro.AvroSnapshotDeserializer";
         SerDesInfo deserializerInfo = new SerDesInfo.Builder()
                 .name("avro-deserializer")
                 .description("The Default Avro Deserializer")
@@ -194,10 +193,6 @@ public class TruckSchemaRegistryLoader {
     static Map<String, Object> createConfig(String schemaRegistryUrl) {
         Map<String, Object> config = new HashMap<>();
         config.put(SchemaRegistryClient.Options.SCHEMA_REGISTRY_URL, schemaRegistryUrl);
-        config.put(SchemaRegistryClient.Options.CLASSLOADER_CACHE_SIZE, 10);
-        config.put(SchemaRegistryClient.Options.CLASSLOADER_CACHE_EXPIRY_INTERVAL_SECS, 5000L);
-        config.put(SchemaRegistryClient.Options.SCHEMA_CACHE_SIZE, 1000);
-        config.put(SchemaRegistryClient.Options.SCHEMA_CACHE_EXPIRY_INTERVAL_SECS, 60 * 60 * 1000L);
         return config;
     }		
 		
