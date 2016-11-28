@@ -12,7 +12,7 @@
 
 
 	<properties>
-		<schema.registry.version>0.1.0</schema.registry.version>
+		<schema.registry.version>0.1.0-SNAPSHOT</schema.registry.version>
 		<kite.version>1.0.0</kite.version>
 	</properties>
 	

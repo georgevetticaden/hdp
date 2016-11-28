@@ -192,7 +192,8 @@ public class TruckSchemaRegistryLoader {
 	
     static Map<String, Object> createConfig(String schemaRegistryUrl) {
         Map<String, Object> config = new HashMap<>();
-        config.put(SchemaRegistryClient.Options.SCHEMA_REGISTRY_URL, schemaRegistryUrl);
+        config.put(SchemaRegistryClient.Configuration.SCHEMA_REGISTRY_URL.name(), schemaRegistryUrl);
+        
         return config;
     }		
 		
