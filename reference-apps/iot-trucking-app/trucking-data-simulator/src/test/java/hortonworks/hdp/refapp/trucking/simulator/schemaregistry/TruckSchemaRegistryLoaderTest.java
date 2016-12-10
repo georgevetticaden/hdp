@@ -21,12 +21,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.apache.registries.schemaregistry.SchemaCompatibility;
 import org.apache.registries.schemaregistry.SchemaMetadata;
 import org.apache.registries.schemaregistry.SchemaMetadataInfo;
 import org.apache.registries.schemaregistry.SchemaVersionInfo;
 import org.apache.registries.schemaregistry.SchemaVersionKey;
 import org.apache.registries.schemaregistry.SerDesInfo;
+import org.apache.registries.schemaregistry.avro.AvroSchemaProvider;
 import org.apache.registries.schemaregistry.errors.SchemaNotFoundException;
 import org.apache.registries.schemaregistry.serde.SnapshotDeserializer;
 import org.apache.registries.schemaregistry.serde.SnapshotSerializer;
@@ -50,32 +51,46 @@ public class TruckSchemaRegistryLoaderTest {
 	}
 	
 	@Test
-	public void getSchemaMetaDataForTruckGeoEvent() throws Exception {
+	public void getSchemaMetaDataForTruckGeoEventInLog() throws Exception {
 		  
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckGeoEvent();
 
-	    SchemaMetadataInfo metaInfo = getSchemaMetaData(schemaMetadata);
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
 	    Assert.assertNotNull(metaInfo);
 	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
 	}
 	
 
 	@Test
-	public void getSchemaMetaDataForTruckSpeedEvent() throws Exception {
+	public void getSchemaMetaDataForTruckSpeedEventInLog() throws Exception {
 		  
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckSpeedEvent();
-		
-	    SchemaMetadataInfo metaInfo = getSchemaMetaData(schemaMetadata);
+		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
+	}	
+	
+	@Test
+	public void getSchemaMetaDataForTruckGeoEventInKafka() throws Exception {
+		  
+
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
+	}
+	
+
+	@Test
+	public void getSchemaMetaDataForTruckSpeedEventInKafka() throws Exception {
+		  
+		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME);
 	    Assert.assertNotNull(metaInfo);
 	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
 	}	
 	
 	
 	@Test
-	public void getSchemaForTruckGeoEvent() throws Exception {
-		int version = 1;
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckGeoEvent();
-		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(schemaMetadata.getName(), version);
+	public void getSchemaForTruckGeoEventInLog() throws Exception {
+		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, 
+																   TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_VERSION);
 		Assert.assertNotNull(schemaVersion);
 		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(schemaVersion));
 	}	
@@ -83,28 +98,45 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	
 	@Test
-	public void getSchemaForTruckSpeedEvent() throws Exception {
-		int version = 1;
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckSpeedEvent();
-		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(schemaMetadata.getName(), version);
+	public void getSchemaForTruckSpeedEventInLog() throws Exception {
+
+		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME, 
+																	TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_VERSION);
+		Assert.assertNotNull(schemaVersion);
+		LOG.info(ReflectionToStringBuilder.toString(schemaVersion));
+	}		
+	
+	@Test
+	public void getSchemaForTruckGeoEventInKafka() throws Exception {
+		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME, 
+																   TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_VERSION);
+		Assert.assertNotNull(schemaVersion);
+		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(schemaVersion));
+	}	
+	
+	
+	
+	@Test
+	public void getSchemaForTruckSpeedEventInKafka() throws Exception {
+
+		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME, 
+																	TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_VERSION);
 		Assert.assertNotNull(schemaVersion);
 		LOG.info(ReflectionToStringBuilder.toString(schemaVersion));
 	}		
 	
 	
 	@Test
-	public void getLatestSchemaForTruckSpeedEvent() throws Exception {
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckSpeedEvent();
-		SchemaVersionInfo schemaVersion = getLatestSchema(schemaMetadata.getName());	
+	public void getLatestSchemaForTruckSpeedEventInLog() throws Exception {
+		SchemaVersionInfo schemaVersion = getLatestSchema(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);	
 		Assert.assertNotNull(schemaVersion);
 		LOG.info(ReflectionToStringBuilder.toString(schemaVersion));		
 	}
 	
 	@Test
-	public void getSeDeserializersForTruckGeoEvent() throws Exception {
+	public void getSeDeserializersForTruckGeoEventInLog() throws Exception {
 
-		String schemaName = registryLoader.createSchemaMetaForTruckGeoEvent().getName();
-		Collection<SerDesInfo> serdes = getSerializers(schemaName);
+		Collection<SerDesInfo> serdes = getSerializers(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
 		Assert.assertNotNull(serdes);
 		LOG.info("Number of Serdes is: " + serdes.size());
 		for(SerDesInfo serde: serdes) {
@@ -114,10 +146,9 @@ public class TruckSchemaRegistryLoaderTest {
 	}	
 	
 	@Test
-	public void getSeDeserializersForTruckSpeedEvent() throws Exception {
+	public void getSeDeserializersForTruckSpeedEventInLog() throws Exception {
 
-		String schemaName = registryLoader.createSchemaMetaForTruckSpeedEvent().getName();
-		Collection<SerDesInfo> serdes = getSerializers(schemaName);
+		Collection<SerDesInfo> serdes = getSerializers(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);
 		Assert.assertNotNull(serdes);
 		LOG.info("Number of Serdes is: " + serdes.size());
 		for(SerDesInfo serde: serdes) {
@@ -129,11 +160,9 @@ public class TruckSchemaRegistryLoaderTest {
 	public void serializeTruckGeoEvent() throws Exception  {
 		
 		
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckGeoEvent();
-		String schemaName = schemaMetadata.getName();
 		
 		//get serializer info from registry
-		SerDesInfo serializerInfo = getSerializerFromRegistry(schemaName, TruckSchemaConfig.AVRO_SERIALIZER_NAME);
+		SerDesInfo serializerInfo = getSerializerFromRegistry(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, TruckSchemaConfig.AVRO_SERIALIZER_NAME);
 		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_SERIALIZER_NAME+"]", serializerInfo);
 		
 		//create and initialize serializer object
@@ -151,9 +180,14 @@ public class TruckSchemaRegistryLoaderTest {
        GenericRecord avroGenericRecord = convertAvroDataFileToAVroGenericRecord(inputStream);	
        Assert.assertNotNull(avroGenericRecord);
        LOG.info("AVro Generic Record read from file before being serialized is: " + ReflectionToStringBuilder.toString(avroGenericRecord));
-		
-
+	
        // Now we have the payload in right format (Avro GenericRecord), lets serialize
+       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
+		  .type(AvroSchemaProvider.TYPE)
+		  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
+		  .description("Speed Events from trucks")
+		  .compatibility(SchemaCompatibility.BACKWARD)
+		  .build();       
 		byte[] serializedPaylod = avroSerializer.serialize(avroGenericRecord, schemaMetadata);
 		Assert.assertNotNull(serializedPaylod);
 
@@ -166,11 +200,9 @@ public class TruckSchemaRegistryLoaderTest {
 	@Test
 	public void deSerializeTruckGeoEvent() throws Exception {
 		
-		SchemaMetadata schemaMetadata = registryLoader.createSchemaMetaForTruckGeoEvent();
-		String schemaName = schemaMetadata.getName();
 		
 		//get deserailizer from registry
-		SerDesInfo deserializerInfo = getDeserializerFromRegistry(schemaName, TruckSchemaConfig.AVRO_DESERIALIZER_NAME);
+		SerDesInfo deserializerInfo = getDeserializerFromRegistry(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, TruckSchemaConfig.AVRO_DESERIALIZER_NAME);
 		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_DESERIALIZER_NAME+"]", deserializerInfo);
 		LOG.info("The derializer info is: " + ReflectionToStringBuilder.toString(deserializerInfo));
 		
@@ -184,6 +216,14 @@ public class TruckSchemaRegistryLoaderTest {
 		InputStream serializedTruckEventStream = this.getClass().getResourceAsStream("/schema/samples/truck-geo-event-payload.serialized");
 		Assert.assertNotNull(serializedTruckEventStream);
 		
+		
+		//deserialize
+	       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
+			  .type(AvroSchemaProvider.TYPE)
+			  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
+			  .description("Speed Events from trucks")
+			  .compatibility(SchemaCompatibility.BACKWARD)
+			  .build(); 		
 		Object avroTruckGeoEventRecord = avroDeserializer.deserialize(serializedTruckEventStream, schemaMetadata, null);
 		Assert.assertNotNull(avroTruckGeoEventRecord);
 		
@@ -246,9 +286,8 @@ public class TruckSchemaRegistryLoaderTest {
 		
 		
 	
-	private SchemaMetadataInfo getSchemaMetaData(
-			SchemaMetadata schemaMetadata) {
-		SchemaMetadataInfo metaInfo= registryLoader.schemaRegistryClient.getSchemaMetadataInfo(schemaMetadata.getName());
+	private SchemaMetadataInfo getSchemaMetaData(String schemaName) {
+		SchemaMetadataInfo metaInfo= registryLoader.schemaRegistryClient.getSchemaMetadataInfo(schemaName);
 		
 		return metaInfo;
 	}

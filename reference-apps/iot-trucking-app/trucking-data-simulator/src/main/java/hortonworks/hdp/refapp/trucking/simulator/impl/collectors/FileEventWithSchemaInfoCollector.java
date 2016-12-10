@@ -37,7 +37,8 @@ public class FileEventWithSchemaInfoCollector extends BaseTruckEventCollector {
 	private void sendTruckEventToFile(MobileEyeEvent mee) {
 		
 		String eventToPass = createTruckGeoEvent(mee) +"|" + LINE_BREAK;
-		String eventToPassWithSchema = addSchemaInfo(TruckSchemaConfig.SCHEMA_GROUP_NAME, TruckSchemaConfig.TRUCK_EVENTS_SCHEMA_NAME, TruckSchemaConfig.TRUCK_GEO_EVENT_SCHEMA_VERSION, eventToPass);
+		String eventToPassWithSchema = addSchemaInfo(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME, TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, 
+											TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_VERSION, eventToPass);
 		logger.debug("Creating truck speed event["+eventToPassWithSchema+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");
 		
 		try {
@@ -53,7 +54,8 @@ public class FileEventWithSchemaInfoCollector extends BaseTruckEventCollector {
 	private void sendTruckSpeedEventToFile(MobileEyeEvent mee) {
 		
 		String eventToPass = createTruckSpeedEvent(mee) + "|" + LINE_BREAK;
-		String eventToPassWithSchema = addSchemaInfo(TruckSchemaConfig.SCHEMA_GROUP_NAME, TruckSchemaConfig.TRUCK_SPEED_EVENTS_SCHEMA_NAME, TruckSchemaConfig.TRUCK_SPEED_EVENT_SCHEMA_VERSION, eventToPass);
+		String eventToPassWithSchema = addSchemaInfo(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME, TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME, 
+											TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_VERSION, eventToPass);
 		logger.debug("Creating truck event["+eventToPassWithSchema+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");	
 		
 		try {

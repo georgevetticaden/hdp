@@ -21,9 +21,10 @@ public class TruckSchemaRegistryLoader {
 	
 
 	
-	protected Logger LOG = LoggerFactory.getLogger(TruckSchemaRegistryLoader.class);
-	
+	private static final Logger LOG = LoggerFactory.getLogger(TruckSchemaRegistryLoader.class);
 	SchemaRegistryClient schemaRegistryClient;
+	private Long serializerId;
+	private Long deserializerId;
 	
 	
 	public TruckSchemaRegistryLoader(String schmemaRegistryUrl) {
@@ -41,124 +42,161 @@ public class TruckSchemaRegistryLoader {
 		
 	}
 	
+	/**
+	 * Loads the schema registry with all data required for the HDF Trucking Reference Application
+	 */
 	public void loadSchemaRegistry() {
 		try {
-			registerSchemaMetaDataForTruckGeoEvent();
-			registerSchemaMetaDataForTruckSpeedEvent();
-			addSchemaForTruckGeoEvent();
-			addSchemaForTruckSpeedEvent();
-			uploadAndRegisterAndMapSeDeserializers();
+			uploadAndRegisterSeDeserializers(TruckSchemaConfig.AVRO_SERDES_JAR_NAME);
+			
+			/* Populate the 2 schemas for the log files */
+			populateSchemaRegistryForTruckGeoEventInLog();
+			populateSchemaRegistryForTruckSpeedEventInLog();
+			
+			
+			/* Populate the 2 schemas for the kafka topics */
+			populateSchemaRegistryForTruckGeoEventInKafka();
+			populateSchemaRegistryForTruckSpeedEventInKafka();
+			
+			
 		} catch (Exception e) {
 			String errorMsg = "Error loading data into Schema Registry for truck events";
 			LOG.error(errorMsg, e);
 			throw new RuntimeException(e);
 		}		
 	}
-	
-	
-	public void uploadAndRegisterAndMapSeDeserializers() throws Exception {
-		 String avroserdesJarName = "/schema/schema-registry-serdes-0.1.0.jar";
-	        
-		 InputStream serdesJarInputStream = TruckSchemaRegistryLoader.class.getResourceAsStream(avroserdesJarName);
-	        
-		 //upload
-		 String fileId = schemaRegistryClient.uploadFile(serdesJarInputStream);
-		 
-		 //register
-		 long serializerId = registerAvroSerializer(fileId);
-		 long deserializerId =  registerAvroDeserializer(fileId);
-		 
-		 //map truck geo event
-	     SchemaMetadata schemaMetadata = createSchemaMetaForTruckGeoEvent();
-		 String schemaName = schemaMetadata.getName();
-	     schemaRegistryClient.mapSchemaWithSerDes(schemaName, serializerId);
-	     schemaRegistryClient.mapSchemaWithSerDes(schemaName, deserializerId);	
-	     
-	     //map for truck speed event
-	     SchemaMetadata truckSpeedSchemaMetadata = createSchemaMetaForTruckSpeedEvent();
-		 String truckSpeedSchema = truckSpeedSchemaMetadata.getName();
-	     schemaRegistryClient.mapSchemaWithSerDes(truckSpeedSchema, serializerId);
-	     schemaRegistryClient.mapSchemaWithSerDes(truckSpeedSchema, deserializerId);		     
-		 
+
+
+	private void populateSchemaRegistryForTruckGeoEventInLog() throws Exception {
+		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Geo events from trucks in Log file";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-geo-event-log.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName);
+		mapSeDeserializers(schemaName);
 	}
 	
-	public void addSchemaForTruckGeoEvent() throws Exception {
+	private void populateSchemaRegistryForTruckSpeedEventInLog() throws Exception {
+		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Speed Events from trucks in Log File";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-speed-event-log.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName);
+		mapSeDeserializers(schemaName);
+	}	
+	
+	private void populateSchemaRegistryForTruckGeoEventInKafka() throws Exception {
+		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Geo events from trucks in Kafka Topic";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-geo-event-kafka.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName);
+		mapSeDeserializers(schemaName);
+	}	
+	
+	private void populateSchemaRegistryForTruckSpeedEventInKafka() throws Exception {
+		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Speed Events from trucks in Kafka Topic";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-speed-event-kafka.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName);
+		mapSeDeserializers(schemaName);
+	}	
+	
+	
+	/**
+	 * Upload the serdes jar that has the serializer and deserailizer classes and then registers teh serailizer and deserializer classes
+	 * with Schema Registry
+	 * @param avroserdesJarName
+	 * @throws Exception
+	 */
+	public void uploadAndRegisterSeDeserializers(String avroserdesJarName) throws Exception {
+		 
+	    /* Uplaod the serializer jar to the schema registry */
+		InputStream serdesJarInputStream = TruckSchemaRegistryLoader.class.getResourceAsStream(avroserdesJarName);
+		String fileId = schemaRegistryClient.uploadFile(serdesJarInputStream);
+		 
+		 /* Register the Serializer and Deserializer classes in the uploaded jar with schema registry */
+		 this.serializerId = registerAvroSerializer(fileId);
+		 this.deserializerId =  registerAvroDeserializer(fileId);
+	}
+	
+	/**
+	 * Maps the registered serailizer and deserializer with the passed in schema
+	 * @param schemaName
+	 * @throws Exception
+	 */
+	public void mapSeDeserializers(String schemaName) throws Exception {
+
+		 //map schema
+	     schemaRegistryClient.mapSchemaWithSerDes(schemaName, serializerId);
+	     schemaRegistryClient.mapSchemaWithSerDes(schemaName, deserializerId);			     
+		 
+	}	
+	
+	/**
+	 * Adds a new schema version to a Schema
+	 * @param schemaName
+	 * @param schemaContentFileName
+	 * @throws Exception
+	 */
+	public void addSchemaVersion(String schemaName, String schemaContentFileName) throws Exception {
 		  
-		String schemaFileName = "/schema/truck-geo-event.avsc";
-		String schema = getSchema(schemaFileName);
+		String schema = getSchema(schemaContentFileName);
 		LOG.info("Truck Geo Event Schema is: " + schema);
 		
 		SchemaVersion schemaVersion = new SchemaVersion(schema, "Initial Schema for Truck Geo Event");
-		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckGeoEvent().getName(), schemaVersion);
+		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(schemaName, schemaVersion);
 		LOG.info("Version Id of new schema is: " + version);
 		
 		
 	}	
+
 	
-	public void addSchemaForTruckSpeedEvent() throws Exception {
+	
+	/**
+	 * Creates a New Schema Group and Schema Meta data construct in the Registry
+	 * @param schemaGroup
+	 * @param schemaName
+	 * @param schemaType
+	 * @param description
+	 * @param compatiblity
+	 * @throws Exception
+	 */
+	private void registerSchemaMetaData(String schemaGroup, String schemaName, String schemaType, 
+		    String description, SchemaCompatibility compatiblity) throws Exception {
 		  
-		String schemaFileName = "/schema//truck-speed-event.avsc";
-		String schema = getSchema(schemaFileName);
-		LOG.info("Truck Speed Schema is: " + schema);
-		
-		SchemaVersion schemaVersion = new SchemaVersion(schema, "Initial Schema for Truck Speed Event");
-		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(createSchemaMetaForTruckSpeedEvent().getName(), schemaVersion);
-		LOG.info("Version Id of new schema is: " + version);
-		
-		
-	}	
-	
-	
-	
-	private void registerSchemaMetaDataForTruckGeoEvent() throws Exception {
-		  
-		SchemaMetadata schemaMetadata = createSchemaMetaForTruckGeoEvent();
+		SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(schemaName)
+														  .type(schemaType)
+														  .schemaGroup(schemaGroup)
+														  .description(description)
+														  .compatibility(compatiblity)
+														  .build();
 		// register the schemaGroup
 	    long status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
 	    LOG.info("Status of registering schema is: " + status);
 	}
 	
-	private void registerSchemaMetaDataForTruckSpeedEvent() throws Exception {
-		  
-		SchemaMetadata schemaMetadata = createSchemaMetaForTruckSpeedEvent();
-		// register the schemaGroup
-	    long status = schemaRegistryClient.registerSchemaMetadata(schemaMetadata);
-	    LOG.info("Status of registering schema is: " + status);
-	}	
-	
-	SchemaMetadata createSchemaMetaForTruckGeoEvent() {
-		String schemaGroup = TruckSchemaConfig.SCHEMA_GROUP_NAME;
-		String schemaName = TruckSchemaConfig.TRUCK_EVENTS_SCHEMA_NAME;
-		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Geo events from trucks";
-		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
 		
-		SchemaMetadata schemaMetadata = createSchemaMetadata(schemaGroup, schemaName, schemaType, description, compatiblity);
-		return schemaMetadata;
-	}
-	
-	SchemaMetadata createSchemaMetaForTruckSpeedEvent() {
-		String schemaGroup = TruckSchemaConfig.SCHEMA_GROUP_NAME;
-		String schemaName = TruckSchemaConfig.TRUCK_SPEED_EVENTS_SCHEMA_NAME;
-		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Speed Events from trucks";
-		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
-		
-		SchemaMetadata schemaMetadata = createSchemaMetadata(schemaGroup, schemaName, schemaType, description, compatiblity);
-		return schemaMetadata;
-	}	
 	
 	
 	
-    SchemaMetadata createSchemaMetadata(String schemaGroup, String schemaName, String schemaType, String description, SchemaCompatibility compatiblity) {
-        return new SchemaMetadata.Builder(schemaName)
-                .type(schemaType)
-                .schemaGroup(schemaGroup)
-                .description(description)
-                .compatibility(compatiblity)
-                .build();
-    }	
-    
     private Long registerAvroSerializer(String fileId) {
         String avroSerializerClassName = "org.apache.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer";
         SerDesInfo serializerInfo = new SerDesInfo.Builder()
