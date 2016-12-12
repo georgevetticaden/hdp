@@ -11,8 +11,8 @@
       { "name" : "routeId" , "type" : "int"},
       { "name" : "route" , "type" : "string"},
       { "name" : "eventType" , "type" : "string"},
-      { "name" : "longitude" , "type" : "double"},
       { "name" : "latitude" , "type" : "double"},
+      { "name" : "longitude" , "type" : "double"},
       { "name" : "correlationId" , "type" : "long"}
    ]
 }
