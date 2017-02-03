@@ -36,7 +36,8 @@ public class TruckSchemaRegistryLoaderTest {
 
 	//private static final String SCHEMA_REGISTRY_URL = "http://hdf-ref-app-web0.field.hortonworks.com:9090/api/v1";
 	//private static final String SCHEMA_REGISTRY_URL = "http://hdfvictoria11.field.hortonworks.com:9090/api/v1";
-	private static final String SCHEMA_REGISTRY_URL = "http://victoriaschemaregistry0:9090/api/v1";
+	//private static final String SCHEMA_REGISTRY_URL = "http://victoriaschemaregistry0:9090/api/v1";
+	private static final String SCHEMA_REGISTRY_URL = "http://vett-private-tp0.field.hortonworks.com:9090/api/v1";
 	protected Logger LOG = Logger.getLogger(TruckSchemaRegistryLoader.class.getName());
 	private TruckSchemaRegistryLoader registryLoader;
 	
