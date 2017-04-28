@@ -5,7 +5,7 @@ public  final class TruckSchemaConfig {
 	/** ----------Common Schema Registry Meta Info ------------------- **/
 	
 	/* Serializer Names */
-	public static final String AVRO_SERDES_JAR_NAME = "/schema/schema-registry-serdes-0.1.0-SNAPSHOT.jar";
+	//public static final String AVRO_SERDES_JAR_NAME = "/schema/schema-registry-serdes-0.1.0-SNAPSHOT.jar";
 	public static final String AVRO_SERIALIZER_NAME = "avro-serializer";
 	public static final String AVRO_DESERIALIZER_NAME = "avro-deserializer";	
 	

@@ -1,8 +1,8 @@
 <div class="jumbotron">
-  <h2>HDF 2.0 Product Management Demo Environment - Data In Motion Reference App</h2>
-   <p> For the use case details, check out the <a href="https://github.com/georgevetticaden/hdp/tree/master/reference-apps/iot-trucking-app"> HDF 2.0 Data in Motion Reference App</a> </p>
+  <h2>HDF 3.0 Product Management Demo Environment - Data In Motion Reference App</h2>
+   <p> For the use case details, check out the <a href="https://github.com/georgevetticaden/hdp/tree/master/reference-apps/iot-trucking-app"> HDF 3.0 Data in Motion Reference App</a> </p>
  
-   <p>The below links show case the capabilities of the HDF 2.0 Platform </p>
+   <p>The below links show case the capabilities of the HDF 3.0 Platform </p>
   	    
 		<table style="width: 1200px"  class="table table-striped table-bordered table-hover">
 	          <thead>
@@ -18,31 +18,50 @@
 	          	<td>Deploys the Storm Topology to the Cluster</td>
 	          </tr>	 
 	           --> 
+	          
+	       	 <tr>
+                        <td> <a href="">Ambari for HDP and HDF 3.0</a> </td>
+                        <td>The provisioning, management and montioring tool for the HDF 3.0 Platform</td>
+                  </tr>
+
+                  <tr>
+                        <td> <a href="">Hortonworks Schema Registry</a> </td>
+                        <td> UI to Manage Schemas in the Registry</td>
+                  </tr>
+
+                  <tr>
+                        <td> <a href="/"> Flow Management Cluster with Nifi integrated with Schema Registry</a> </td>
+                        <td>The Nifi and Minifi flow that captures truck events from Telemetry Devices, parses, transforms and routes them to the Stream Proessing Cluster</td>
+                  </tr>
+                  
+                  
+		  <tr>
+                        <td> <a href=""> Streaming Analytics Manager (SAM) </a> </td>
+                        <td>A tool using a graphically programming paradigm with drag and drop interface allowing customers to build and deploy complex stream applications on top different streaming engines (Storm currenlty supported) without writing any code</td>
+                </tr>	
 	          <tr>
-	          	<td> <a href="">Ambari for HDF 2.0</a> </td>
-	          	<td>The provisioning, management and montioring tool for the HDF 2.0 Platform</td>
-	          </tr>		           
-	          <tr>
-	          	<td> <a href=""> Nifi Data Flow </a> </td>
-	          	<td>The Nifi and Minifi flow that captures truck events from Telemetry Devices, parses, transforms and routes them to the Stream Proessing Cluster</td>
+	          	<td> <a href=""> Storm Stream Processing Cluster </a> </td>
+	          	<td> Storm cluster that performs joins, aggregrations over windows, splits and serves up insights to real-time app</td>
 	          </tr>	
-	          <tr>
-	          	<td> <a href=""> Stream Processing Cluster </a> </td>
-	          	<td>The Stream Processing cluster that performs joins, aggregrations over windows, splits and serves up insights to real-time app</td>
-	          </tr>	 	            
-	          <tr>
-	          	<td> <a ng-href="#/monitorTrucks"> Truck Monitoring Application </a> </td>
-	          	<td>A Real-time Truck Monitoring application powered by the HDF Platform</td>
-	          </tr>	
+		 <tr>
+			<td><a href=""> StreamInsight Druid Cluster </a> </td>
+			<td>OLAP store for StreamLine's StreamInsight Module </td>
+                 </tr> 
+                  <tr>
+                        <td> <a href="">Stream Insight SuperSet Module </a> </td>
+                        <td>SAM's StreamInsight module for Business Analysts to perform descriptivie analyics on the data (query, exploratation, rollups)</td>
+                  </tr>
 	         	                  
   	    </table>
   	    
   <p>The specific components in this architecture are the following:</p>
    		<div style="padding-left: 30px" >
   		<u1>
+			<li><b>Schema Registry - </b>Upstream apps store schemas for the truck events and Nifi and StreamLine use the registry to lookup schemas for the events they are processing</li>
   			<li><b>Minifi - </b> Collect Events from the Edge. The edge here represents collecting events from the different sensors on the truck</li>
   			<li><b>Nifi - </b> Performs site to site data movement,  intelligent data routing, transformations, enrichment, and delivers the streams to the stream processing engine. 
   			<li><b>Kafka - </b> Scalable Event Broker that acts as the distributed storage Substrate for the Stream Processing engine </li>
+			<li><b>SAM - </b> Graphical tool that builds the stream application and deploys it on a Stream Engine and provide streaming analytics capabilities</li>
   			<li> <b>Storm - </b>Streaming analytics engine used to build a stream application demonstrating joining streams, windoweed aggreation, fast real-tile model scoring, serving requests to Dashboard  </li>
   			<li> <b>HBase - </b> Store the Time-Series Trucking Events for Fast Access</li>
   		</u1>
@@ -53,11 +72,11 @@
   	   
   	    
   	    <p>The below is end to end architecture of the reference application  </p>
-  	    <img  src="assets/horton/images/ref_append_to_end_architecture.png"
+  	    <img  src="assets/horton/images/ref_end_to_end_architecture-v2.png"
   	    
   	    </br>
   	    <p>The below is an end to end implementation of the reference application powered by HDF</p>
-  	    <img  src="assets/horton/images/end to end implementation.png"
+  	    <img width="1300px" height="800px" src="assets/horton/images/ref-app-implementation.png"
   	    
   	   
 

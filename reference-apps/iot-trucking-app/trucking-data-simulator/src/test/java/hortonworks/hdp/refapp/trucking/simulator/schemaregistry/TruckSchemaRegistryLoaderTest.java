@@ -3,8 +3,9 @@ package hortonworks.hdp.refapp.trucking.simulator.schemaregistry;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import junit.framework.Assert;
@@ -14,9 +15,8 @@ import org.apache.avro.file.DataFileStream;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.DatumWriter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,17 +29,21 @@ import com.hortonworks.registries.schemaregistry.SchemaVersionKey;
 import com.hortonworks.registries.schemaregistry.SerDesInfo;
 import com.hortonworks.registries.schemaregistry.avro.AvroSchemaProvider;
 import com.hortonworks.registries.schemaregistry.errors.SchemaNotFoundException;
-import com.hortonworks.registries.schemaregistry.serde.SnapshotDeserializer;
-import com.hortonworks.registries.schemaregistry.serde.SnapshotSerializer;
+import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotDeserializer;
+import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer;
+
 
 public class TruckSchemaRegistryLoaderTest {
 
 	//private static final String SCHEMA_REGISTRY_URL = "http://hdf-ref-app-web0.field.hortonworks.com:9090/api/v1";
 	//private static final String SCHEMA_REGISTRY_URL = "http://hdfvictoria11.field.hortonworks.com:9090/api/v1";
 	//private static final String SCHEMA_REGISTRY_URL = "http://victoriaschemaregistry0:9090/api/v1";
-	private static final String SCHEMA_REGISTRY_URL = "http://vett-private-tp0.field.hortonworks.com:9090/api/v1";
+	private static final String SCHEMA_REGISTRY_URL = "http://fenton-hdf13.field.hortonworks.com:7788/api/v1";
 	protected Logger LOG = Logger.getLogger(TruckSchemaRegistryLoader.class.getName());
 	private TruckSchemaRegistryLoader registryLoader;
+	
+	private static final String LINE_BREAK = "\n";
+	private byte[] LINE_BREAK_BYTES = LINE_BREAK.getBytes();	
 	
 	
 	@Before
@@ -165,14 +169,12 @@ public class TruckSchemaRegistryLoaderTest {
 		
 		
 		//get serializer info from registry
-		SerDesInfo serializerInfo = getSerializerFromRegistry(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, TruckSchemaConfig.AVRO_SERIALIZER_NAME);
-		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_SERIALIZER_NAME+"]", serializerInfo);
+		AvroSnapshotSerializer serializer = new AvroSnapshotSerializer();		
+		serializer.init(TruckSchemaRegistryLoader.createConfig(SCHEMA_REGISTRY_URL));
+		Assert.assertNotNull(serializer);		
 		
-		//create and initialize serializer object
-		SnapshotSerializer<Object, byte[], SchemaMetadata> avroSerializer = registryLoader.schemaRegistryClient.createSerializerInstance(serializerInfo);
-		Assert.assertNotNull(avroSerializer);
-		avroSerializer.init(registryLoader.createConfig(SCHEMA_REGISTRY_URL));
 		
+		//Object deviceObject = createGenericRecordForDevice("/device.avsc");
 		
 		//Load a avro data file that was created from CSV truck event using Kite Utilities
 		InputStream inputStream = this.getClass().getResourceAsStream("/schema/samples/truck-geo-event-payload.avro");
@@ -191,12 +193,76 @@ public class TruckSchemaRegistryLoaderTest {
 		  .description("Speed Events from trucks")
 		  .compatibility(SchemaCompatibility.BACKWARD)
 		  .build();       
-		byte[] serializedPaylod = avroSerializer.serialize(avroGenericRecord, schemaMetadata);
+		byte[] serializedPaylod = serializer.serialize(avroGenericRecord, schemaMetadata);
 		Assert.assertNotNull(serializedPaylod);
 
 		FileUtils.writeByteArrayToFile(new File("truck-geo-event-payload.serialized"), serializedPaylod);
 		
 	}
+	
+	
+    protected Object createGenericRecordForTruckGeoEvent(String schemaFileName) throws IOException {
+        Schema schema = new Schema.Parser().parse(getSchema(schemaFileName));
+
+        
+        GenericRecord avroRecord = new GenericData.Record(schema);
+        String eventTime = new Timestamp(new Date().getTime()).toString();
+        avroRecord.put("eventTime", eventTime);
+        avroRecord.put("eventSource", "truck_geo_event");
+        avroRecord.put("truckId", 40);
+        avroRecord.put("driverId", 23);
+        avroRecord.put("driverName", "Jeff Markham");
+        avroRecord.put("routeId", 1345);
+        avroRecord.put("route", "Saint Louis to Chicago");
+        avroRecord.put("eventType", "Lane Departure");
+        avroRecord.put("latitude", -82.52);
+        avroRecord.put("longitude", 40.7);
+        long correlationId = 100;
+        avroRecord.put("correlationId", correlationId);
+        
+
+        return avroRecord;
+    }	
+    
+    private String getSchema(String schemaFileName) throws IOException {
+        InputStream schemaResourceStream = this.getClass().getResourceAsStream(schemaFileName);
+        if (schemaResourceStream == null) {
+            throw new IllegalArgumentException("Given schema file [" + schemaFileName + "] does not exist");
+        }
+
+        String schemaText = IOUtils.toString(schemaResourceStream, "UTF-8");
+        LOG.info("Schema Text is" + schemaText);
+        return schemaText;
+    }    
+	
+	@Test
+	public void serializeTruckGeoEventWithGenericOject() throws Exception  {
+		
+		
+		
+		//get serializer info from registry
+		AvroSnapshotSerializer serializer = new AvroSnapshotSerializer();		
+		serializer.init(TruckSchemaRegistryLoader.createConfig(SCHEMA_REGISTRY_URL));
+		Assert.assertNotNull(serializer);		
+		
+		
+		Object truckGeoEvent = createGenericRecordForTruckGeoEvent("/schema/truck-geo-event-log.avsc");
+
+       LOG.info("AVro Generic Record read  created is: " + ReflectionToStringBuilder.toString(truckGeoEvent));
+	
+       // Now we have the payload in right format (Avro GenericRecord), lets serialize
+       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
+		  .type(AvroSchemaProvider.TYPE)
+		  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
+		  .description("Speed Events from trucks")
+		  .compatibility(SchemaCompatibility.BACKWARD)
+		  .build();       
+		byte[] serializedPaylod = serializer.serialize(truckGeoEvent, schemaMetadata);
+		Assert.assertNotNull(serializedPaylod);
+
+		FileUtils.writeByteArrayToFile(new File("truck-geo-event-payload.serialized"), serializedPaylod);
+		
+	}	
 
 
 	
@@ -205,14 +271,11 @@ public class TruckSchemaRegistryLoaderTest {
 		
 		
 		//get deserailizer from registry
-		SerDesInfo deserializerInfo = getDeserializerFromRegistry(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, TruckSchemaConfig.AVRO_DESERIALIZER_NAME);
-		Assert.assertNotNull("Couldnot find serializer["+TruckSchemaConfig.AVRO_DESERIALIZER_NAME+"]", deserializerInfo);
-		LOG.info("The derializer info is: " + ReflectionToStringBuilder.toString(deserializerInfo));
-		
-		//create and initialize deserializer object
-		SnapshotDeserializer<InputStream, Object, SchemaMetadata, Integer> avroDeserializer  = registryLoader.schemaRegistryClient.createDeserializerInstance(deserializerInfo);
-		Assert.assertNotNull(avroDeserializer);
-		avroDeserializer.init(registryLoader.createConfig(SCHEMA_REGISTRY_URL));	
+		//create and initialize derserializer object	
+	    AvroSnapshotDeserializer deserializer = registryLoader.schemaRegistryClient.getDefaultDeserializer(AvroSchemaProvider.TYPE);
+	    deserializer.init(TruckSchemaRegistryLoader.createConfig(SCHEMA_REGISTRY_URL));
+	    Assert.assertNotNull(deserializer);
+	    	
 		
 		//Load the serialized file 
 		
@@ -227,7 +290,7 @@ public class TruckSchemaRegistryLoaderTest {
 			  .description("Speed Events from trucks")
 			  .compatibility(SchemaCompatibility.BACKWARD)
 			  .build(); 		
-		Object avroTruckGeoEventRecord = avroDeserializer.deserialize(serializedTruckEventStream, schemaMetadata, null);
+		Object avroTruckGeoEventRecord = deserializer.deserialize(serializedTruckEventStream, null);
 		Assert.assertNotNull(avroTruckGeoEventRecord);
 		
 		GenericRecord record = (GenericRecord)avroTruckGeoEventRecord;
@@ -321,37 +384,37 @@ public class TruckSchemaRegistryLoaderTest {
 		return serdes;
 	}	
 	
-	private SerDesInfo getSerializerFromRegistry(String schemaName, String serializerName) {
-		Collection<SerDesInfo> serdes = getSerializers(schemaName);
-		//Assert.assertEquals(2, serdes.size());
-		
-		SerDesInfo serializerInfo = null;
-		Iterator<SerDesInfo> iter = serdes.iterator();
-		while(iter.hasNext()) {
-			SerDesInfo serDe = iter.next();
-			if(serDe.getName().equals(serializerName)) {
-				serializerInfo = serDe;
-				break;
-			}
-		}
-		return serializerInfo;
-	}    
+//	private SerDesInfo getSerializerFromRegistry(String schemaName, String serializerName) {
+//		Collection<SerDesInfo> serdes = getSerializers(schemaName);
+//		//Assert.assertEquals(2, serdes.size());
+//		
+//		SerDesInfo serializerInfo = null;
+//		Iterator<SerDesInfo> iter = serdes.iterator();
+//		while(iter.hasNext()) {
+//			SerDesInfo serDe = iter.next();
+//			if(serDe.getName().equals(serializerName)) {
+//				serializerInfo = serDe;
+//				break;
+//			}
+//		}
+//		return serializerInfo;
+//	}    
     
-	private SerDesInfo getDeserializerFromRegistry(String schemaName, String deserializerName) {
-		Collection<SerDesInfo> serdes = getDeserializers(schemaName);
-		//Assert.assertEquals(2, serdes.size());
-		
-		SerDesInfo serializerInfo = null;
-		Iterator<SerDesInfo> iter = serdes.iterator();
-		while(iter.hasNext()) {
-			SerDesInfo serDe = iter.next();
-			if(serDe.getName().equals(deserializerName)) {
-				serializerInfo = serDe;
-				break;
-			}
-		}
-		return serializerInfo;
-	}  
+//	private SerDesInfo getDeserializerFromRegistry(String schemaName, String deserializerName) {
+//		Collection<SerDesInfo> serdes = getDeserializers(schemaName);
+//		//Assert.assertEquals(2, serdes.size());
+//		
+//		SerDesInfo serializerInfo = null;
+//		Iterator<SerDesInfo> iter = serdes.iterator();
+//		while(iter.hasNext()) {
+//			SerDesInfo serDe = iter.next();
+//			if(serDe.getName().equals(deserializerName)) {
+//				serializerInfo = serDe;
+//				break;
+//			}
+//		}
+//		return serializerInfo;
+//	}  
 	
 //	 private CSVProperties createCSVProperties() {
 //	    	
@@ -368,25 +431,25 @@ public class TruckSchemaRegistryLoaderTest {
 //		}
 
 
-		private Schema createAvroSchema(String schemaFileName) throws Exception{
-	    	Schema schema = new Schema.Parser().parse(registryLoader.getSchema(schemaFileName)); 
-	    	return schema;
-	    }
-	       
-	  
-	    private static class AvroUtil {
-
-	        @SuppressWarnings("unchecked")
-	        public static <D> DatumWriter<D> newDatumWriter(Schema schema, Class<D> dClass) {
-	            return (DatumWriter<D>) GenericData.get().createDatumWriter(schema);
-	        }
-
-	        @SuppressWarnings("unchecked")
-	        public static <D> DatumReader<D> newDatumReader(Schema schema, Class<D> dClass) {
-	            return (DatumReader<D>) GenericData.get().createDatumReader(schema);
-	        }
-
-	    }	
-		
+//		private Schema createAvroSchema(String schemaFileName) throws Exception{
+//	    	Schema schema = new Schema.Parser().parse(registryLoader.getSchema(schemaFileName)); 
+//	    	return schema;
+//	    }
+//	       
+//	  
+//	    private static class AvroUtil {
+//
+//	        @SuppressWarnings("unchecked")
+//	        public static <D> DatumWriter<D> newDatumWriter(Schema schema, Class<D> dClass) {
+//	            return (DatumWriter<D>) GenericData.get().createDatumWriter(schema);
+//	        }
+//
+//	        @SuppressWarnings("unchecked")
+//	        public static <D> DatumReader<D> newDatumReader(Schema schema, Class<D> dClass) {
+//	            return (DatumReader<D>) GenericData.get().createDatumReader(schema);
+//	        }
+//
+//	    }	
+//		
 	
 }

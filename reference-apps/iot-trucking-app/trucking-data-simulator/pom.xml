@@ -12,8 +12,12 @@
 
 
 	<properties>
-		<schema.registry.version>0.0.1.3.0.0.0-151</schema.registry.version>
+		<schema.registry.version>0.2.0</schema.registry.version>
 		<kite.version>1.0.0</kite.version>
+       <jersey.version>2.22.1</jersey.version>
+        <jersey-media-multipart.version>2.22.1</jersey-media-multipart.version>	
+        <guava.version>18.0</guava.version>	
+        <jackson.version>2.7.3</jackson.version>
 	</properties>
 	
 	<dependencies>
@@ -149,7 +153,7 @@
     	</dependency>
     	
     	
-    	<!--  Kite Utilities for generic csv to avro converstion -->
+    	
 		
 		<!-- Need this commnted out due to conflicting jar hell 
         <dependency>
@@ -173,23 +177,92 @@
     	<!-- Libraries for Schema Registry -->
 		<dependency>
 	            <groupId>com.hortonworks.registries</groupId>
+	            <artifactId>schema-registry-client</artifactId>
+	            <version>${schema.registry.version}</version>	
+		</dependency>
+		<dependency>
+	            <groupId>com.hortonworks.registries</groupId>
+	            <artifactId>schema-registry-common</artifactId>
+	            <version>${schema.registry.version}</version>	
+		</dependency>		
+		<dependency>
+	            <groupId>com.hortonworks.registries</groupId>
 	            <artifactId>schema-registry-serdes</artifactId>
 	            <version>${schema.registry.version}</version>	
-	            <exclusions>
-	            	<exclusion>
-	            		<groupId>com.fasterxml.jackson.core</groupId>
-	            		<artifactId>jackson-annotations</artifactId>
-	            	</exclusion>
-	            </exclusions>
-		</dependency>
+		</dependency>		
+		
+		
+		
+		
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey-media-multipart.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>	
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey.version}</version>
+                                
+        </dependency>        
+        
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-protobuf</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>        
+        
+       <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+       </dependency>        
+	
+	
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.7.4</version>
+</dependency>		
+<dependency>
+    <groupId>org.xerial.snappy</groupId>
+    <artifactId>snappy-java</artifactId>
+    <version>1.0.5</version>
+</dependency>
 
 
- 
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.8.4</version>
-		</dependency>         
+       
         
 		<dependency>
 			<groupId>junit</groupId>

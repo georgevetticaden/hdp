@@ -4,6 +4,7 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <dependent-module archiveName="hdp-app-utils-2.5.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hdp-app-utils/hdp-app-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
