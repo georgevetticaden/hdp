@@ -23,7 +23,8 @@ public class SimulationRunnerSingleDriverApp {
 				final int delayBetweenEvents = Integer.valueOf(args[5]);
 				String argForCollector = args[6];
 				final int driverId = Integer.parseInt(args[7]);
-				final String routeName = args[8];
+				final int routeId = Integer.parseInt(args[8]);
+				final String routeName = args[9];
 				
 				TruckConfiguration.initialize(routesDirectory);
 
@@ -43,7 +44,7 @@ public class SimulationRunnerSingleDriverApp {
 							public UntypedActor create() {
 								return new SimulationMaster(
 										numberOfEventEmitters,
-										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents, driverId, routeName);
+										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents, driverId, routeId, routeName);
 							}
 						}), "master");
 				

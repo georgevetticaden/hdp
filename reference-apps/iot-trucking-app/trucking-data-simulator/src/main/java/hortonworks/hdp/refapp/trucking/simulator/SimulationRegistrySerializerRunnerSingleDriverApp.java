@@ -23,8 +23,9 @@ public class SimulationRegistrySerializerRunnerSingleDriverApp {
 				final int delayBetweenEvents = Integer.valueOf(args[5]);
 				String argForCollector = args[6];
 				final int driverId = Integer.parseInt(args[7]);
-				final String routeName = args[8];
-				String schemaRegistryUrl = args [9];
+				final int routeId = Integer.parseInt(args[8]);
+				final String routeName = args[9];
+				String schemaRegistryUrl = args [10];
 				
 				TruckConfiguration.initialize(routesDirectory);
 
@@ -44,7 +45,7 @@ public class SimulationRegistrySerializerRunnerSingleDriverApp {
 							public UntypedActor create() {
 								return new SimulationMaster(
 										numberOfEventEmitters,
-										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents, driverId, routeName);
+										eventEmitterClass, listener, numberOfEvents, demoId, delayBetweenEvents, driverId, routeId, routeName);
 							}
 						}), "master");
 				

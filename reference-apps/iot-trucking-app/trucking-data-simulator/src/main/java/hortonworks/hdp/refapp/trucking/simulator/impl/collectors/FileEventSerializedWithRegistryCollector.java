@@ -45,7 +45,7 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
 	public void onReceive(Object event) throws Exception {
 		MobileEyeEvent mee = (MobileEyeEvent) event;
 		sendTruckEventToFile(mee);	
-		sendTruckSpeedEventToFile(mee);
+		//sendTruckSpeedEventToFile(mee);
 
 	}
 
@@ -57,7 +57,7 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
 		
 		try {
 			FileUtils.writeByteArrayToFile(truckEventsFile, serializedPayload, true);
-			FileUtils.writeByteArrayToFile(truckEventsFile, LINE_BREAK_BYTES, true);
+			//FileUtils.writeByteArrayToFile(truckEventsFile, LINE_BREAK_BYTES, true);
 			
 			
 		} catch (Exception e) {
@@ -143,17 +143,49 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
     	Schema schema = new Schema.Parser().parse(getSchema(schemaFileName));
         
         GenericRecord avroRecord = new GenericData.Record(schema);
-        avroRecord.put("eventTime", new Timestamp(new Date().getTime()).toString());
+        String eventTime = new Timestamp(new Date().getTime()).toString();
+        int truckId = event.getTruck().getTruckId();
+        int driverId = event.getTruck().getDriver().getDriverId();
+        int routeId = event.getTruck().getDriver().getRoute().getRouteId();
+        double latitude = event.getLocation().getLatitude();
+        double longitude = event.getLocation().getLongitude();
+        long correlationId = event.getCorrelationId();
+        
+        logger.info("TruckId: " + truckId);
+        logger.info("DriverId: " + driverId);
+        logger.info("routId: " + routeId);
+        logger.info("lat: " + latitude);
+        logger.info("longitude: " + longitude);
+        logger.info("correlationId: " + correlationId);
+       
+        
+        avroRecord.put("eventTime", eventTime);
         avroRecord.put("eventSource", "truck_geo_event");
-        avroRecord.put("truckId", event.getTruck().getTruckId());
-        avroRecord.put("driverId", event.getTruck().getDriver().getDriverId());
+        avroRecord.put("truckId", truckId);
+        avroRecord.put("driverId", driverId);
         avroRecord.put("driverName", event.getTruck().getDriver().getDriverName());
-        avroRecord.put("routeId", event.getTruck().getDriver().getRoute().getRouteId());
+        avroRecord.put("routeId", routeId);
         avroRecord.put("route", event.getTruck().getDriver().getRoute().getRouteName());
         avroRecord.put("eventType", event.getEventType().toString());
-        avroRecord.put("latitude", event.getLocation().getLatitude());
-        avroRecord.put("longitude", event.getLocation().getLongitude());
-        avroRecord.put("correlationId", event.getCorrelationId());      
+        avroRecord.put("latitude", latitude);
+        avroRecord.put("longitude", longitude);
+        avroRecord.put("correlationId", correlationId);      
+        
+        logger.info(avroRecord.toString());
+        
+//        String eventTime = new Timestamp(new Date().getTime()).toString();
+//        avroRecord.put("eventTime", eventTime);
+//        avroRecord.put("eventSource", "truck_geo_event");
+//        avroRecord.put("truckId", 40);
+//        avroRecord.put("driverId", 23);
+//        avroRecord.put("driverName", "Jeff Markham");
+//        avroRecord.put("routeId", 1345);
+//        avroRecord.put("route", "Saint Louis to Chicago");
+//        avroRecord.put("eventType", "Lane Departure");
+//        avroRecord.put("latitude", -82.52);
+//        avroRecord.put("longitude", 40.7);
+//        long correlationId = 100;
+//        avroRecord.put("correlationId", correlationId);        
 
         return avroRecord;
     }	

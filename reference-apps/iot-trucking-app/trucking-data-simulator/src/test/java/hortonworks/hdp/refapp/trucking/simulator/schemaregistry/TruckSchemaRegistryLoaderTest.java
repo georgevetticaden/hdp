@@ -280,8 +280,8 @@ public class TruckSchemaRegistryLoaderTest {
 		//Load the serialized file 
 		
 		InputStream serializedTruckEventStream = this.getClass().getResourceAsStream("/schema/samples/truck-geo-event-payload.serialized");
+
 		Assert.assertNotNull(serializedTruckEventStream);
-		
 		
 		//deserialize
 	       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
@@ -294,6 +294,7 @@ public class TruckSchemaRegistryLoaderTest {
 		Assert.assertNotNull(avroTruckGeoEventRecord);
 		
 		GenericRecord record = (GenericRecord)avroTruckGeoEventRecord;
+		LOG.info("I dont' trust toString, Longtitudde is: " + record.get("longitude"));
 		LOG.info("Record is: " + record);
 		
 	}

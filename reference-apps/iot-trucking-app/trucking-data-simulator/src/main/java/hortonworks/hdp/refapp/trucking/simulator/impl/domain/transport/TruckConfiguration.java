@@ -2,6 +2,7 @@ package hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport;
 
 import hortonworks.hdp.refapp.trucking.simulator.datagenerator.DataGeneratorUtils;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.Route;
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.RouteProvided;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.TruckRoutesParser;
 
 import java.util.ArrayList;
@@ -109,12 +110,15 @@ public class TruckConfiguration {
 		
 	}
 
-	public static Driver getDriverAndRoute(int driverId, String routeName) {
+	public static Driver getDriverAndRoute(int driverId, int routeId, String routeName) {
 		Driver driver =  DriverStaticList.getDriver(driverId);
 		
 		//if driver has route, then it must be the risky drivers, so don't provide new route..
 		if(driver.getRoute() == null) {
 			Route route = getRoute(routeName);
+			if(route.getRouteId() == -1) {
+				((RouteProvided)route).setRouteId(routeId);
+			}
 			driver.provideRoute(route);				
 		}
 		

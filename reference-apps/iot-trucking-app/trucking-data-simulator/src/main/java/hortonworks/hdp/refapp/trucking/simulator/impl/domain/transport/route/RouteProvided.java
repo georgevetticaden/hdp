@@ -16,14 +16,17 @@ public class RouteProvided implements Route {
 	
 	private List<Location> locations;
 	private int locationIndex=0;
-	private Integer routeId;
+	private Integer routeId = -1;
+
+
 	private boolean forward=true;
 	private boolean routeEnded=false;
 
 	private String routeName;
 
 	
-	public RouteProvided (String routeName, List<Location> locations) {
+	public RouteProvided (int routeId, String routeName, List<Location> locations) {
+		this.routeId = routeId;
 		this.locations = locations;
 		this.routeName = routeName;
 	}
@@ -71,14 +74,15 @@ public class RouteProvided implements Route {
 	}
 
 	public int getRouteId() {
-		if(routeId == null) {
-			routeId = Math.abs(routeName.hashCode());
-		}
 		return routeId;
 	}
 	
 	public String getRouteName() {
 		return this.routeName;
 	}
+	
+	public void setRouteId(Integer routeId) {
+		this.routeId = routeId;
+	}	
 
 }
