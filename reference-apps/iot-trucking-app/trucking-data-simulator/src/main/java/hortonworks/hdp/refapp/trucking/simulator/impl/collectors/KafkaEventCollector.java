@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.collectors;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEyeEvent;
 
 import java.util.Properties;
@@ -16,8 +17,10 @@ public class KafkaEventCollector extends BaseTruckEventCollector {
 	private static final String TRUCK_SPEED_EVENT_TOPIC = "truck_speed_events";
 	
 	private KafkaProducer<String, String> kafkaProducer;
+	private EventSourceType eventSourceType;
 
-	public KafkaEventCollector(String kafkaBrokerList) {
+	public KafkaEventCollector(String kafkaBrokerList, EventSourceType eventSource) {
+		this.eventSourceType = eventSource;
         Properties props = new Properties();
         props.put("bootstrap.servers", kafkaBrokerList);
 
@@ -41,14 +44,24 @@ public class KafkaEventCollector extends BaseTruckEventCollector {
 	@Override
 	public void onReceive(Object event) throws Exception {
 		MobileEyeEvent mee = (MobileEyeEvent) event;
-		sendTruckEventToKafka(mee);	
-		sendTruckSpeedEventToKafka(mee);
+		
+		if(eventSourceType == null || EventSourceType.ALL_STREAMS.equals(eventSourceType)) {
+			sendTruckEventToKafka(mee);	
+			sendTruckSpeedEventToKafka(mee);	
+		} else if(EventSourceType.GEO_EVENT_STREAM.equals(eventSourceType)) {
+			sendTruckEventToKafka(mee);	
+		} else if (EventSourceType.SPEED_STREAM.equals(eventSourceType)) {	
+			sendTruckSpeedEventToKafka(mee);
+		}
+	
 
 	}
 
 	private void sendTruckSpeedEventToKafka(MobileEyeEvent mee) {
 		String eventToPass = createTruckSpeedEvent(mee);
 		String driverId = String.valueOf(mee.getTruck().getDriver().getDriverId());		
+	
+		logger.debug("Creating truck geo event["+eventToPass+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");	
 		
 		try {
 			ProducerRecord<String, String> data = new ProducerRecord<String, String>(TRUCK_SPEED_EVENT_TOPIC, driverId, eventToPass);

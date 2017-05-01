@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.TruckConfiguration;
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.StartSimulation;
 import hortonworks.hdp.refapp.trucking.simulator.listeners.SimulatorListener;
@@ -22,6 +23,8 @@ public class SimulationRegistrySerializerRunnerApp {
 				final int delayBetweenEvents = Integer.valueOf(args[5]);
 				String argForCollector = args[6];
 				String schemaRegistryUrl = args [7];
+				String eventSourceString = args[8];
+				EventSourceType eventSource = EventSourceType.valueOf(eventSourceString);				
 				
 				TruckConfiguration.initialize(routesDirectory);
 				final int numberOfEventEmitters=TruckConfiguration.freeRoutePool.size();
@@ -32,7 +35,7 @@ public class SimulationRegistrySerializerRunnerApp {
 				final ActorRef listener = system.actorOf(
 						Props.create(SimulatorListener.class), "listener");
 				final ActorRef eventCollector = system.actorOf(
-						Props.create(eventCollectorClass, argForCollector, schemaRegistryUrl), "eventCollector");
+						Props.create(eventCollectorClass, argForCollector, eventSource, schemaRegistryUrl), "eventCollector");
 				System.out.println(eventCollector.path());
 				
 				

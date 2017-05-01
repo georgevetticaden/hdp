@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.TruckConfiguration;
 import hortonworks.hdp.refapp.trucking.simulator.impl.messages.StartSimulation;
 import hortonworks.hdp.refapp.trucking.simulator.listeners.SimulatorListener;
@@ -25,6 +26,8 @@ public class SimulationRunnerSingleDriverApp {
 				final int driverId = Integer.parseInt(args[7]);
 				final int routeId = Integer.parseInt(args[8]);
 				final String routeName = args[9];
+				String eventSourceString = args[10];
+				EventSourceType eventSource = EventSourceType.valueOf(eventSourceString);				
 				
 				TruckConfiguration.initialize(routesDirectory);
 
@@ -35,7 +38,7 @@ public class SimulationRunnerSingleDriverApp {
 				final ActorRef listener = system.actorOf(
 						Props.create(SimulatorListener.class), "listener");
 				final ActorRef eventCollector = system.actorOf(
-						Props.create(eventCollectorClass, argForCollector), "eventCollector");
+						Props.create(eventCollectorClass, argForCollector, eventSource), "eventCollector");
 				System.out.println(eventCollector.path());
 				
 				

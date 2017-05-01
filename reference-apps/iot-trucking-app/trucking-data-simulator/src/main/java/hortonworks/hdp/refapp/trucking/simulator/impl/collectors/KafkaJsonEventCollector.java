@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.collectors;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEyeEvent;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck;
 
@@ -21,8 +22,10 @@ public class KafkaJsonEventCollector extends BaseTruckEventCollector {
 	private static final String TRUCK_SPEED_EVENT_TOPIC = "truck_speed_events_stream";
 	
 	private KafkaProducer<String, String> kafkaProducer;
+	private EventSourceType eventSourceType;
 
-	public KafkaJsonEventCollector(String kafkaBrokerList) {
+	public KafkaJsonEventCollector(String kafkaBrokerList, EventSourceType eventSource) {
+		this.eventSourceType = eventSource;
         Properties props = new Properties();
         props.put("bootstrap.servers", kafkaBrokerList);
 
@@ -46,8 +49,17 @@ public class KafkaJsonEventCollector extends BaseTruckEventCollector {
 	@Override
 	public void onReceive(Object event) throws Exception {
 		MobileEyeEvent mee = (MobileEyeEvent) event;
-		sendTruckEventToKafka(mee);	
-		sendTruckSpeedEventToKafka(mee);
+		
+		if(eventSourceType == null || EventSourceType.ALL_STREAMS.equals(eventSourceType)) {
+			sendTruckEventToKafka(mee);	
+			sendTruckSpeedEventToKafka(mee);	
+		} else if(EventSourceType.GEO_EVENT_STREAM.equals(eventSourceType)) {
+			sendTruckEventToKafka(mee);	
+		} else if (EventSourceType.SPEED_STREAM.equals(eventSourceType)) {	
+			sendTruckSpeedEventToKafka(mee);
+		}
+		
+
 
 	}
 

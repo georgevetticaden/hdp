@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.collectors;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEyeEvent;
 import hortonworks.hdp.refapp.trucking.simulator.schemaregistry.TruckSchemaConfig;
 
@@ -33,19 +34,30 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
 
 	private File truckEventsFile;
 	private String schemaRegistryUrl;
+	private EventSourceType eventSourceType;
 
-	public FileEventSerializedWithRegistryCollector(String fileName, String schemaRegistryUrl) {
+	public FileEventSerializedWithRegistryCollector(String fileName, EventSourceType eventSource,  String schemaRegistryUrl) {
        this.truckEventsFile = new File(fileName);
        this.schemaRegistryUrl = schemaRegistryUrl;
+       this.eventSourceType = eventSource;
        logger.info("Using Schema Registry["+schemaRegistryUrl+"] to serialize events");
       
 	}
 	
 	@Override
 	public void onReceive(Object event) throws Exception {
+		
+		
 		MobileEyeEvent mee = (MobileEyeEvent) event;
-		sendTruckEventToFile(mee);	
-		//sendTruckSpeedEventToFile(mee);
+		
+		if(eventSourceType == null || EventSourceType.ALL_STREAMS.equals(eventSourceType)) {
+			sendTruckEventToFile(mee);	
+			sendTruckSpeedEventToFile(mee);			
+		} else if(EventSourceType.GEO_EVENT_STREAM.equals(eventSourceType)) {
+			sendTruckEventToFile(mee);
+		} else if (EventSourceType.SPEED_STREAM.equals(eventSourceType)) {
+			sendTruckSpeedEventToFile(mee);	
+		}
 
 	}
 
@@ -73,7 +85,7 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
 		
 		try {
 			FileUtils.writeByteArrayToFile(truckEventsFile, serializedPayload, true);
-			FileUtils.writeByteArrayToFile(truckEventsFile, LINE_BREAK_BYTES, true);
+			//FileUtils.writeByteArrayToFile(truckEventsFile, LINE_BREAK_BYTES, true);
 		} catch (Exception e) {
 			logger.error("Error sending serialized event[" + serializedPayload + "] to file[ " + truckEventsFile + " ] ", e);
 		}	
@@ -151,12 +163,12 @@ public class FileEventSerializedWithRegistryCollector extends BaseTruckEventColl
         double longitude = event.getLocation().getLongitude();
         long correlationId = event.getCorrelationId();
         
-        logger.info("TruckId: " + truckId);
-        logger.info("DriverId: " + driverId);
-        logger.info("routId: " + routeId);
-        logger.info("lat: " + latitude);
-        logger.info("longitude: " + longitude);
-        logger.info("correlationId: " + correlationId);
+//        logger.info("TruckId: " + truckId);
+//        logger.info("DriverId: " + driverId);
+//        logger.info("routId: " + routeId);
+//        logger.info("lat: " + latitude);
+//        logger.info("longitude: " + longitude);
+//        logger.info("correlationId: " + correlationId);
        
         
         avroRecord.put("eventTime", eventTime);

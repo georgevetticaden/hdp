@@ -66,6 +66,16 @@ public class TruckSchemaRegistryLoaderTest {
 	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
 	}
 	
+	@Test
+	public void getSchemaMetaDataForTruckGeoEventInLogById() throws Exception {
+		  
+
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    long schemaId = metaInfo.getId();
+	    SchemaMetadataInfo metaInfoById =  getSchemaMetaData(schemaId);
+	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfoById));	    
+	}	
+	
 
 	@Test
 	public void getSchemaMetaDataForTruckSpeedEventInLog() throws Exception {
@@ -102,6 +112,25 @@ public class TruckSchemaRegistryLoaderTest {
 		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(schemaVersion));
 	}	
 	
+	@Test
+	public void getSchemaForTruckGeoEventInLogNifiVersion() throws Exception {
+		
+		
+		
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    long schemaId = metaInfo.getId();
+	    SchemaMetadataInfo metaInfoById =  getSchemaMetaData(schemaId);
+	    
+	    
+	    SchemaMetadata metadata = metaInfoById.getSchemaMetadata();
+        final String schemaName = metadata.getName();	    
+		
+        SchemaVersionKey schemaVersionKey = new SchemaVersionKey(schemaName, TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_VERSION);
+        final SchemaVersionInfo versionInfo = registryLoader.schemaRegistryClient.getSchemaVersionInfo(schemaVersionKey);    
+        
+       
+		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(versionInfo));
+	}		
 	
 	
 	@Test
@@ -359,6 +388,12 @@ public class TruckSchemaRegistryLoaderTest {
 		return metaInfo;
 	}
 	
+	private SchemaMetadataInfo getSchemaMetaData(long schemaId) {
+		SchemaMetadataInfo metaInfo= registryLoader.schemaRegistryClient.getSchemaMetadataInfo(schemaId);
+		
+		return metaInfo;
+	}	
+	
 	private SchemaVersionInfo getSchemaByNameAndVersion(String schemaName, int version)
 			throws SchemaNotFoundException {
 		SchemaVersionKey schemaVersionKey = new SchemaVersionKey(schemaName, version);
@@ -371,6 +406,7 @@ public class TruckSchemaRegistryLoaderTest {
 		SchemaVersionInfo schemaVersion  = registryLoader.schemaRegistryClient.getLatestSchemaVersionInfo(schemaName);
 		return schemaVersion;
 	}	
+	
 	
 
 	
