@@ -48,41 +48,8 @@ Out of the box, it supports two event types representing 2 different sesnsors th
 5. Put Maven on your PATH
 4. Git
 
-
-
-### Simulator Args Description
-
-By default each simulator will spin up about 11 Trucks and assign a driver and route to it. 
-The different args pssed to  the hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerApp allow different ways to generate the event and where to store the event. The following describes the different args to pass in:
-
-* arg 0
-	* the number of events you want each truck to emit (-1 means emit infinite number of events)
-* arg 1
-	* Domain Object (class of the domain object. set it to: "hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck")
-* arg 2
-	* Event Collector (class of the event collector which outputs the event in different formats (csv, json) and different locations (file, kafka) ). E.g: hortonworks.hdp.refapp.trucking.simulator.impl.collectors.KafkaEventCollector
-* arg 3 
-	* demoId (always set to 1)
-* arg 4	
-	* the directory where the the different routes are located (e.g: [root_dir_of_ref_app]/hdp/reference-apps/iot-trucking-app/trucking-web-portal/src/main/resources/routes/midwest)
-* arg 5
-	* a delay (in millisconds) between every event that a given truck generates events (e.g: 500)
-* arg 6
-    * output location of the event (kafka broker url for kafka, file name if outputing to file)
-* arg 7
-	* driverId (optional, if not provider, then all drivers will be spun up)
-* arg 8
-	* route Name (the route for the driver in arg 7)
-    
-    
 #### Build the Simulator
-* Build schema registry which is a dependency
 
-``` 
-git clone https://github.com/hortonworks/registry.git
-cd registry
-mvn clean install -DskipTests=true
-``` 
 
 * Clone the repo and the build the libraries
 	
@@ -98,84 +65,133 @@ cd target
 
 ``` 
 
+
+### Running the Simulator
+
+
+1. Download the [Data-Loader.zip](https://drive.google.com/file/d/0BwT83-9bZp3eelNUbk5UOFA4SXc/view?usp=sharing). 
+2. Unzip it to the location where you want to run the simulator. Lets call the directory you unzip it to as: $DATA_LOADER_HOME.
+3. untar the route.tar.gz file (tar -zxvf $DATA_LOADER_HOME/routes.tar.gz)
  
    
+The simulator has a number of different runners based on the type of output you want generated. The below walks through some of the scenarios
 
 
-#### Example 1: Generate CSV Event for 1 Driver with SChema Metadata to File
-
-* Command:
-
-
-``` 
-nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 
-100 
-hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 
-1 
-[ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-data-simulator/src/main/resources/routes/midwest/
-500 
-/tmp/truck-sensor-data/telemetry-device-1.txt 
-10 
-'Saint Louis to Tulsa' 
-> nohup-telemetry-device-1.out  &
-
-
-``` 
-
-* Details
-	* Generates 100 elements per truck (arg 0) 
-	* Generates elements in CSV format and outputs to file (arg 2)
-	* outputs the events to a file called /tmp/truck-sensor-data/telemetry-device-1.txt (arg 6)
-	* Generates Data for 1 Driver on 1 Route (arg 7  and 8)
-
-
-* Sample Output
-
-``` 
-<schema-group>truck-sensors<schema-group><schema-name>truck_speed_events_avro<schema-name><schema-version>1<schema-version>|2016-10-20 06:45:22.677|truck_speed_event|16|10|George Vetticaden|1390372503|Saint Louis to Tulsa|71|
-
-``` 
-
-#### Example 2: Generate CSV Event for 1 Driver with SchemaMetadata to Kafka Topic
+#### Example 1: Generate Trucking Events with SchemaId Embedded in Event
 
 * Command:
 
 
 ``` 
-nohup java -cp stream-simulator-jar-with-dependencies.jar hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerSingleDriverApp 
-100 
-hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaInfoCollector 
-1 
-[ROOT_DIR_WHERE_YOU_CLONED_REPO]/hdp/reference-apps/iot-trucking-app/trucking-data-simulator/src/main/resources/routes/midwest/ 
-500 
-hdf-ref-app6.field.hortonworks.com:6667 
-10 
-'Saint Louis to Tulsa' 
-> nohup-telemetry-device-1.out &
+nohup java -cp \
+data-loader-jar-with-dependencies.jar \
+hortonworks.hdp.refapp.trucking.simulator.SimulationRegistrySerializerRunnerApp \
+20000 \
+hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck \
+hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventWithSchemaIdCollector \
+1 \
+$DATA_LOADER_HOME/routes/midwest/ \
+10000 \
+/tmp/truck-sensor-data/all-streams-with-schemaid-embedded.txt \
+$REST_URL_TO_SCHEMA_REGISTRY \
+ALL_STREAMS & 
 
 
 ``` 
 
 * Details
-	* Generates 100 elements per truck (arg 0) 
-	* Generates elements in CSV format and outputs to kafka (arg 2)
-	* outputs the events to a kafka cluster whose broker is on  hdf-ref-app6.field.hortonworks.com on port 6667 (arg 6)
-	* Generates Data for Driver with id 10 on with Route 'Saint Lousi to Tulsa' (arg 7  and 8)
+	* Each Truck (13 trucks total) will generate 20000 events. 
+	* Each event will be prepended with schema-id and schema-version
+	* Each truck will wait 10 seconds before its route is finished before going on the road again.
+	* All of these events will be streamed into the following file: /tmp/truck-sensor-data/all-streams-with-schemaid-embedded.txt
+
+* Sample Output
+
+``` 
+<schema-id>9<schema-id><schema-version>1<schema-version>|2017-05-01 12:30:42.086|truck_geo_event|69|13|Suresh Srinivas|6|Des Moines to Chicago|Lane Departure|41.62|-93.58|1|
+
+<schema-id>10<schema-id><schema-version>1<schema-version>|2017-05-01 12:30:42.099|truck_speed_event|69|13|Suresh Srinivas|6|Des Moines to Chicago|104|
+
+``` 
+
+#### Example 2: Generate Trucking Events in CSV Format
+
+* Command:
+
+
+``` 
+nohup java -cp \
+data-loader-jar-with-dependencies.jar \
+hortonworks.hdp.refapp.trucking.simulator.SimulationRunnerApp \
+20000 \
+hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck \
+hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventCollector \
+1 \
+$DATA_LOADER_HOME/routes/midwest/ \
+10000 \
+/tmp/truck-sensor-data/all-streams.txt \
+ALL_STREAMS &
+
+
+``` 
+
+* Details
+	* Each Truck (13 trucks total) will generate 20000 events. 
+	* Each truck will wait 10 seconds before its route is finished before going on the road again.
+	* All of these events will be streamed into the following file: /tmp/truck-sensor-data/all-streams.txt
 
 
 * Sample Output
 
 ``` 
-<schema-group>truck-sensors<schema-group><schema-name>truck_speed_events_avro<schema-name><schema-version>1<schema-version>|2016-10-20 06:45:22.677|truck_speed_event|16|10|George Vetticaden|1390372503|Saint Louis to Tulsa|71|
+2017-05-01 12:38:42.747|truck_geo_event|101|13|Suresh Srinivas|12|Des Moines to Chicago|Unsafe tail distance|41.62|-93.58|1|
+
+2017-05-01 12:38:42.799|truck_speed_event|101|13|Suresh Srinivas|12|Des Moines to Chicago|80|
+
+2017-05-01 12:38:42.8|truck_geo_event|102|10|George Vetticaden|4|Saint Louis to Tulsa|Normal|38.64|-90.18|1|
+
+2017-05-01 12:38:42.801|truck_speed_event|102|10|George Vetticaden|4|Saint Louis to Tulsa|65|
 
 ``` 
 
 
-#### Example 3: Generate CSV Event to File
-
-#### Example 4: Generate JSON Event to Kafka Topic
+#### Example 3: Generate Trucking Events Serialized by HWX Schema Registry
 
 
+
+
+``` 
+nohup java -cp \
+data-loader-jar-with-dependencies.jar \
+hortonworks.hdp.refapp.trucking.simulator.SimulationRegistrySerializerRunnerApp \
+20000 \
+hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.Truck \
+hortonworks.hdp.refapp.trucking.simulator.impl.collectors.FileEventSerializedWithRegistryCollector \
+1 \
+$DATA_LOADER_HOME/routes/midwest/ \
+10000 \
+/tmp/truck-sensor-data/all-streams-serialized-with-hwx-registry.txt \
+$REST_URL_TO_SCHEMA_REGISTRY \
+ALL_STREAMS &
+
+
+
+``` 
+
+* Details
+	* Each Truck (13 trucks total) will generate 20000 events. 
+	* Each event is serialized into Avro using the HWX Schema Registry
+	* Each truck will wait 10 seconds before its route is finished before going on the road again.
+	* All of these events will be streamed into the following file: /tmp/truck-sensor-data/all-streams-serialized-with-hwx-registry.txt
+
+
+
+* Sample Output
+
+``` 
+^A^@^@^@^@^@^@^@        ^@^@^@^A^@.2017-05-01 13:13:16.499^^truck_geo_eventL^X^PJoe Witt^B,Saint Louis to Memphis^\Lane Departure<8f>Âõ(\OC@<9a><99><99><99><99><89>VÀ^B^A^@^@^@^@^@^@^@
+^@^@^@^A^@.2017-05-01 13:13:17.119"truck_speed_eventL^X^PJoe Witt^B,Saint Louis to Memphis¦^A^A^@^@^@^@^@^@^@   ^@^@^@^A^@
+``` 
 
 
 
