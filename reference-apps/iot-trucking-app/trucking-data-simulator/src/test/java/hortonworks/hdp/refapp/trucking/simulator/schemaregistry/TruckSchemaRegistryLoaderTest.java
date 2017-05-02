@@ -70,7 +70,8 @@ public class TruckSchemaRegistryLoaderTest {
 	public void getSchemaMetaDataForTruckGeoEventInLogById() throws Exception {
 		  
 
-	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    
 	    long schemaId = metaInfo.getId();
 	    SchemaMetadataInfo metaInfoById =  getSchemaMetaData(schemaId);
 	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfoById));	    
@@ -106,8 +107,8 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	@Test
 	public void getSchemaForTruckGeoEventInLog() throws Exception {
-		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME, 
-																   TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_VERSION);
+		SchemaVersionInfo schemaVersion = getSchemaByNameAndVersion(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME, 
+																   TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_VERSION);
 		Assert.assertNotNull(schemaVersion);
 		LOG.info("Schema for Truck Geo Event is: " + ReflectionToStringBuilder.toString(schemaVersion));
 	}	
@@ -275,15 +276,15 @@ public class TruckSchemaRegistryLoaderTest {
 		Assert.assertNotNull(serializer);		
 		
 		
-		Object truckGeoEvent = createGenericRecordForTruckGeoEvent("/schema/truck-geo-event-log.avsc");
+		Object truckGeoEvent = createGenericRecordForTruckGeoEvent("/schema/truck-geo-event-kafka.avsc");
 
        LOG.info("AVro Generic Record read  created is: " + ReflectionToStringBuilder.toString(truckGeoEvent));
 	
        // Now we have the payload in right format (Avro GenericRecord), lets serialize
-       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
+       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME)
 		  .type(AvroSchemaProvider.TYPE)
-		  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
-		  .description("Speed Events from trucks")
+		  .schemaGroup(TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME)
+		  .description("Truck Geo Events")
 		  .compatibility(SchemaCompatibility.BACKWARD)
 		  .build();       
 		byte[] serializedPaylod = serializer.serialize(truckGeoEvent, schemaMetadata);
