@@ -35,9 +35,6 @@ import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSeriali
 
 public class TruckSchemaRegistryLoaderTest {
 
-	//private static final String SCHEMA_REGISTRY_URL = "http://hdf-ref-app-web0.field.hortonworks.com:9090/api/v1";
-	//private static final String SCHEMA_REGISTRY_URL = "http://hdfvictoria11.field.hortonworks.com:9090/api/v1";
-	//private static final String SCHEMA_REGISTRY_URL = "http://victoriaschemaregistry0:9090/api/v1";
 	private static final String SCHEMA_REGISTRY_URL = "http://fenton-hdf13.field.hortonworks.com:7788/api/v1";
 	protected Logger LOG = Logger.getLogger(TruckSchemaRegistryLoader.class.getName());
 	private TruckSchemaRegistryLoader registryLoader;
@@ -68,7 +65,6 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	@Test
 	public void getSchemaMetaDataForTruckGeoEventInLogById() throws Exception {
-		  
 
 	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
 	    
@@ -88,7 +84,6 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	@Test
 	public void getSchemaMetaDataForTruckGeoEventInKafka() throws Exception {
-		  
 
 	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
 	    Assert.assertNotNull(metaInfo);
@@ -115,9 +110,7 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	@Test
 	public void getSchemaForTruckGeoEventInLogNifiVersion() throws Exception {
-		
-		
-		
+
 	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
 	    long schemaId = metaInfo.getId();
 	    SchemaMetadataInfo metaInfoById =  getSchemaMetaData(schemaId);
@@ -195,8 +188,7 @@ public class TruckSchemaRegistryLoaderTest {
 	
 	@Test
 	public void serializeTruckGeoEvent() throws Exception  {
-		
-		
+
 		
 		//get serializer info from registry
 		AvroSnapshotSerializer serializer = new AvroSnapshotSerializer();		

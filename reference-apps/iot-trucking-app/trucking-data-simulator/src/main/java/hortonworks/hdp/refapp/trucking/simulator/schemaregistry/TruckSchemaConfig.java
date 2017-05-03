@@ -39,11 +39,16 @@ public  final class TruckSchemaConfig {
 	public static final String KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME = "new-truck_speed_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
 	public static final String KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME = "new-truck_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
 	
+	/* Schema names for the raw kafka topics. Events are published to these topics if truck generator serializes truck events into kafka */
+	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME = "raw-sensor-truck_speed_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
+	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME = "raw-sensor-truck_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
+		
 	
 	/* Versions for each of the schemas */
 	public static final int KAFKA_TRUCK_GEO_EVENT_SCHEMA_VERSION = 1;
 	public static final int KAFKA_TRUCK_SPEED_EVENT_SCHEMA_VERSION = 1;	
-	
+	public static final int KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_VERSION = 1;
+	public static final int KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_VERSION = 1;	
 	
 	
 
