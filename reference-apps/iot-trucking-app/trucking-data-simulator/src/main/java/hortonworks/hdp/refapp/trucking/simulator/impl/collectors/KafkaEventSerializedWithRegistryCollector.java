@@ -64,8 +64,8 @@ public class KafkaEventSerializedWithRegistryCollector extends BaseSerializerTru
 		logger.debug("Creating Avro truck speed event["+ReflectionToStringBuilder.toString(truckSpeedEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
 	
 		try {
-			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME, truckSpeedEvent);
-			kafkaProducer.send(data);			
+			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME, truckSpeedEvent);
+			kafkaProducer.send(data, callback);			
 		} catch (Exception e) {
 			logger.error("Error sending event[" + truckSpeedEvent + "] to Kafka topic", e);
 		}		
@@ -76,12 +76,13 @@ public class KafkaEventSerializedWithRegistryCollector extends BaseSerializerTru
 	private void sendTruckEventToKafka(MobileEyeEvent mee) throws Exception {
 		
 		Object truckGeoEvent = createGenericRecordForTruckGeoEvent("/schema/truck-geo-event-log.avsc", mee);
+		final Callback callback = new MyProducerCallback();
 		
 		logger.debug("Creating Avro truck geo event["+ReflectionToStringBuilder.toString(truckGeoEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
 
 		try {
-			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME, truckGeoEvent);
-			kafkaProducer.send(data);			
+			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME, truckGeoEvent);
+			kafkaProducer.send(data, callback);			
 		} catch (Exception e) {
 			logger.error("Error sending AVro Object [" + truckGeoEvent + "] to Kafka topic", e);
 		}

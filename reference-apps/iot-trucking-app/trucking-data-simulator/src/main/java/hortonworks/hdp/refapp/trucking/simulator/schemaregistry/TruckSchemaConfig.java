@@ -15,11 +15,11 @@ public  final class TruckSchemaConfig {
 
 	
 	/* Schema Group Name */
-	public static final String LOG_SCHEMA_GROUP_NAME = "new-truck-sensors-log";
+	public static final String LOG_SCHEMA_GROUP_NAME = "truck-sensors-log";
 	
 	/* Schema names for the two streams of data */
-	public static final String LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME = "new-truck_speed_events_log";
-	public static final String LOG_TRUCK_GEO_EVENT_SCHEMA_NAME = "new-truck_events_log";
+	public static final String LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME = "truck_speed_events_log";
+	public static final String LOG_TRUCK_GEO_EVENT_SCHEMA_NAME = "truck_events_log";
 	
 	
 	/* Versions for each of the schemas */
@@ -33,16 +33,18 @@ public  final class TruckSchemaConfig {
 	public static final String KAFKA_SCHEMA_NAME_SUFFIX=":v";
 	
 	/* Schema Group Name */
-	public static final String KAFKA_SCHEMA_GROUP_NAME = "new-truck-sensors-kafka";
+	public static final String KAFKA_SCHEMA_GROUP_NAME = "truck-sensors-kafka";
 	
 	/* Schema names for the two streams of data */
-	public static final String KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME = "new-truck_speed_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
-	public static final String KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME = "new-truck_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
+	public static final String KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME = "truck_speed_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
+	public static final String KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME = "truck_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
 	
-	/* Schema names for the raw kafka topics. Events are published to these topics if truck generator serializes truck events into kafka */
-	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME = "raw-sensor-truck_speed_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
-	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME = "raw-sensor-truck_events_avro" + KAFKA_SCHEMA_NAME_SUFFIX;
-		
+	/* Kafka Topics for raw event.  Events are published to these topics if truck generator serializes truck events into kafka */
+	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME = "raw-truck_speed_events_avro";
+	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME = "raw-truck_events_avro";
+	
+	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME = KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME + KAFKA_SCHEMA_NAME_SUFFIX;
+	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME = KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME + KAFKA_SCHEMA_NAME_SUFFIX;
 	
 	/* Versions for each of the schemas */
 	public static final int KAFKA_TRUCK_GEO_EVENT_SCHEMA_VERSION = 1;

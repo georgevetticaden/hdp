@@ -53,9 +53,12 @@ public class TruckSchemaRegistryLoader {
 			/* Populate the 2 schemas for the log files */
 			populateSchemaRegistryForTruckGeoEventInLog();
 			populateSchemaRegistryForTruckSpeedEventInLog();
+
+			/* Populate the 2 schemas for the raw kafka topics*/
+			populateSchemaRegistryForRawTruckGeoEventInKafka();
+			populateSchemaRegistryForRawTruckSpeedEventInKafka();			
 			
-			
-			/* Populate the 2 schemas for the kafka topics */
+			/* Populate the 2 schemas for the kafka topics that will represent the enriched data from kafka */
 			populateSchemaRegistryForTruckGeoEventInKafka();
 			populateSchemaRegistryForTruckSpeedEventInKafka();
 			
@@ -72,12 +75,12 @@ public class TruckSchemaRegistryLoader {
 		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Geo events from trucks in Log file";
+		String description = "Raw Geo events from trucks in Log file";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
 		String schemaContentFileName = "/schema/truck-geo-event-log.avsc";
 		
 		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
 		//mapSeDeserializers(schemaName);
 	}
 	
@@ -85,25 +88,51 @@ public class TruckSchemaRegistryLoader {
 		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Speed Events from trucks in Log File";
+		String description = "Raw Speed Events from trucks in Log File";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
 		String schemaContentFileName = "/schema/truck-speed-event-log.avsc";
 		
 		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
 		//mapSeDeserializers(schemaName);
 	}	
+	
+	private void populateSchemaRegistryForRawTruckGeoEventInKafka() throws Exception {
+		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Raw Geo events from trucks in Kafka Topic";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-geo-event-log.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
+		//mapSeDeserializers(schemaName);
+	}		
+	
+	private void populateSchemaRegistryForRawTruckSpeedEventInKafka() throws Exception {
+		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Raw Speed Events from trucks in Kafka Topic";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-speed-event-log.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
+		//mapSeDeserializers(schemaName);
+	}		
 	
 	private void populateSchemaRegistryForTruckGeoEventInKafka() throws Exception {
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Geo events from trucks in Kafka Topic";
+		String description = "Enriched Geo events from trucks in Kafka Topic";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
 		String schemaContentFileName = "/schema/truck-geo-event-kafka.avsc";
 		
 		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
 		//mapSeDeserializers(schemaName);
 	}	
 	
@@ -111,12 +140,12 @@ public class TruckSchemaRegistryLoader {
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Speed Events from trucks in Kafka Topic";
+		String description = "Enriched Speed Events from trucks in Kafka Topic";
 		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
 		String schemaContentFileName = "/schema/truck-speed-event-kafka.avsc";
 		
 		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
 		//mapSeDeserializers(schemaName);
 	}	
 	
@@ -157,12 +186,12 @@ public class TruckSchemaRegistryLoader {
 	 * @param schemaContentFileName
 	 * @throws Exception
 	 */
-	public void addSchemaVersion(String schemaName, String schemaContentFileName) throws Exception {
+	public void addSchemaVersion(String schemaName, String schemaContentFileName, String description) throws Exception {
 		  
 		String schema = getSchema(schemaContentFileName);
 		LOG.info("Truck Geo Event Schema is: " + schema);
 		
-		SchemaVersion schemaVersion = new SchemaVersion(schema, "Initial Schema for Truck Geo Event");
+		SchemaVersion schemaVersion = new SchemaVersion(schema, description);
 		SchemaIdVersion version = schemaRegistryClient.addSchemaVersion(schemaName, schemaVersion);
 		LOG.info("Version Id of new schema is: " + version);
 		

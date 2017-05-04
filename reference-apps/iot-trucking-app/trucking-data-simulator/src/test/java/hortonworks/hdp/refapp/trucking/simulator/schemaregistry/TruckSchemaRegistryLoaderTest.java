@@ -63,21 +63,28 @@ public class TruckSchemaRegistryLoaderTest {
 	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
 	}
 	
-	@Test
-	public void getSchemaMetaDataForTruckGeoEventInLogById() throws Exception {
-
-	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
-	    
-	    long schemaId = metaInfo.getId();
-	    SchemaMetadataInfo metaInfoById =  getSchemaMetaData(schemaId);
-	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfoById));	    
-	}	
-	
 
 	@Test
 	public void getSchemaMetaDataForTruckSpeedEventInLog() throws Exception {
 		  
 		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
+	}	
+	
+	@Test
+	public void getSchemaMetaDataForRawTruckGeoEventInKafka() throws Exception {
+		  
+
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
+	}	
+	
+	@Test
+	public void getSchemaMetaDataForRawTruckSpeedEventInKafka() throws Exception {
+		  
+		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME);
 	    Assert.assertNotNull(metaInfo);
 	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
 	}	
