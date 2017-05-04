@@ -35,7 +35,8 @@ import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSeriali
 
 public class TruckSchemaRegistryLoaderTest {
 
-	private static final String SCHEMA_REGISTRY_URL = "http://fenton-hdf13.field.hortonworks.com:7788/api/v1";
+	//private static final String SCHEMA_REGISTRY_URL = "http://fenton-hdf13.field.hortonworks.com:7788/api/v1";
+	private static final String SCHEMA_REGISTRY_URL = "http://tp2-hdf1.field.hortonworks.com:7788/api/v1";
 	protected Logger LOG = Logger.getLogger(TruckSchemaRegistryLoader.class.getName());
 	private TruckSchemaRegistryLoader registryLoader;
 	
