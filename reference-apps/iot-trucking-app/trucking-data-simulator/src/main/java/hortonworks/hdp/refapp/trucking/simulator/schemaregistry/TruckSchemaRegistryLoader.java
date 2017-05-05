@@ -48,11 +48,6 @@ public class TruckSchemaRegistryLoader {
 	 */
 	public void loadSchemaRegistry() {
 		try {
-			//uploadAndRegisterSeDeserializers(TruckSchemaConfig.AVRO_SERDES_JAR_NAME);
-			
-			/* Populate the 2 schemas for the log files */
-			populateSchemaRegistryForTruckGeoEventInLog();
-			populateSchemaRegistryForTruckSpeedEventInLog();
 
 			/* Populate the 2 schemas for the raw kafka topics*/
 			populateSchemaRegistryForRawTruckGeoEventInKafka();
