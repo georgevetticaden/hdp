@@ -164,6 +164,18 @@
 					<groupId>com.hortonworks.registries</groupId>
 					<artifactId>schema-registry-serdes</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>com.hortonworks.registries</groupId>
+					<artifactId>schema-registry-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.hortonworks.registries</groupId>
+					<artifactId>schema-registry-common</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.hortonworks.registries</groupId>
+					<artifactId>registry-common</artifactId>
+				</exclusion>				
 				 
 			</exclusions>
 		</dependency>	
