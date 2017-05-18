@@ -23,4 +23,10 @@ public class DataGeneratorUtilsTest {
 			System.out.println(val);
 		}
 	}
+	
+	@Test
+	public void roundUp() {
+		double  value = 90.52345;
+		System.out.println(Math.round(value));
+	}
 }
