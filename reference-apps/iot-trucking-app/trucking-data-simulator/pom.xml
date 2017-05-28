@@ -12,7 +12,7 @@
 
 
 	<properties>
-		<schema.registry.version>0.2.0</schema.registry.version>
+		<schema.registry.version>0.3.0-SNAPSHOT</schema.registry.version>
 		<kite.version>1.0.0</kite.version>
        <jersey.version>2.22.1</jersey.version>
         <jersey-media-multipart.version>2.22.1</jersey-media-multipart.version>	
@@ -219,6 +219,12 @@
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-json-jackson</artifactId>
                 <version>${jersey.version}</version>
+                <exclusions>
+                	<exclusion>
+                		<groupId>com.fasterxml.jackson.jaxrs</groupId>
+                		<artifactId>jackson-jaxrs-base</artifactId>
+                	</exclusion>
+                </exclusions>
                                 
         </dependency>        
         
@@ -255,16 +261,16 @@
        </dependency>        
 	
 	
-<dependency>
-    <groupId>org.apache.avro</groupId>
-    <artifactId>avro</artifactId>
-    <version>1.7.7</version>
-</dependency>		
-<dependency>
-    <groupId>org.xerial.snappy</groupId>
-    <artifactId>snappy-java</artifactId>
-    <version>1.0.5</version>
-</dependency>
+		<dependency>
+		    <groupId>org.apache.avro</groupId>
+		    <artifactId>avro</artifactId>
+		    <version>1.7.7</version>
+		</dependency>		
+		<dependency>
+		    <groupId>org.xerial.snappy</groupId>
+		    <artifactId>snappy-java</artifactId>
+		    <version>1.0.5</version>
+		</dependency>
 
 
        

@@ -40,6 +40,9 @@ public  final class TruckSchemaConfig {
 	/* Kafka Topics for raw event.  Events are published to these topics if truck generator serializes truck events into kafka */
 	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME = "raw-truck_speed_events_avro";
 	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME = "raw-truck_events_avro";
+
+	public static final String KAFKA_TRUCK_SPEED_EVENT_TOPIC_NAME = "truck_speed_events_avro";
+	public static final String KAFKA_TRUCK_GEO_EVENT_TOPIC_NAME = "truck_events_avro";
 	
 	public static final String KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME = KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME;
 	public static final String KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME = KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME;
