@@ -1,5 +1,6 @@
 package hortonworks.hdp.refapp.trucking.simulator.impl.collectors;
 
+import hortonworks.hdp.refapp.trucking.simulator.impl.domain.SecurityType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.EventSourceType;
 import hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.MobileEyeEvent;
 import hortonworks.hdp.refapp.trucking.simulator.schemaregistry.TruckSchemaConfig;
@@ -21,16 +22,16 @@ import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
 import com.hortonworks.registries.schemaregistry.serdes.avro.kafka.KafkaAvroSerializer;
 
 
-public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends BaseSerializerTruckEventCollector {
+public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends BaseKafkaSRSerializerTruckEventCollector {
 
 	
 	private KafkaProducer<String, Object> kafkaProducer;
 	private EventSourceType eventSourceType;
 
-	public KafkaEventSerializedWithRegistryEnrichedTopicsCollector(String kafkaBrokerList, EventSourceType eventSource, String schemaRegistryUrl) {
+	public KafkaEventSerializedWithRegistryEnrichedTopicsCollector(String kafkaBrokerList, EventSourceType eventSource, String schemaRegistryUrl, SecurityType securityType) {
 		super(schemaRegistryUrl);
 		this.eventSourceType = eventSource;
-        Properties props = configureKafkaProps(kafkaBrokerList, schemaRegistryUrl);        
+        Properties props = configureKafkaProps(kafkaBrokerList, schemaRegistryUrl, securityType);        
  
         try {		
             kafkaProducer = new KafkaProducer<String, Object>(props);        	
@@ -93,30 +94,6 @@ public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends Bas
 		}
 	}
 	
-	private Properties configureKafkaProps(String kafkaBrokerList, String schemaRegistryUrl) {
-		Properties props = new Properties();
-        props.put("bootstrap.servers", kafkaBrokerList);
-
-        props.put("request.required.acks", "1");
-        
-        // producer configuration
-        props.put(SchemaRegistryClient.Configuration.SCHEMA_REGISTRY_URL.name(), schemaRegistryUrl);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
-        props.put("key.serializer", StringSerializer.class.getName());
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 1024);
-        props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-
-        // consumer configuration
-      //  props.put(SchemaRegistryClient.Configuration.SCHEMA_REGISTRY_URL, schemaRegistryUrl);
-       // props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());        
-        
-//        props.put("key.serializer", 
-//                "org.apache.kafka.common.serialization.StringSerializer");
-//                
-//             props.put("value.serializer", 
-//                "org.apache.kafka.common.serialization.StringSerializer");
-		return props;
-	}	
 	
 	 private  class MyProducerCallback implements Callback {
 	        @Override
