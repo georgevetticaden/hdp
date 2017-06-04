@@ -14,6 +14,6 @@
       { "name" : "latitude" , "type" : "double"},
       { "name" : "longitude" , "type" : "double"},
       { "name" : "correlationId" , "type" : "long"},
-      { "name" : "geoAddress", "type" : ["string", "null"]}
+      { "name" : "geoAddress", "type" : ["string", "null"], "default": "No Address Available"}
    ]
 }
