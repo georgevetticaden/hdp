@@ -38,7 +38,7 @@ public abstract class BaseSerializerTruckEventCollector extends BaseTruckEventCo
 		
 	
        // Now we have the payload in right format (Avro GenericRecord), lets serialize
-       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME)
+       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_TOPIC_NAME)
 		  .type(AvroSchemaProvider.TYPE)
 		  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
 		  .description("Truck Geo Events from trucks")
@@ -59,7 +59,7 @@ public abstract class BaseSerializerTruckEventCollector extends BaseTruckEventCo
 
 	
        // Now we have the payload in right format (Avro GenericRecord), lets serialize
-       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME)
+       SchemaMetadata schemaMetadata = new SchemaMetadata.Builder(TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_TOPIC_NAME)
 		  .type(AvroSchemaProvider.TYPE)
 		  .schemaGroup(TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME)
 		  .description("Truck Speed Events from trucks")
