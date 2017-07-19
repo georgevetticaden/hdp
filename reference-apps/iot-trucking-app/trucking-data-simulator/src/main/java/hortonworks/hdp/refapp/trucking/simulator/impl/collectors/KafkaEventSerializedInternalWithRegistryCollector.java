@@ -7,6 +7,7 @@ import hortonworks.hdp.refapp.trucking.simulator.schemaregistry.TruckSchemaConfi
 
 import java.util.Properties;
 
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -93,7 +94,11 @@ public class KafkaEventSerializedInternalWithRegistryCollector extends BaseSeria
 	     props.put("value.serializer", 
 	                "org.apache.kafka.common.serialization.ByteArraySerializer");  
 	     
-	     return props;
+        /* If talking to secure Kafka cluster, set security protocol as "SASL_PLAINTEXT */
+        if(SecurityType.SECURE.equals(securityType))
+        	props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
+	     
+        return props;
 	}	
 	
 	
