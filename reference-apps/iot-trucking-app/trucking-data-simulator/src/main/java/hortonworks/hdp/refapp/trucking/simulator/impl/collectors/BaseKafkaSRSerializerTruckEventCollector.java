@@ -30,6 +30,7 @@ public abstract class BaseKafkaSRSerializerTruckEventCollector extends
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put("key.serializer", StringSerializer.class.getName());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 1024);
+        props.put("serdes.protocol.version", 1);
         
         /* If talking to secure Kafka cluster, set security protocol as "SASL_PLAINTEXT */
         if(SecurityType.SECURE.equals(securityType))
