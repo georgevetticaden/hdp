@@ -9,6 +9,8 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
+import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer;
+import com.hortonworks.registries.schemaregistry.serdes.avro.SerDesProtocolHandlerRegistry;
 import com.hortonworks.registries.schemaregistry.serdes.avro.kafka.KafkaAvroSerializer;
 
 public abstract class BaseKafkaSRSerializerTruckEventCollector extends
@@ -30,7 +32,11 @@ public abstract class BaseKafkaSRSerializerTruckEventCollector extends
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.put("key.serializer", StringSerializer.class.getName());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 1024);
-        props.put("serdes.protocol.version", 1);
+        
+        /** The Following is required because in the HDF 3.1 release. The default protocol version for SR Avro serializer is 3 
+         * but Nifi expects a protocol version of 1 when deserializing. So we overiding the default and setting protocol version to 1 (METADATA_ID_VERSION_PROTOCOL)
+         */        
+        props.put(AvroSnapshotSerializer.SERDES_PROTOCOL_VERSION, SerDesProtocolHandlerRegistry.METADATA_ID_VERSION_PROTOCOL);
         
         /* If talking to secure Kafka cluster, set security protocol as "SASL_PLAINTEXT */
         if(SecurityType.SECURE.equals(securityType))

@@ -20,6 +20,7 @@ import com.hortonworks.registries.schemaregistry.SchemaMetadata;
 import com.hortonworks.registries.schemaregistry.avro.AvroSchemaProvider;
 import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
 import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSerializer;
+import com.hortonworks.registries.schemaregistry.serdes.avro.SerDesProtocolHandlerRegistry;
 
 public abstract class BaseSerializerTruckEventCollector extends BaseTruckEventCollector {
 	
@@ -80,6 +81,11 @@ public abstract class BaseSerializerTruckEventCollector extends BaseTruckEventCo
     private Map<String, Object> createConfig(String schemaRegistryUrl) {
         Map<String, Object> config = new HashMap<>();
         config.put(SchemaRegistryClient.Configuration.SCHEMA_REGISTRY_URL.name(), schemaRegistryUrl);
+        /** The Following is required because in the HDF 3.1 release. The default protocol version for SR Avro serializer is 3 
+         * but Nifi expects a protocol version of 1 when deserializing. So we overiding the default and setting protocl version to 1 (METADATA_ID_VERSION_PROTOCOL)
+         */
+        config.put(AvroSnapshotSerializer.SERDES_PROTOCOL_VERSION, SerDesProtocolHandlerRegistry.METADATA_ID_VERSION_PROTOCOL);
+
         
         return config;
     }		
