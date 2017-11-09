@@ -65,7 +65,7 @@ public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends Bas
 		final Callback callback = new MyProducerCallback();
 		Object truckSpeedEvent = createGenericRecordForTruckSpeedEvent("/schema/truck-speed-event-kafka.avsc", mee);
 	
-		logger.debug("Creating Avro truck speed event["+ReflectionToStringBuilder.toString(truckSpeedEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
+	//	logger.debug("Creating Avro truck speed event["+ReflectionToStringBuilder.toString(truckSpeedEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
 	
 		try {
 			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_TOPIC_NAME, truckSpeedEvent);
@@ -84,7 +84,7 @@ public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends Bas
 		Object truckGeoEvent = createGenericRecordForEnrichedTruckGeoEvent("/schema/truck-geo-event-kafka.avsc", mee);
 		final Callback callback = new MyProducerCallback();
 		
-		logger.debug("Creating Avro truck geo event["+ReflectionToStringBuilder.toString(truckGeoEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
+	//	logger.debug("Creating Avro truck geo event["+ReflectionToStringBuilder.toString(truckGeoEvent)+"] for driver["+mee.getTruck().getDriver().getDriverId() + "] in truck [" + mee.getTruck() + "]");			
 
 		try {
 			ProducerRecord<String, Object> data = new ProducerRecord<String, Object>(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_TOPIC_NAME, truckGeoEvent);
@@ -98,7 +98,7 @@ public class KafkaEventSerializedWithRegistryEnrichedTopicsCollector extends Bas
 	 private  class MyProducerCallback implements Callback {
 	        @Override
 	        public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-	            logger.info("#### received [{}], ex: [{}]", recordMetadata, e);
+	          //  logger.info("#### received [{}], ex: [{}]", recordMetadata, e);
 	        }
 	    }	
 

@@ -135,6 +135,8 @@ public abstract class BaseSerializerTruckEventCollector extends BaseTruckEventCo
         avroRecord.put("routeId", event.getTruck().getDriver().getRoute().getRouteId());
         avroRecord.put("route", event.getTruck().getDriver().getRoute().getRouteName());
         avroRecord.put("speed", event.getTruckSpeed());
+        
+        logger.info(avroRecord.toString());
 
         return avroRecord;
     }	    
