@@ -18,6 +18,7 @@
         <jersey-media-multipart.version>2.22.1</jersey-media-multipart.version>	
         <guava.version>18.0</guava.version>	
         <jackson.version>2.7.3</jackson.version>
+        <aws.kinesis.version>1.8.7</aws.kinesis.version>
 	</properties>
 	
 	<dependencies>
@@ -281,6 +282,15 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>      	
+		
+		
+		
+		<!-- Kinesis Libraries -->
+ 		<dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>amazon-kinesis-client</artifactId>
+            <version>${aws.kinesis.version}</version>
+        </dependency>		
 
 	</dependencies>
 	

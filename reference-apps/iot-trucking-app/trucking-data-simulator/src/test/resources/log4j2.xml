@@ -21,6 +21,14 @@
       	<AppenderRef ref="ROLLING"/>
     </Logger>
     
+    <Logger name="com.amazonaws.AmazonWebServiceClient" level="debug">
+                  
+    
+    	<AppenderRef ref="CONSOLE"/>
+      	<AppenderRef ref="ROLLING"/>
+    </Logger>    
+    
+    
     
         
     <Root level="ERROR">
