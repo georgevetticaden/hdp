@@ -116,7 +116,7 @@ public class KinesisEventSerializedInternalWithRegistryEnrichedTopicsCollector e
         try {
             kinesisClient.putRecord(putRecord);
         } catch (AmazonClientException ex) {
-			logger.error("Error sending serialized speed event[" + serializedPayload + "] to  Kafka topic["+TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_TOPIC_NAME +"]", ex);
+			logger.error("Error sending serialized speed event[" + serializedPayload + "] to  Kafka topic["+TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_TOPIC_NAME +"]", ex);
         }		
 		        
 	
