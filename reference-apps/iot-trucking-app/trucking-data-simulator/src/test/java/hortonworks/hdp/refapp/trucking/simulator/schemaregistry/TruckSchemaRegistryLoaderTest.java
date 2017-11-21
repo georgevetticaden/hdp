@@ -35,6 +35,7 @@ import com.hortonworks.registries.schemaregistry.serdes.avro.AvroSnapshotSeriali
 
 public class TruckSchemaRegistryLoaderTest {
 
+	//private static final String SCHEMA_REGISTRY_URL = "http://ctr-e134-1499953498516-310470-01-000002.hwx.site:7788/api/v1";
 	private static final String SCHEMA_REGISTRY_URL = "http://hdf-3-1-build3.field.hortonworks.com:7788/api/v1";
 	//private static final String SCHEMA_REGISTRY_URL = "http://hdf-3-0-1-maint2.field.hortonworks.com:7788/api/v1";
 	
