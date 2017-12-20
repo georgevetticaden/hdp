@@ -20,7 +20,7 @@ import com.amazonaws.services.kinesis.model.ResourceNotFoundException;
 public class KinesisEventCSVEnrichedTopicsCollector extends BaseTruckEventCollector {
 
 	
-	private static final String TRUCK_SPEED_EVENTS = "george_truck_speed_events";
+	private static final String TRUCK_SPEED_EVENTS = "pm_truck_speed_events";
 	private static final String TRUCK_EVENTS = "truck_events";
 
 	private AmazonKinesis kinesisClient = null;
