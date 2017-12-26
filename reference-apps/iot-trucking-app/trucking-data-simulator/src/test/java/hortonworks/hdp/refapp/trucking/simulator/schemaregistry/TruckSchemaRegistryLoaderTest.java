@@ -61,23 +61,7 @@ public class TruckSchemaRegistryLoaderTest {
 		registryLoader.loadSchemaRegistry();
 	}
 	
-	@Test
-	public void getSchemaMetaDataForTruckGeoEventInLog() throws Exception {
-		  
 
-	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
-	    Assert.assertNotNull(metaInfo);
-	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
-	}
-	
-
-	@Test
-	public void getSchemaMetaDataForTruckSpeedEventInLog() throws Exception {
-		  
-		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);
-	    Assert.assertNotNull(metaInfo);
-	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
-	}	
 	
 	@Test
 	public void getSchemaMetaDataForRawTruckGeoEventInKafka() throws Exception {
@@ -334,6 +318,24 @@ public class TruckSchemaRegistryLoaderTest {
 		LOG.info("Record is: " + record);
 		
 	}
+	
+	@Test
+	public void getSchemaMetaDataForTruckGeoEventInLog() throws Exception {
+		  
+
+	    SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema Metadata " + ReflectionToStringBuilder.toString(metaInfo));
+	}
+	
+
+	@Test
+	public void getSchemaMetaDataForTruckSpeedEventInLog() throws Exception {
+		  
+		SchemaMetadataInfo metaInfo = getSchemaMetaData(TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME);
+	    Assert.assertNotNull(metaInfo);
+	    LOG.info("Schema MetaData is: " + ReflectionToStringBuilder.toString(metaInfo));
+	}		
 	
 //	  	@Test
 //	    public void convertCSVtoAvro() throws Exception{

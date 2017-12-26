@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.hortonworks.registries.schemaregistry.SchemaCompatibility;
 import com.hortonworks.registries.schemaregistry.SchemaIdVersion;
 import com.hortonworks.registries.schemaregistry.SchemaMetadata;
+import com.hortonworks.registries.schemaregistry.SchemaMetadataInfo;
 import com.hortonworks.registries.schemaregistry.SchemaVersion;
 import com.hortonworks.registries.schemaregistry.avro.AvroSchemaProvider;
 import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
@@ -24,8 +25,7 @@ public class TruckSchemaRegistryLoader {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(TruckSchemaRegistryLoader.class);
 	SchemaRegistryClient schemaRegistryClient;
-	private Long serializerId;
-	private Long deserializerId;
+
 	
 	
 	public TruckSchemaRegistryLoader(String schmemaRegistryUrl) {
@@ -93,6 +93,14 @@ public class TruckSchemaRegistryLoader {
 	}	
 	
 	private void populateSchemaRegistryForRawTruckGeoEventInKafka() throws Exception {
+		
+		/* If schema exists, don't add */
+		SchemaMetadataInfo metaInfo= schemaRegistryClient.getSchemaMetadataInfo(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME);
+		if(metaInfo != null) {
+			LOG.warn("Schema["+ TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME + "] already exists. Not creating another one");
+			return;
+		}
+		
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
@@ -106,6 +114,14 @@ public class TruckSchemaRegistryLoader {
 	}		
 	
 	private void populateSchemaRegistryForRawTruckSpeedEventInKafka() throws Exception {
+		
+		/* If schema exists, don't add */
+		SchemaMetadataInfo metaInfo= schemaRegistryClient.getSchemaMetadataInfo(TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME);
+		if(metaInfo != null) {
+			LOG.warn("Schema["+ TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME + "] already exists. Not creating another one");
+			return;
+		}
+		
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_RAW_TRUCK_SPEED_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
@@ -119,6 +135,13 @@ public class TruckSchemaRegistryLoader {
 	}		
 	
 	private void populateSchemaRegistryForTruckGeoEventInKafka() throws Exception {
+		/* If schema exists, don't add */
+		SchemaMetadataInfo metaInfo= schemaRegistryClient.getSchemaMetadataInfo(TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME);
+		if(metaInfo != null) {
+			LOG.warn("Schema["+ TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME + "] already exists. Not creating another one");
+			return;
+		}
+		
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_GEO_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
@@ -132,6 +155,14 @@ public class TruckSchemaRegistryLoader {
 	}	
 	
 	private void populateSchemaRegistryForTruckSpeedEventInKafka() throws Exception {
+
+		/* If schema exists, don't add */
+		SchemaMetadataInfo metaInfo= schemaRegistryClient.getSchemaMetadataInfo(TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME);
+		if(metaInfo != null) {
+			LOG.warn("Schema["+ TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME + "] already exists. Not creating another one");
+			return;
+		}
+		
 		String schemaGroup = TruckSchemaConfig.KAFKA_SCHEMA_GROUP_NAME;
 		String schemaName = TruckSchemaConfig.KAFKA_TRUCK_SPEED_EVENT_SCHEMA_NAME;
 		String schemaType = AvroSchemaProvider.TYPE;
