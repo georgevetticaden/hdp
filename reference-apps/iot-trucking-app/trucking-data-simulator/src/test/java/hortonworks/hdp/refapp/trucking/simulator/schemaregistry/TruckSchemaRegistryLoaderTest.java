@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.hortonworks.registries.schemaregistry.SchemaBranch;
 import com.hortonworks.registries.schemaregistry.SchemaCompatibility;
 import com.hortonworks.registries.schemaregistry.SchemaMetadata;
 import com.hortonworks.registries.schemaregistry.SchemaMetadataInfo;
@@ -54,6 +55,17 @@ public class TruckSchemaRegistryLoaderTest {
 	@Test
 	public void loadSchemaRegistryWithTruckSchemas() {
 		registryLoader.loadSchemaRegistry();
+	}
+	
+	@Test
+	public void deleteTruckSchemasInSchemaRegistry() {
+		registryLoader.cleanupSchemaRegistry();
+	}
+	
+	@Test
+	public void getSchemaBranches() {
+		Collection<SchemaBranch> branches = registryLoader.schemaRegistryClient.getSchemaBranches(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME);
+		LOG.info(branches.toString());
 	}
 	
 	@Test

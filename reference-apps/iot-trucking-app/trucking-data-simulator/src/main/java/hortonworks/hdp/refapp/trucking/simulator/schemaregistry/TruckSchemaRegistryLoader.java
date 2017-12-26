@@ -2,14 +2,17 @@ package hortonworks.hdp.refapp.trucking.simulator.schemaregistry;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.kafka.common.protocol.types.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hortonworks.registries.schemaregistry.SchemaBranch;
 import com.hortonworks.registries.schemaregistry.SchemaCompatibility;
 import com.hortonworks.registries.schemaregistry.SchemaIdVersion;
 import com.hortonworks.registries.schemaregistry.SchemaMetadata;
@@ -17,6 +20,8 @@ import com.hortonworks.registries.schemaregistry.SchemaMetadataInfo;
 import com.hortonworks.registries.schemaregistry.SchemaVersion;
 import com.hortonworks.registries.schemaregistry.avro.AvroSchemaProvider;
 import com.hortonworks.registries.schemaregistry.client.SchemaRegistryClient;
+import com.hortonworks.registries.schemaregistry.errors.InvalidSchemaBranchDeletionException;
+import com.hortonworks.registries.schemaregistry.errors.SchemaBranchNotFoundException;
        
 
 public class TruckSchemaRegistryLoader {
@@ -65,33 +70,34 @@ public class TruckSchemaRegistryLoader {
 		}		
 	}
 
+	public void cleanupSchemaRegistry() {
+		
+		deleteMasterScehama(TruckSchemaConfig.KAFKA_RAW_TRUCK_GEO_EVENT_SCHEMA_NAME);
+	
+		
+	}		
 
-	private void populateSchemaRegistryForTruckGeoEventInLog() throws Exception {
-		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
-		String schemaName = TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME;
-		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Raw Geo events from trucks in Log file";
-		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
-		String schemaContentFileName = "/schema/truck-geo-event-log.avsc";
+	
+	
+	private void deleteMasterScehama(String schemaName) {
+		SchemaBranch branch = getMasterBranch(schemaName);
+		if(branch == null) {
+			LOG.info("Schema[" + schemaName + "] doesn't have master branch. Nothing to delete");
+			return;
+		}
+		try {
+			schemaRegistryClient.deleteSchemaBranch(branch.getId());
+			//schemaRegistryClient.de
+		} catch (SchemaBranchNotFoundException
+				| InvalidSchemaBranchDeletionException e) {
+			LOG.error("Error delete Master branch for schema["+ schemaName + "]");
+			throw new RuntimeException(e);
+		}
 		
-		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName, description);
-		//mapSeDeserializers(schemaName);
 	}
-	
-	private void populateSchemaRegistryForTruckSpeedEventInLog() throws Exception {
-		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
-		String schemaName = TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME;
-		String schemaType = AvroSchemaProvider.TYPE;
-		String description = "Raw Speed Events from trucks in Log File";
-		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
-		String schemaContentFileName = "/schema/truck-speed-event-log.avsc";
-		
-		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
-		addSchemaVersion(schemaName, schemaContentFileName, description);
-		//mapSeDeserializers(schemaName);
-	}	
-	
+
+
+
 	private void populateSchemaRegistryForRawTruckGeoEventInKafka() throws Exception {
 		
 		/* If schema exists, don't add */
@@ -289,8 +295,48 @@ public class TruckSchemaRegistryLoader {
         config.put(SchemaRegistryClient.Configuration.SCHEMA_REGISTRY_URL.name(), schemaRegistryUrl);
         
         return config;
-    }		
+    }
+
+	
+    private void populateSchemaRegistryForTruckGeoEventInLog() throws Exception {
+		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.LOG_TRUCK_GEO_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Raw Geo events from trucks in Log file";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-geo-event-log.avsc";
 		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
+		//mapSeDeserializers(schemaName);
+	}
+	
+	private void populateSchemaRegistryForTruckSpeedEventInLog() throws Exception {
+		String schemaGroup = TruckSchemaConfig.LOG_SCHEMA_GROUP_NAME;
+		String schemaName = TruckSchemaConfig.LOG_TRUCK_SPEED_EVENT_SCHEMA_NAME;
+		String schemaType = AvroSchemaProvider.TYPE;
+		String description = "Raw Speed Events from trucks in Log File";
+		SchemaCompatibility compatiblity = SchemaCompatibility.BACKWARD;
+		String schemaContentFileName = "/schema/truck-speed-event-log.avsc";
+		
+		registerSchemaMetaData(schemaGroup, schemaName, schemaType, description, compatiblity);
+		addSchemaVersion(schemaName, schemaContentFileName, description);
+		//mapSeDeserializers(schemaName);
+	}	    
+
+	private SchemaBranch getMasterBranch(String schemaName) {
+		SchemaBranch masterBranch = null;
+		Collection<SchemaBranch> branches = schemaRegistryClient.getSchemaBranches(schemaName);
+		if(branches == null || branches.isEmpty()) 
+			return null;
+		for(SchemaBranch branch: branches) {
+			if(branch.getName().equals("MASTER")) {
+				masterBranch = branch;
+				break;
+			}
+		}
+		return masterBranch;
+	}	
     
     
 
