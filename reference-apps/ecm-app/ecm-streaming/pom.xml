@@ -17,7 +17,7 @@
 		<hive.version>0.14.0.2.2.0.0-2041</hive.version>
 		<active.mq.version>5.7.0</active.mq.version>
 		<trucking.domain.objects.version>1.0.0-SNAPSHOT</trucking.domain.objects.version>
-		<junit.version>4.5</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<mail.version>1.4.3</mail.version>
 		<log4j.version>1.2.17</log4j.version>
 		
