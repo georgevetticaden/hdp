@@ -10,7 +10,7 @@
 		<!-- Not using latest Spring version 4.1.1 due to Websocket Bug -->
 		<org.springframework.version>4.0.7.RELEASE</org.springframework.version>
 		<org.springframework.spring.context.support>3.2.5.RELEASE</org.springframework.spring.context.support>
-		<junit.version>4.5</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<hbase.version>1.1.2.2.5.0.0-1245</hbase.version>
 		<storm.version>1.0.1.2.5.0.0-1245</storm.version> 
 		<kafka.version>0.10.0.2.5.0.0-1245</kafka.version>
