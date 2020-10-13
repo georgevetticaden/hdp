@@ -9,7 +9,7 @@
 		<flume.version>1.5.2.2.2.0.0-2041</flume.version>
 		<kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
 		<ecm.common.version>1.0.0-SNAPSHOT</ecm.common.version>
-		<junit.version>4.5</junit.version>
+		<junit.version>4.13.1</junit.version>
 	</properties>
 	
 	<dependencies>
